@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "677732099990",
+    "project_id": "wantsbucks-1858e",
+    "storage_bucket": "wantsbucks-1858e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677732099990:android:04c244a7da16b7ef5b5fb7",
+        "android_client_info": {
+          "package_name": "wantsbro.com.wantsbucks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677732099990-c66si5mtctlihcqieu5u906m9esdu52q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_jAxOljFSB52YLvSfp5f50EUds8kKYrA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677732099990-c66si5mtctlihcqieu5u906m9esdu52q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
