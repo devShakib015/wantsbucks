@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:wantsbucks/app.dart';
+import 'package:wantsbucks/Auth%20Pages/login.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
 import 'package:wantsbucks/theming/theme.dart';
@@ -79,7 +79,7 @@ class _MainAppState extends State<MainApp> {
         title: 'wantsBro',
         debugShowCheckedModeBanner: false,
         theme: mainTheme,
-        home: App());
+        home: Login());
     // return MultiProvider(
     //   providers: [
     //     //ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
