@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:provider/provider.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
+import 'package:wantsbucks/providers/auth_provider.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -114,12 +116,14 @@ class _LoginState extends State<Login> {
                               setState(() {
                                 _isLoading = true;
                               });
-                              final user =
-                                  await Future.delayed(Duration(seconds: 3));
-                              // final user = await Provider.of<AuthProvider>(context,
-                              //         listen: false)
-                              //     .login(context, _emailController.text,
-                              //         _passController.text);
+                              // final user =
+                              //     await Future.delayed(Duration(seconds: 3));
+                              final user = await Provider.of<AuthProvider>(
+                                      context,
+                                      listen: false)
+                                  .signIn(context, _emailController.text,
+                                      _passController.text);
+
                               if (user == null) {
                                 setState(() {
                                   _isLoading = false;

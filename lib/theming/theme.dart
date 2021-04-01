@@ -5,6 +5,11 @@ ThemeData mainTheme = ThemeData.dark().copyWith(
   primaryColor: mainColor,
   primaryColorLight: mainColor,
   accentColor: mainColor,
+  snackBarTheme: SnackBarThemeData(
+      backgroundColor: mainColor,
+      contentTextStyle: TextStyle(
+        color: white,
+      )),
   checkboxTheme: CheckboxThemeData(
     checkColor: MaterialStateProperty.all(white),
     overlayColor: MaterialStateProperty.all(white),

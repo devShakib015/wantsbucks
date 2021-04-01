@@ -33,7 +33,7 @@ class _AppState extends State<App> {
         ],
         color: otherDark,
         buttonBackgroundColor: mainColor,
-        backgroundColor: mainBackgroundColor,
+        backgroundColor: Colors.transparent,
         animationCurve: Curves.easeInOutCubic,
         animationDuration: Duration(milliseconds: 300),
         onTap: (index) {
