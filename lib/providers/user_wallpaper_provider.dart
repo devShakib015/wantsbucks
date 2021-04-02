@@ -11,4 +11,8 @@ class UserWallpaperProvider extends ChangeNotifier {
   Future<QuerySnapshot> getUnlockedLevels() async {
     return await _currentUserWallpaperCollection.get();
   }
+
+  Future<DocumentSnapshot> getUnlockedWallpapers(String levelID) async {
+    return await _currentUserWallpaperCollection.doc(levelID).get();
+  }
 }

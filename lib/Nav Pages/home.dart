@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/custom%20widgets/point_and_earning.dart';
+import 'package:wantsbucks/other_pages/level_page.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
+import 'package:wantsbucks/providers/point_provider.dart';
 import 'package:wantsbucks/providers/user_wallpaper_provider.dart';
 import 'package:wantsbucks/providers/wallpaper_provider.dart';
 
@@ -70,7 +72,7 @@ class Home extends StatelessWidget {
                               _unlockedLevels.add(item.id);
                             }
                             return _levelCard(
-                                colors, _data, e, _unlockedLevels);
+                                context, colors, _data, e, _unlockedLevels);
                           }
                         },
                       );
@@ -91,16 +93,37 @@ class Home extends StatelessWidget {
     );
   }
 
-  Card _levelCard(List<Color> colors, List<QueryDocumentSnapshot> _data,
-      QueryDocumentSnapshot e, List _unlockedLevels) {
+  Card _levelCard(
+      BuildContext context,
+      List<Color> colors,
+      List<QueryDocumentSnapshot> _data,
+      QueryDocumentSnapshot e,
+      List _unlockedLevels) {
     return Card(
       color: colors[_data.indexOf(e)],
       child: ListTile(
-        onTap: () {
+        onTap: () async {
+          int _point = await Provider.of<PointProvider>(context, listen: false)
+              .getCurrentPoints();
           if (_unlockedLevels.contains(e.id)) {
-            print("Unlocked");
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => LevelPage(
+                          levelID: e.id,
+                          levelName: "Level ${_data.indexOf(e) + 1}",
+                          levelInterest: e.data()["interest"],
+                          currentPoint: _point,
+                        )));
           } else {
-            print("Locked");
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                duration: Duration(seconds: 1),
+                backgroundColor: Colors.red[900],
+                content: Text(
+                    "Please complete level ${_data.indexOf(e)} to unlock this level."),
+              ),
+            );
           }
         },
         title: Padding(

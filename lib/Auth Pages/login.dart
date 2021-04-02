@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,64 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passController = TextEditingController();
+
+  void _forgotPassword() async {
+    final _forgotFormKey = GlobalKey<FormState>();
+    TextEditingController _forgotEmailController = TextEditingController();
+
+    await showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 16),
+          child: Form(
+            key: _forgotFormKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: _forgotEmailController,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "Can't be empty";
+                    } else if (!value.contains("@") || !value.contains(".")) {
+                      return "Invalid Email";
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    labelText: "Email",
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_forgotFormKey.currentState.validate()) {
+                      await FirebaseAuth.instance.sendPasswordResetEmail(
+                          email: _forgotEmailController.text);
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                              "Link is sent to your email. Check and reset your password."),
+                        ),
+                      );
+                    }
+                  },
+                  child: Text("Send Reset Link"),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     const colorizeColors = [
@@ -150,11 +209,12 @@ class _LoginState extends State<Login> {
                           height: 16,
                         ),
                         TextButton(
-                            style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                    Colors.transparent)),
-                            onPressed: () {},
-                            child: Text("Forgot Password? Reset Here!"))
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  Colors.transparent)),
+                          onPressed: _forgotPassword,
+                          child: Text("Forgot Password? Reset Here!"),
+                        )
                       ],
                     ),
                   ),

@@ -7,6 +7,7 @@ import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
 import 'package:wantsbucks/providers/earning_provider.dart';
+import 'package:wantsbucks/providers/level_provider.dart';
 import 'package:wantsbucks/providers/point_provider.dart';
 import 'package:wantsbucks/providers/user_wallpaper_provider.dart';
 import 'package:wantsbucks/providers/wallpaper_provider.dart';
@@ -91,6 +92,7 @@ class _MainAppState extends State<MainApp> {
         ChangeNotifierProvider<PointProvider>(create: (_) => PointProvider()),
         ChangeNotifierProvider<EarningProvider>(
             create: (_) => EarningProvider()),
+        ChangeNotifierProvider<LevelProvider>(create: (_) => LevelProvider()),
       ],
       child: MaterialApp(
         title: 'wantsBro',
