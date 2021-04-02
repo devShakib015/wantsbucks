@@ -6,6 +6,7 @@ import 'package:wantsbucks/custom%20widgets/point_and_earning.dart';
 import 'package:wantsbucks/other_pages/level_page.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
+import 'package:wantsbucks/providers/earning_provider.dart';
 import 'package:wantsbucks/providers/point_provider.dart';
 import 'package:wantsbucks/providers/user_wallpaper_provider.dart';
 import 'package:wantsbucks/providers/wallpaper_provider.dart';
@@ -103,18 +104,21 @@ class Home extends StatelessWidget {
       color: colors[_data.indexOf(e)],
       child: ListTile(
         onTap: () async {
-          int _point = await Provider.of<PointProvider>(context, listen: false)
-              .getCurrentPoints();
           if (_unlockedLevels.contains(e.id)) {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => LevelPage(
-                          levelID: e.id,
-                          levelName: "Level ${_data.indexOf(e) + 1}",
-                          levelInterest: e.data()["interest"],
-                          currentPoint: _point,
-                        )));
+              context,
+              MaterialPageRoute(
+                builder: (context) => LevelPage(
+                  levelID: e.id,
+                  //unlockedLevelId: null,
+                  unlockedLevelId: _data.indexOf(e) >= 9
+                      ? null
+                      : _data[_data.indexOf(e) + 1].id,
+                  levelName: "Level ${_data.indexOf(e) + 1}",
+                  levelInterest: e.data()["interest"],
+                ),
+              ),
+            );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

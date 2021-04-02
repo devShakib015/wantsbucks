@@ -15,4 +15,26 @@ class UserWallpaperProvider extends ChangeNotifier {
   Future<DocumentSnapshot> getUnlockedWallpapers(String levelID) async {
     return await _currentUserWallpaperCollection.doc(levelID).get();
   }
+
+  void addBoughtWallpaper(String levelID, String wallpaperID) async {
+    await _currentUserWallpaperCollection
+        .doc(levelID)
+        .get()
+        .then((value) async {
+      List _items = value.data()["items"];
+      List _newItems = _items + [wallpaperID];
+      await _currentUserWallpaperCollection.doc(levelID).update({
+        "items": _newItems,
+      });
+    });
+    notifyListeners();
+  }
+
+  void addNewUnlockedWallpaper(String unlockedLevelID) async {
+    await _currentUserWallpaperCollection
+        .doc(unlockedLevelID)
+        .set({'items': []});
+
+    notifyListeners();
+  }
 }

@@ -20,4 +20,18 @@ class EarningProvider extends ChangeNotifier {
     }
     return _earning;
   }
+
+  Future<void> addProfit(double newProfit) async {
+    await _currentUserEarningCollection.get().then((value) async {
+      double _currentEarning =
+          value.docs.first.data()["currentBalance"].toDouble();
+      double _totalEarning = value.docs.first.data()["totalEarning"].toDouble();
+      await _currentUserEarningCollection.doc("earning").update({
+        "currentBalance": _currentEarning + newProfit,
+        "totalEarning": _totalEarning + newProfit,
+      });
+    });
+
+    notifyListeners();
+  }
 }

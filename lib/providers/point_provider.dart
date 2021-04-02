@@ -20,4 +20,15 @@ class PointProvider extends ChangeNotifier {
     }
     return _point;
   }
+
+  void reducePoint(int newpoint) async {
+    await _currentUserPointCollection.get().then((value) async {
+      int _currentPoint = value.docs.first.data()["currentPoint"];
+      await _currentUserPointCollection.doc("point").update({
+        "currentPoint": _currentPoint - newpoint,
+      });
+    });
+
+    notifyListeners();
+  }
 }
