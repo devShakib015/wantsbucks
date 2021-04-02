@@ -77,9 +77,7 @@ class _LevelPageState extends State<LevelPage> {
               ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    setState(() {
-                      _isLoading = true;
-                    });
+
                     //Add the profit [Current + total]
                     Provider.of<PointProvider>(context, listen: false)
                         .reducePoint(_cost);
@@ -117,13 +115,27 @@ class _LevelPageState extends State<LevelPage> {
                           ),
                         );
                       } else {
-                        print("That was null");
+                        showDialog(
+                          context: context,
+                          builder: (context) => Dialog(
+                            child: Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Container(
+                                width: double.infinity,
+                                height: 300,
+                                child: Center(
+                                  child: Text(
+                                    "Congrats!!!\nYou have unlocked all the levels. You must be soooo happy now!",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
                       }
                     }
                     //
-                    setState(() {
-                      _isLoading = false;
-                    });
                   },
                   child: Text("Sure")),
             ],
