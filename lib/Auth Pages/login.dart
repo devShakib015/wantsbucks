@@ -101,145 +101,137 @@ class _LoginState extends State<Login> {
     ];
     return _isLoading
         ? Loading()
-        : MultiProvider(
-            providers: [
-              ChangeNotifierProvider<AuthProvider>(
-                  create: (_) => AuthProvider()),
-            ],
-            child: MaterialApp(
-              home: Scaffold(
-                body: SingleChildScrollView(
-                  child: GestureDetector(
-                    onTap: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                    },
-                    child: Container(
-                      height: MediaQuery.of(context).size.height,
-                      padding: EdgeInsets.all(16),
-                      width: double.infinity,
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            AnimatedTextKit(
-                              animatedTexts: [
-                                ColorizeAnimatedText(
-                                  'Welcome to wantsBucks',
-                                  textAlign: TextAlign.center,
-                                  textStyle: GoogleFonts.lobsterTwo(
-                                    textStyle: TextStyle(
-                                        color: mainColor,
-                                        fontSize: 50,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  colors: colorizeColors,
-                                ),
-                              ],
-                              repeatForever: true,
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "Login",
+        : Scaffold(
+            body: SingleChildScrollView(
+              child: GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                },
+                child: Container(
+                  height: MediaQuery.of(context).size.height,
+                  padding: EdgeInsets.all(16),
+                  width: double.infinity,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        AnimatedTextKit(
+                          animatedTexts: [
+                            ColorizeAnimatedText(
+                              'Welcome to wantsBucks',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
+                              textStyle: GoogleFonts.lobsterTwo(
+                                textStyle: TextStyle(
+                                    color: mainColor,
+                                    fontSize: 50,
+                                    fontWeight: FontWeight.bold),
                               ),
+                              colors: colorizeColors,
                             ),
-                            SizedBox(
-                              height: 26,
-                            ),
-                            TextFormField(
-                              controller: _emailController,
-                              keyboardType: TextInputType.emailAddress,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return "Can't be empty";
-                                } else if (!value.contains("@") ||
-                                    !value.contains(".")) {
-                                  return "Invalid Email";
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                labelText: "Email",
-                              ),
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            TextFormField(
-                              keyboardType: TextInputType.visiblePassword,
-                              controller: _passController,
-                              obscureText: true,
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return "Can't be empty";
-                                } else if (value.length < 6) {
-                                  return "Password is at least 6 characters.";
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                labelText: "Password",
-                              ),
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                if (_formKey.currentState.validate()) {
-                                  setState(() {
-                                    _isLoading = true;
-                                  });
-                                  // final user =
-                                  //     await Future.delayed(Duration(seconds: 3));
-                                  final user = await Provider.of<AuthProvider>(
-                                          context,
-                                          listen: false)
-                                      .signIn(context, _emailController.text,
-                                          _passController.text);
-
-                                  if (user == null) {
-                                    setState(() {
-                                      _isLoading = false;
-                                    });
-                                  }
-                                }
-                              },
-                              child: Text(
-                                "Login",
-                                style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              style: ButtonStyle(
-                                padding: MaterialStateProperty.all(
-                                  EdgeInsets.symmetric(
-                                    vertical: 12,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 16,
-                            ),
-                            TextButton(
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Colors.transparent)),
-                              onPressed: _forgotPassword,
-                              child: Text("Forgot Password? Reset Here!"),
-                            )
                           ],
+                          repeatForever: true,
                         ),
-                      ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          "Login",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 26,
+                        ),
+                        TextFormField(
+                          controller: _emailController,
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Can't be empty";
+                            } else if (!value.contains("@") ||
+                                !value.contains(".")) {
+                              return "Invalid Email";
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            labelText: "Email",
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFormField(
+                          keyboardType: TextInputType.visiblePassword,
+                          controller: _passController,
+                          obscureText: true,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Can't be empty";
+                            } else if (value.length < 6) {
+                              return "Password is at least 6 characters.";
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            labelText: "Password",
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            if (_formKey.currentState.validate()) {
+                              setState(() {
+                                _isLoading = true;
+                              });
+                              // final user =
+                              //     await Future.delayed(Duration(seconds: 3));
+                              final user = await Provider.of<AuthProvider>(
+                                      context,
+                                      listen: false)
+                                  .signIn(context, _emailController.text,
+                                      _passController.text);
+
+                              if (user == null) {
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                              }
+                            }
+                          },
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all(
+                              EdgeInsets.symmetric(
+                                vertical: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  Colors.transparent)),
+                          onPressed: _forgotPassword,
+                          child: Text("Forgot Password? Reset Here!"),
+                        )
+                      ],
                     ),
                   ),
                 ),

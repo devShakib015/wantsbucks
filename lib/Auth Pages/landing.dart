@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/Auth%20Pages/login.dart';
+import 'package:wantsbucks/app.dart';
 import 'package:wantsbucks/main.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
@@ -23,7 +24,20 @@ class Landing extends StatelessWidget {
             return Text(snapshot.error.toString());
           }
 
-          return snapshot.hasData ? ProviderToApp() : Login();
+          return snapshot.hasData
+              ? MultiProvider(providers: [
+                  ChangeNotifierProvider<WallpaperProvider>(
+                      create: (_) => WallpaperProvider()),
+                  ChangeNotifierProvider<PointProvider>(
+                      create: (_) => PointProvider()),
+                  ChangeNotifierProvider<EarningProvider>(
+                      create: (_) => EarningProvider()),
+                  ChangeNotifierProvider<UserWallpaperProvider>(
+                      create: (_) => UserWallpaperProvider()),
+                  ChangeNotifierProvider<LevelProvider>(
+                      create: (_) => LevelProvider()),
+                ], child: App())
+              : Login();
         } else {
           // show loading indicator                                         ⇐ NEW
           return Loading();

@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wantsbucks/constants.dart';
 import 'package:wantsbucks/other_pages/change_pass.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
@@ -9,7 +8,7 @@ import 'package:wantsbucks/theming/color_constants.dart';
 class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //print(FirebaseAuth.instance.currentUser.emailVerified);
+    print(FirebaseAuth.instance.currentUser.emailVerified);
     return Scaffold(
       appBar: AppBar(
         title: Text("Settings"),
