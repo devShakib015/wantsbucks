@@ -1,13 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wantsbucks/constants.dart';
+import 'package:wantsbucks/other_pages/change_pass.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
 
 class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print(FirebaseAuth.instance.currentUser.emailVerified);
+    //print(FirebaseAuth.instance.currentUser.emailVerified);
     return Scaffold(
       appBar: AppBar(
         title: Text("Settings"),
@@ -54,6 +56,18 @@ class Settings extends StatelessWidget {
               },
               title: Text("Account"),
               leading: Icon(Icons.account_box),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            ListTile(
+              tileColor: Color(0xff14a4d9),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ChangePassword()));
+              },
+              title: Text("Change Password"),
+              leading: Icon(Icons.security),
             ),
             SizedBox(
               height: 10,

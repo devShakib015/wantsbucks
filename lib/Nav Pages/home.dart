@@ -81,7 +81,7 @@ class Home extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 100,
+                  height: 60,
                   child: Center(
                     child: Text("Banner Ad"),
                   ),

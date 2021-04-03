@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wantsbucks/constants.dart';
 import 'package:wantsbucks/other_pages/settings.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
 
@@ -20,8 +21,7 @@ class Profile extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-          child: Text(FirebaseAuth.instance.currentUser.email.toString())),
+      body: Center(child: Text(user.email.toString())),
     );
   }
 }
