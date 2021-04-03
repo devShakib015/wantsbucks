@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:provider/provider.dart';
+import 'package:wantsbucks/main.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
@@ -54,15 +55,30 @@ class _LoginState extends State<Login> {
                 ElevatedButton(
                   onPressed: () async {
                     if (_forgotFormKey.currentState.validate()) {
-                      await FirebaseAuth.instance.sendPasswordResetEmail(
-                          email: _forgotEmailController.text);
-                      Navigator.pop(context);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                              "Link is sent to your email. Check and reset your password."),
-                        ),
-                      );
+                      try {
+                        await FirebaseAuth.instance.sendPasswordResetEmail(
+                            email: _forgotEmailController.text);
+                        Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                "Link is sent to your email. Check and reset your password."),
+                          ),
+                        );
+                      } on FirebaseAuthException catch (e) {
+                        Navigator.pop(context);
+                        if (e.code == "invalid-email") {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              backgroundColor: Colors.red[900],
+                              duration: Duration(seconds: 1),
+                              content: Text("Invalid Email!")));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              backgroundColor: Colors.red[900],
+                              duration: Duration(seconds: 1),
+                              content: Text("No user found with that email.")));
+                        }
+                      }
                     }
                   },
                   child: Text("Send Reset Link"),

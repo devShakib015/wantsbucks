@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wantsbucks/other_pages/settings.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
 
 class Profile extends StatelessWidget {
@@ -11,9 +12,10 @@ class Profile extends StatelessWidget {
         title: Text("Profile"),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
+            icon: Icon(Icons.settings),
             onPressed: () async {
-              await Provider.of<AuthProvider>(context, listen: false).logOut();
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Settings()));
             },
           ),
         ],

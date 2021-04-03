@@ -5,6 +5,11 @@ import 'package:wantsbucks/Auth%20Pages/login.dart';
 import 'package:wantsbucks/app.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
+import 'package:wantsbucks/providers/earning_provider.dart';
+import 'package:wantsbucks/providers/level_provider.dart';
+import 'package:wantsbucks/providers/point_provider.dart';
+import 'package:wantsbucks/providers/user_wallpaper_provider.dart';
+import 'package:wantsbucks/providers/wallpaper_provider.dart';
 
 class Landing extends StatelessWidget {
   @override
@@ -12,16 +17,26 @@ class Landing extends StatelessWidget {
     return FutureBuilder<User>(
       future: Provider.of<AuthProvider>(context).getUser(),
       builder: (context, AsyncSnapshot<User> snapshot) {
-        //          ⇐ NEW
         if (snapshot.connectionState == ConnectionState.done) {
-          // log error to console                                            ⇐ NEW
           if (snapshot.error != null) {
             print("error");
             return Text(snapshot.error.toString());
           }
-          // redirect to the proper page, pass the user into the
-          // `HomePage` so we can display the user email in welcome msg     ⇐ NEW
-          return snapshot.hasData ? App() : Login();
+
+          return snapshot.hasData
+              ? MultiProvider(providers: [
+                  ChangeNotifierProvider<WallpaperProvider>(
+                      create: (_) => WallpaperProvider()),
+                  ChangeNotifierProvider<UserWallpaperProvider>(
+                      create: (_) => UserWallpaperProvider()),
+                  ChangeNotifierProvider<PointProvider>(
+                      create: (_) => PointProvider()),
+                  ChangeNotifierProvider<EarningProvider>(
+                      create: (_) => EarningProvider()),
+                  ChangeNotifierProvider<LevelProvider>(
+                      create: (_) => LevelProvider()),
+                ], child: App())
+              : Login();
         } else {
           // show loading indicator                                         ⇐ NEW
           return Loading();
