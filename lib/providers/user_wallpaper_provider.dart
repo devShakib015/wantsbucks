@@ -34,7 +34,6 @@ class UserWallpaperProvider extends ChangeNotifier {
     await _currentUserWallpaperCollection
         .doc(unlockedLevelID)
         .set({'items': []});
-
     notifyListeners();
   }
 }

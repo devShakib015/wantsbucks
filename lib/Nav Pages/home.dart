@@ -6,26 +6,29 @@ import 'package:wantsbucks/custom%20widgets/point_and_earning.dart';
 import 'package:wantsbucks/other_pages/level_page.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
-import 'package:wantsbucks/providers/earning_provider.dart';
-import 'package:wantsbucks/providers/point_provider.dart';
 import 'package:wantsbucks/providers/user_wallpaper_provider.dart';
 import 'package:wantsbucks/providers/wallpaper_provider.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final colors = [
+    Color(0xffe52165),
+    Color(0xff077b8a),
+    Color(0xff5c3c92),
+    Color(0xff12a4d9),
+    Color(0xffb20238),
+    Color(0xffe75874),
+    Color(0xff6b7b8c),
+    Color(0xff7a2048),
+    Color(0xff6883bc),
+    Color(0xff8a307f),
+  ];
   @override
   Widget build(BuildContext context) {
-    final colors = [
-      Color(0xffe52165),
-      Color(0xff077b8a),
-      Color(0xff5c3c92),
-      Color(0xff12a4d9),
-      Color(0xffb20238),
-      Color(0xffe75874),
-      Color(0xff6b7b8c),
-      Color(0xff7a2048),
-      Color(0xff6883bc),
-      Color(0xff8a307f),
-    ];
     return Scaffold(
       appBar: AppBar(
         title: PointAndEarning(),
@@ -72,6 +75,7 @@ class Home extends StatelessWidget {
                             for (var item in _uqds) {
                               _unlockedLevels.add(item.id);
                             }
+
                             return _levelCard(
                                 context, colors, _data, e, _unlockedLevels);
                           }
@@ -105,7 +109,7 @@ class Home extends StatelessWidget {
       child: ListTile(
         onTap: () async {
           if (_unlockedLevels.contains(e.id)) {
-            Navigator.push(
+            await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => LevelPage(
@@ -118,7 +122,9 @@ class Home extends StatelessWidget {
                   levelInterest: e.data()["interest"],
                 ),
               ),
-            );
+            ).then((value) {
+              setState(() {});
+            });
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

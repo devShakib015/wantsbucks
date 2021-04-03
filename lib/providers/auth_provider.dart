@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:wantsbucks/models/user_model.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:wantsbucks/theming/color_constants.dart';
 
 class AuthProvider extends ChangeNotifier {
   final _firebaseAuth = FirebaseAuth.instance;
@@ -15,6 +17,15 @@ class AuthProvider extends ChangeNotifier {
 
   Future<UserCredential> register(
       BuildContext context, String email, String password) async {
+    final _currentUserDirectCollection = FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection("directs");
+    final _currentUserEarningCollection = FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .collection("earnings");
+
     UserCredential userCredential;
     FirebaseApp app = await Firebase.initializeApp(
         name: 'Secondary', options: Firebase.app().options);
@@ -24,26 +35,73 @@ class AuthProvider extends ChangeNotifier {
       if (userCredential != null) {
         await _userCollection.doc(userCredential.user.uid).set(
               UserModel(
-                      email: email,
-                      name: null,
-                      refferedBy: _firebaseAuth.currentUser.email)
+                      email: email, refferedBy: _firebaseAuth.currentUser.email)
                   .toMap(),
             );
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("The user is registered Successfully.")));
+        await _userCollection
+            .doc(userCredential.user.uid)
+            .collection("wallpapers")
+            .doc("level 0")
+            .set({
+          "items": [],
+        });
+        await _userCollection
+            .doc(userCredential.user.uid)
+            .collection("points")
+            .doc("point")
+            .set({
+          "currentPoint": 0,
+          "totalPoint": 0,
+        });
+        await _userCollection
+            .doc(userCredential.user.uid)
+            .collection("earnings")
+            .doc("earning")
+            .set({
+          "currentBalance": 0,
+          "totalEarning": 0,
+          "withdrew": [],
+        });
+        await _userCollection
+            .doc(userCredential.user.uid)
+            .collection("directs")
+            .doc("direct")
+            .set({
+          "currentBalance": 0,
+          "totalBalance": 0,
+        });
+        await _currentUserDirectCollection.get().then((value) async {
+          int _currentBal = value.docs.first.data()["currentBalance"];
+          await _currentUserDirectCollection.doc("direct").update({
+            "currentBalance": _currentBal - 50,
+          });
+        });
+        await _currentUserEarningCollection.get().then((value) async {
+          int _currentEarning = value.docs.first.data()["currentBalance"];
+          int _totalEarning = value.docs.first.data()["totalEarning"];
+          await _currentUserEarningCollection.doc("earning").update({
+            "currentBalance": _currentEarning + 5,
+            "totalEarning": _totalEarning + 5,
+          });
+        });
+        await Future.delayed(Duration(seconds: 1));
+        Phoenix.rebirth(context);
       }
     } on FirebaseAuthException catch (e) {
       print(e.code);
       if (e.code == "email-already-in-use") {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: dangerColor,
+            duration: Duration(seconds: 1),
             content: Text("There is already an user exists with this email.")));
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("There is an error registering new user.")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: dangerColor,
+            duration: Duration(seconds: 1),
+            content: Text("There is an error registering new user.")));
       }
     }
     await app.delete();
-    notifyListeners();
     return Future.sync(() => userCredential);
   }
 
@@ -52,7 +110,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       final user = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-      notifyListeners();
+      Phoenix.rebirth(context);
       return user;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -68,8 +126,8 @@ class AuthProvider extends ChangeNotifier {
     return null;
   }
 
-  Future<void> logOut() async {
+  Future<void> logOut(BuildContext context) async {
     await _firebaseAuth.signOut();
-    notifyListeners();
+    Phoenix.rebirth(context);
   }
 }

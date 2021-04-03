@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 
 class UserModel {
   String email;
-  String name;
+
   String refferedBy;
   UserModel({
     @required this.email,
-    @required this.name,
     @required this.refferedBy,
   });
 
@@ -18,7 +17,6 @@ class UserModel {
   }) {
     return UserModel(
       email: email ?? this.email,
-      name: name ?? this.name,
       refferedBy: refferedBy ?? this.refferedBy,
     );
   }
@@ -26,7 +24,6 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return {
       'email': email,
-      'name': name,
       'refferedBy': refferedBy,
     };
   }
@@ -34,7 +31,6 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       email: map['email'],
-      name: map['name'],
       refferedBy: map['refferedBy'],
     );
   }
@@ -45,8 +41,7 @@ class UserModel {
       UserModel.fromMap(json.decode(source));
 
   @override
-  String toString() =>
-      'UserModel(email: $email, name: $name, refferedBy: $refferedBy)';
+  String toString() => 'UserModel(email: $email, refferedBy: $refferedBy)';
 
   @override
   bool operator ==(Object other) {
@@ -54,10 +49,9 @@ class UserModel {
 
     return other is UserModel &&
         other.email == email &&
-        other.name == name &&
         other.refferedBy == refferedBy;
   }
 
   @override
-  int get hashCode => email.hashCode ^ name.hashCode ^ refferedBy.hashCode;
+  int get hashCode => email.hashCode ^ refferedBy.hashCode;
 }

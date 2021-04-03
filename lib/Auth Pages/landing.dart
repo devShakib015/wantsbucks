@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/Auth%20Pages/login.dart';
 import 'package:wantsbucks/app.dart';
-import 'package:wantsbucks/main.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
 import 'package:wantsbucks/providers/earning_provider.dart';

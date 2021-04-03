@@ -8,7 +8,6 @@ import 'package:wantsbucks/theming/color_constants.dart';
 class Settings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print(FirebaseAuth.instance.currentUser.emailVerified);
     return Scaffold(
       appBar: AppBar(
         title: Text("Settings"),
@@ -77,7 +76,7 @@ class Settings extends StatelessWidget {
                 {
                   Navigator.pop(context);
                   await Provider.of<AuthProvider>(context, listen: false)
-                      .logOut();
+                      .logOut(context);
                 }
               },
               title: Text("Logout"),

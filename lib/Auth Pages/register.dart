@@ -97,9 +97,6 @@ class _RegisterState extends State<Register> {
                                       listen: false)
                                   .register(context, _emailController.text,
                                       _passController.text);
-                              setState(() {
-                                _isLoading = false;
-                              });
                             }
                           },
                           child: Text(
