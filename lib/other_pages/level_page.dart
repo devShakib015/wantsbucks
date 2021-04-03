@@ -85,7 +85,7 @@ class _LevelPageState extends State<LevelPage> {
                     //Reduce the point
                     Provider.of<EarningProvider>(context, listen: false)
                         .addProfit(
-                            (_cost * (widget.levelInterest / 100)).toDouble());
+                            (_cost * (widget.levelInterest / 100)).toInt());
 
                     //add the wallpaper to user list
                     Provider.of<UserWallpaperProvider>(context, listen: false)

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:wantsbucks/Auth%20Pages/landing.dart';
+import 'package:wantsbucks/app.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
@@ -70,32 +71,8 @@ class _MainAppState extends State<MainApp> {
         if (snapshot.data == false) {
           return internetConnectionWidget();
         } else
-          return _provider();
+          return Landing();
       },
-    );
-  }
-
-  //! Providing MultiProvider
-
-  Widget _provider() {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
-        ChangeNotifierProvider<WallpaperProvider>(
-            create: (_) => WallpaperProvider()),
-        ChangeNotifierProvider<UserWallpaperProvider>(
-            create: (_) => UserWallpaperProvider()),
-        ChangeNotifierProvider<PointProvider>(create: (_) => PointProvider()),
-        ChangeNotifierProvider<EarningProvider>(
-            create: (_) => EarningProvider()),
-        ChangeNotifierProvider<LevelProvider>(create: (_) => LevelProvider()),
-      ],
-      child: MaterialApp(
-        title: 'wantsBro',
-        debugShowCheckedModeBanner: false,
-        theme: mainTheme,
-        home: Landing(),
-      ),
     );
   }
 
@@ -123,6 +100,35 @@ class _MainAppState extends State<MainApp> {
             ],
           ),
         )),
+      ),
+    );
+  }
+}
+
+class ProviderToApp extends StatelessWidget {
+  const ProviderToApp({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+        ChangeNotifierProvider<WallpaperProvider>(
+            create: (_) => WallpaperProvider()),
+        ChangeNotifierProvider<PointProvider>(create: (_) => PointProvider()),
+        ChangeNotifierProvider<EarningProvider>(
+            create: (_) => EarningProvider()),
+        ChangeNotifierProvider<UserWallpaperProvider>(
+            create: (_) => UserWallpaperProvider()),
+        ChangeNotifierProvider<LevelProvider>(create: (_) => LevelProvider()),
+      ],
+      child: MaterialApp(
+        title: 'wantsBro',
+        debugShowCheckedModeBanner: false,
+        theme: mainTheme,
+        home: App(),
       ),
     );
   }

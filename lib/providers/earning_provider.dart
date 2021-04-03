@@ -8,12 +8,12 @@ class EarningProvider extends ChangeNotifier {
       .doc(FirebaseAuth.instance.currentUser.uid)
       .collection("earnings");
 
-  Future<double> getCurrentBalance() async {
-    double _earning = 0;
+  Future<int> getCurrentBalance() async {
+    int _earning = 0;
     try {
       await _currentUserEarningCollection.get().then((value) {
-        double _currentEarning = value.docs.first.data()["currentBalance"];
-        _earning = _currentEarning.toDouble();
+        int _currentEarning = value.docs.first.data()["currentBalance"];
+        _earning = _currentEarning;
       });
     } catch (e) {
       _earning = 0;
@@ -21,11 +21,10 @@ class EarningProvider extends ChangeNotifier {
     return _earning;
   }
 
-  Future<void> addProfit(double newProfit) async {
+  Future<void> addProfit(int newProfit) async {
     await _currentUserEarningCollection.get().then((value) async {
-      double _currentEarning =
-          value.docs.first.data()["currentBalance"].toDouble();
-      double _totalEarning = value.docs.first.data()["totalEarning"].toDouble();
+      int _currentEarning = value.docs.first.data()["currentBalance"];
+      int _totalEarning = value.docs.first.data()["totalEarning"];
       await _currentUserEarningCollection.doc("earning").update({
         "currentBalance": _currentEarning + newProfit,
         "totalEarning": _totalEarning + newProfit,

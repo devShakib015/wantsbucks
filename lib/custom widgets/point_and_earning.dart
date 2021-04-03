@@ -33,10 +33,10 @@ class PointAndEarning extends StatelessWidget {
         VerticalDivider(
           width: 20,
         ),
-        FutureBuilder<double>(
+        FutureBuilder<int>(
           future: Provider.of<EarningProvider>(context).getCurrentBalance(),
-          initialData: 0.0,
-          builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+          initialData: 0,
+          builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
             return Row(
               children: [
                 Container(
