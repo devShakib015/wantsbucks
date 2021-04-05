@@ -12,6 +12,7 @@ import 'package:wantsbucks/providers/direct_provider.dart';
 import 'package:wantsbucks/providers/earning_provider.dart';
 import 'package:wantsbucks/providers/level_provider.dart';
 import 'package:wantsbucks/providers/point_provider.dart';
+import 'package:wantsbucks/providers/user_provider.dart';
 import 'package:wantsbucks/providers/user_wallpaper_provider.dart';
 import 'package:wantsbucks/providers/wallpaper_provider.dart';
 import 'package:wantsbucks/theming/theme.dart';
@@ -113,6 +114,7 @@ class _MainAppState extends State<MainApp> {
             create: (_) => UserWallpaperProvider()),
         ChangeNotifierProvider<LevelProvider>(create: (_) => LevelProvider()),
         ChangeNotifierProvider<DirectProvider>(create: (_) => DirectProvider()),
+        ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
       ],
       child: MaterialApp(
         title: 'wantsBucks',

@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wantsbucks/constants.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
 
@@ -99,11 +98,12 @@ class _ChangePasswordState extends State<ChangePassword> {
 
                             AuthCredential _credential =
                                 EmailAuthProvider.credential(
-                                    email: user.email,
+                                    email:
+                                        FirebaseAuth.instance.currentUser.email,
                                     password: _currentPassController.text);
                             var userCred;
                             try {
-                              userCred = await user
+                              userCred = await FirebaseAuth.instance.currentUser
                                   .reauthenticateWithCredential(_credential);
                             } catch (e) {
                               userCred = null;
@@ -131,8 +131,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                                     content: Text(
                                         "Confirm password is not right! Try it again.")));
                               } else {
-                                await user.updatePassword(
-                                    _confirmPassController.text);
+                                await FirebaseAuth.instance.currentUser
+                                    .updatePassword(
+                                        _confirmPassController.text);
                                 _confirmPassController.clear();
                                 _newPassController.clear();
                                 _currentPassController.clear();

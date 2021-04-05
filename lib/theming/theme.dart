@@ -78,7 +78,7 @@ ThemeData mainTheme = ThemeData.dark().copyWith(
   bottomAppBarColor: mainColor,
   scaffoldBackgroundColor: mainBackgroundColor,
   appBarTheme: AppBarTheme(
-    color: otherDark,
+    color: mainBackgroundColor,
     centerTitle: true,
     elevation: 0,
   ),

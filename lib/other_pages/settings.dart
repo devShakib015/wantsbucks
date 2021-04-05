@@ -5,7 +5,7 @@ import 'package:wantsbucks/other_pages/change_pass.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
 
-class Settings extends StatelessWidget {
+class WBSettings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +27,7 @@ class Settings extends StatelessWidget {
                   : Column(
                       children: [
                         Text(
-                            "Your email is not verified. Please verify or your account will be suspened soon.",
+                            "Your email is not verified. Please verify or your account will be suspended soon.",
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.red)),
                         ElevatedButton(

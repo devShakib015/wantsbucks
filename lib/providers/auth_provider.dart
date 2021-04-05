@@ -15,8 +15,8 @@ class AuthProvider extends ChangeNotifier {
     return _firebaseAuth.currentUser;
   }
 
-  Future<UserCredential> register(
-      BuildContext context, String email, String password) async {
+  Future<UserCredential> register(BuildContext context, String email,
+      String phone, String name, String password) async {
     final _currentUserDirectCollection = FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser.uid)
@@ -33,9 +33,16 @@ class AuthProvider extends ChangeNotifier {
       userCredential = await FirebaseAuth.instanceFor(app: app)
           .createUserWithEmailAndPassword(email: email, password: password);
       if (userCredential != null) {
+        DateTime _currentDate = DateTime.now();
         await _userCollection.doc(userCredential.user.uid).set(
               UserModel(
-                      email: email, refferedBy: _firebaseAuth.currentUser.email)
+                      email: email,
+                      name: name,
+                      phone: phone,
+                      joiningDate: _currentDate,
+                      dueDate: _currentDate.add(Duration(days: 91)),
+                      reRegisterDate: _currentDate,
+                      refferedBy: _firebaseAuth.currentUser.email)
                   .toMap(),
             );
         await _userCollection
@@ -92,7 +99,7 @@ class AuthProvider extends ChangeNotifier {
       if (e.code == "email-already-in-use") {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: dangerColor,
-            duration: Duration(seconds: 1),
+            duration: Duration(seconds: 2),
             content: Text("There is already an user exists with this email.")));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -115,12 +122,16 @@ class AuthProvider extends ChangeNotifier {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         //print('No user found for that email.');
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("No user found for that email.")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: dangerColor,
+            duration: Duration(seconds: 2),
+            content: Text("No user found for that email.")));
       } else if (e.code == 'wrong-password') {
         //print('Wrong password provided for that user.');
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Wrong password provided for that user.")));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: dangerColor,
+            duration: Duration(seconds: 2),
+            content: Text("Wrong password provided for that user.")));
       }
     }
     return null;

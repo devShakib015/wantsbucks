@@ -45,6 +45,8 @@ class _LoginState extends State<Login> {
                     return null;
                   },
                   decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.email),
+                    hintText: "kent234@gmail.com",
                     labelText: "Email",
                   ),
                 ),
@@ -159,6 +161,8 @@ class _LoginState extends State<Login> {
                             return null;
                           },
                           decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.email),
+                            hintText: "kent234@gmail.com",
                             labelText: "Email",
                           ),
                         ),
@@ -178,6 +182,8 @@ class _LoginState extends State<Login> {
                             return null;
                           },
                           decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.security),
+                            hintText: "Your Secured Password",
                             labelText: "Password",
                           ),
                         ),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/Auth%20Pages/register.dart';
+import 'package:wantsbucks/custom%20widgets/custom_date_format.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
@@ -39,7 +40,7 @@ class Direct extends StatelessWidget {
                 bottom: PreferredSize(
                   preferredSize: Size.fromHeight(15),
                   child: Container(
-                    child: Text("Balace: $_data"),
+                    child: Text("Balance: $_data"),
                   ),
                 ),
               ),
@@ -60,20 +61,22 @@ class Direct extends StatelessWidget {
                         return Center(child: Text("You didn't join any user."));
                       } else {
                         return ListView(
-                          children: _d
-                              .map(
-                                (e) => Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 4),
-                                  child: ListTile(
-                                    leading:
-                                        Text("${_directsList.indexOf(e) + 1}"),
-                                    tileColor: mainColor,
-                                    title: Text(e.data()["email"]),
-                                  ),
-                                ),
-                              )
-                              .toList(),
+                          children: _d.map((e) {
+                            var _date = DateTime.fromMillisecondsSinceEpoch(
+                                e.data()["joiningDate"]);
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              child: ListTile(
+                                leading: Text("${_directsList.indexOf(e) + 1}"),
+                                tileColor: mainColor,
+                                title: Text(e.data()["name"]),
+                                subtitle: Text(
+                                    "${e.data()["email"]}\n${customDateFormat(_date)}"),
+                                isThreeLine: true,
+                              ),
+                            );
+                          }).toList(),
                         );
                       }
                     }
