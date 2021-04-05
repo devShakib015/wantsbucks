@@ -27,6 +27,7 @@ class Dashboard extends StatelessWidget {
                     return SomethingWentWrong();
                   } else {
                     final _data = snapshot.data;
+
                     return Container(
                       child: SingleChildScrollView(
                         child: Column(
@@ -48,12 +49,28 @@ class Dashboard extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomDashboardCard(
+                                    data: _data['totalDirectPersons'],
+                                    color: Color(0xffe52265),
+                                    title: "Total Directs"),
+                                CustomDashboardCard(
+                                    data: ((_data['totalEarning'] -
+                                                _data["currentEarning"]) *
+                                            (95 / 100))
+                                        .toInt(),
+                                    color: Color(0xff0d4582),
+                                    title: "Total Withdrawls"),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomDashboardCard(
                                     data: _data['currentPoint'],
-                                    color: Color(0xffb20038),
+                                    color: Color(0xff14a4d9),
                                     title: "Current Point"),
                                 CustomDashboardCard(
                                     data: _data['totalPoint'],
-                                    color: Color(0xff14a4d9),
+                                    color: Color(0xffb20038),
                                     title: "Total Point"),
                               ],
                             ),
@@ -62,11 +79,11 @@ class Dashboard extends StatelessWidget {
                               children: [
                                 CustomDashboardCard(
                                     data: _data['currentDirect'],
-                                    color: Color(0xff7a2248),
+                                    color: Color(0xfff64718),
                                     title: "Current Direct Amount"),
                                 CustomDashboardCard(
                                     data: _data['totalDirect'],
-                                    color: Color(0xff6783bc),
+                                    color: Color(0xff402ba3),
                                     title: "Total Direct Amount"),
                               ],
                             ),
@@ -78,7 +95,7 @@ class Dashboard extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Card(
-                                  color: Color(0xff2ba965),
+                                  color: Colors.blue,
                                   child: Container(
                                     padding: EdgeInsets.all(16),
                                     width: double.infinity,
@@ -102,7 +119,7 @@ class Dashboard extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Card(
-                                  color: mainColor,
+                                  color: Color(0xff8a2e7f),
                                   child: Container(
                                     padding: EdgeInsets.all(16),
                                     width: double.infinity,
@@ -126,7 +143,7 @@ class Dashboard extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: Card(
-                                  color: Colors.blue,
+                                  color: Color(0xff2ba965),
                                   child: Container(
                                     padding: EdgeInsets.all(16),
                                     width: double.infinity,

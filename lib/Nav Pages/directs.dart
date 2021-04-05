@@ -5,6 +5,7 @@ import 'package:wantsbucks/Auth%20Pages/register.dart';
 import 'package:wantsbucks/custom%20widgets/custom_date_format.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
+import 'package:wantsbucks/other_pages/topup.dart';
 import 'package:wantsbucks/other_pages/transfer_money.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
 import 'package:wantsbucks/providers/direct_provider.dart';
@@ -68,6 +69,12 @@ class _DirectState extends State<Direct> {
                     onPressed: () {
                       //Topup
                       //TODO: Make Topup System
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TopUp(),
+                        ),
+                      );
                     },
                   ),
                   actions: [

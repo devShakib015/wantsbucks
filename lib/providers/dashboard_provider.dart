@@ -26,6 +26,7 @@ class DashboardProvider extends ChangeNotifier {
       "currentPoint": 0,
       "totalDirect": 0,
       "currentDirect": 0,
+      "totalDirectPersons": 0,
       "withdrews": null,
     };
     try {
@@ -49,6 +50,15 @@ class DashboardProvider extends ChangeNotifier {
         int _totalDirect = value.docs.first.data()["totalBalance"];
         _infos["currentDirect"] = _currentDirect;
         _infos["totalDirect"] = _totalDirect;
+      });
+      await FirebaseFirestore.instance
+          .collection("users")
+          .where("refferedBy",
+              isEqualTo: FirebaseAuth.instance.currentUser.email)
+          .get()
+          .then((value) {
+        int _totalDirect = value.docs.length;
+        _infos["totalDirectPersons"] = _totalDirect;
       });
     } catch (e) {}
     return _infos;

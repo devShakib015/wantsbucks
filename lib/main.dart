@@ -26,7 +26,6 @@ void main() {
 }
 
 class WantsBucksApp extends StatelessWidget {
-  // Create the initialization Future outside of `build`:
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
@@ -92,7 +91,6 @@ class _MainAppState extends State<MainApp> {
 
                 return snapshot.hasData ? _appProvider() : _loginProvider();
               } else {
-                // show loading indicator                                         ⇐ NEW
                 return Loading();
               }
             },

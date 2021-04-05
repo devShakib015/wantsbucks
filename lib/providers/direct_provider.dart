@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 class DirectProvider extends ChangeNotifier {
-  Future<QuerySnapshot> getJoinedAccount() {
-    return FirebaseFirestore.instance
+  Future<QuerySnapshot> getJoinedAccount() async {
+    return await FirebaseFirestore.instance
         .collection("users")
         .where("refferedBy", isEqualTo: FirebaseAuth.instance.currentUser.email)
         .get();

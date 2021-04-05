@@ -67,7 +67,7 @@ class Profile extends StatelessWidget {
                             final _dueDate =
                                 DateTime.fromMillisecondsSinceEpoch(
                                     _data["dueDate"]);
-                            //final _dueDate = DateTime(2021, 2, 4);
+                            //final _dueDate = DateTime(2021, 3, 01);
                             final _reRegisterDate =
                                 DateTime.fromMillisecondsSinceEpoch(
                                     _data["reRegisterDate"]);
@@ -182,7 +182,7 @@ class Profile extends StatelessWidget {
     int _totalPayable = 50;
 
     if (_dayLeft <= -30) {
-      _totalPayable = -(_dayLeft);
+      _totalPayable = -(_dayLeft) + 20;
     }
     return Container(
       decoration: BoxDecoration(
@@ -288,7 +288,7 @@ class Profile extends StatelessWidget {
                         if (_earning < 50) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
-                                  "You need 50 taka to re-activate. Please earn first then try it.")));
+                                  "You have to pay $_totalPayable taka to reactivate your account.")));
                         } else {
                           //TODO: Make Reactivate System
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
