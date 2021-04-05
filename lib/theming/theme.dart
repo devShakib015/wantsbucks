@@ -96,7 +96,7 @@ ThemeData mainTheme = ThemeData.dark().copyWith(
   canvasColor: otherDark,
   backgroundColor: mainBackgroundColor,
   primaryColorDark: mainBackgroundColor,
-  splashColor: Colors.red,
+  splashColor: Colors.greenAccent,
   tabBarTheme: TabBarTheme(
     labelColor: white,
     unselectedLabelColor: disableWhite,

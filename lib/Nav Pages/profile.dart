@@ -35,63 +35,86 @@ class Profile extends StatelessWidget {
           ),
         ],
       ),
-      body: FutureBuilder<int>(
-          future: Provider.of<EarningProvider>(context).getCurrentBalance(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState != ConnectionState.done) {
-              return Loading();
-            } else if (snapshot.hasError) {
-              return SomethingWentWrong();
-            } else {
-              final _earning = snapshot.data;
-              return Container(
-                child: FutureBuilder<DocumentSnapshot>(
-                  future: Provider.of<UserProvider>(context).getUserDetails(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<DocumentSnapshot> snapshot) {
-                    if (snapshot.connectionState != ConnectionState.done) {
-                      return Loading();
-                    } else if (snapshot.hasError) {
-                      return SomethingWentWrong();
-                    } else {
-                      final _data = snapshot.data.data();
-                      final _joiningDate = DateTime.fromMillisecondsSinceEpoch(
-                          _data["joiningDate"]);
-                      final _dueDate =
-                          DateTime.fromMillisecondsSinceEpoch(_data["dueDate"]);
-                      // final _dueDate = DateTime(2021, 04, 06);
-                      final _reRegisterDate =
-                          DateTime.fromMillisecondsSinceEpoch(
-                              _data["reRegisterDate"]);
+      body: Column(
+        children: [
+          Expanded(
+            child: FutureBuilder<int>(
+                future:
+                    Provider.of<EarningProvider>(context).getCurrentBalance(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return Loading();
+                  } else if (snapshot.hasError) {
+                    return SomethingWentWrong();
+                  } else {
+                    final _earning = snapshot.data;
+                    return Container(
+                      child: FutureBuilder<DocumentSnapshot>(
+                        future:
+                            Provider.of<UserProvider>(context).getUserDetails(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<DocumentSnapshot> snapshot) {
+                          if (snapshot.connectionState !=
+                              ConnectionState.done) {
+                            return Loading();
+                          } else if (snapshot.hasError) {
+                            return SomethingWentWrong();
+                          } else {
+                            final _data = snapshot.data.data();
+                            final _joiningDate =
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    _data["joiningDate"]);
+                            final _dueDate =
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    _data["dueDate"]);
+                            //final _dueDate = DateTime(2021, 2, 4);
+                            final _reRegisterDate =
+                                DateTime.fromMillisecondsSinceEpoch(
+                                    _data["reRegisterDate"]);
 
-                      final _dayLeft =
-                          _dueDate.difference(DateTime.now()).inDays;
-                      return SingleChildScrollView(
-                        child: Container(
-                          width: double.infinity,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              SizedBox(
-                                height: 8,
+                            final _dayLeft =
+                                _dueDate.difference(DateTime.now()).inDays;
+                            return SingleChildScrollView(
+                              child: Container(
+                                width: double.infinity,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    _activityWidget(
+                                        context,
+                                        _earning,
+                                        _dayLeft,
+                                        _joiningDate,
+                                        _dueDate,
+                                        _reRegisterDate),
+                                    SizedBox(
+                                      height: 8,
+                                    ),
+                                    _profileSection(_data),
+                                  ],
+                                ),
                               ),
-                              _activityWidget(context, _earning, _dayLeft,
-                                  _joiningDate, _dueDate, _reRegisterDate),
-                              SizedBox(
-                                height: 8,
-                              ),
-                              _profileSection(_data),
-                            ],
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              );
-            }
-          }),
+                            );
+                          }
+                        },
+                      ),
+                    );
+                  }
+                }),
+          ),
+          SizedBox(
+            height: 60,
+            child: Center(
+              child: Text("Banner Ad"),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -156,6 +179,11 @@ class Profile extends StatelessWidget {
 
   Container _activityWidget(BuildContext context, int _earning, int _dayLeft,
       DateTime _joiningDate, DateTime _dueDate, DateTime _reRegisterDate) {
+    int _totalPayable = 50;
+
+    if (_dayLeft <= -30) {
+      _totalPayable = -(_dayLeft);
+    }
     return Container(
       decoration: BoxDecoration(
           color: _dayLeft <= 0 ? Color(0xffb21d13) : Color(0xff2aa965),
@@ -201,13 +229,19 @@ class Profile extends StatelessWidget {
             height: 130,
             child: Center(
               child: _dayLeft <= 0
-                  ? Text(
-                      "Suspended!",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Suspended!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text("Total Payable: $_totalPayable "),
+                      ],
                     )
                   : Column(
                       mainAxisSize: MainAxisSize.min,
@@ -257,7 +291,9 @@ class Profile extends StatelessWidget {
                                   "You need 50 taka to re-activate. Please earn first then try it.")));
                         } else {
                           //TODO: Make Reactivate System
-                          print("Able to re-activate");
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text(
+                                  "You have to pay $_totalPayable taka to reactivate your account.")));
                         }
                       }
                     : () {
@@ -273,7 +309,7 @@ class Profile extends StatelessWidget {
                       },
                 child: _dayLeft <= 0
                     ? Text(
-                        "Re-Active",
+                        "Re-Activate",
                         style: TextStyle(
                             color: Color(0xffb21d13),
                             fontWeight: FontWeight.bold),

@@ -25,7 +25,13 @@ class PointAndEarning extends StatelessWidget {
                       "assets/images/coin.png",
                       fit: BoxFit.fill,
                     )),
-                Text("${snapshot.data}"),
+                Text(
+                  "${snapshot.data}",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
               ],
             );
           },
@@ -48,7 +54,13 @@ class PointAndEarning extends StatelessWidget {
                 SizedBox(
                   width: 3,
                 ),
-                Text("${snapshot.data}"),
+                Text(
+                  "${snapshot.data}",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
               ],
             );
           },

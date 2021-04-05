@@ -8,10 +8,12 @@ import 'package:wantsbucks/app.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
+import 'package:wantsbucks/providers/dashboard_provider.dart';
 import 'package:wantsbucks/providers/direct_provider.dart';
 import 'package:wantsbucks/providers/earning_provider.dart';
 import 'package:wantsbucks/providers/level_provider.dart';
 import 'package:wantsbucks/providers/point_provider.dart';
+import 'package:wantsbucks/providers/transfer_provider.dart';
 import 'package:wantsbucks/providers/user_provider.dart';
 import 'package:wantsbucks/providers/user_wallpaper_provider.dart';
 import 'package:wantsbucks/providers/wallpaper_provider.dart';
@@ -115,6 +117,10 @@ class _MainAppState extends State<MainApp> {
         ChangeNotifierProvider<LevelProvider>(create: (_) => LevelProvider()),
         ChangeNotifierProvider<DirectProvider>(create: (_) => DirectProvider()),
         ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
+        ChangeNotifierProvider<DashboardProvider>(
+            create: (_) => DashboardProvider()),
+        ChangeNotifierProvider<TransferProvider>(
+            create: (_) => TransferProvider()),
       ],
       child: MaterialApp(
         title: 'wantsBucks',

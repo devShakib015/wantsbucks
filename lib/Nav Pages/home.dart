@@ -85,11 +85,11 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 SizedBox(
-                  height: 100,
+                  height: 60,
                   child: Center(
                     child: Text("Banner Ad"),
                   ),
-                )
+                ),
               ]);
             }
           },
