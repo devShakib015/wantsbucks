@@ -1,5 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
+import 'package:wantsbucks/providers/transfer_provider.dart';
+import 'package:wantsbucks/providers/user_provider.dart';
+import 'package:wantsbucks/theming/color_constants.dart';
 
 class TransferMoney extends StatefulWidget {
   final int currentAmount;
@@ -56,6 +61,9 @@ class _TransferMoneyState extends State<TransferMoney> {
                                   } else if (!value.contains("@") ||
                                       !value.contains(".")) {
                                     return "Invalid Email";
+                                  } else if (_emailController.text.trim() ==
+                                      FirebaseAuth.instance.currentUser.email) {
+                                    return "You can't send money to your account!";
                                   }
                                   return null;
                                 },
@@ -78,6 +86,9 @@ class _TransferMoneyState extends State<TransferMoney> {
                                     return "Invalid number";
                                   } else if (int.parse(value) % 50 != 0) {
                                     return "The amount must be a multiple of 50.";
+                                  } else if (int.parse(value) >
+                                      widget.currentAmount) {
+                                    return "You don't have enough balance!!";
                                   }
                                   return null;
                                 },
@@ -117,12 +128,67 @@ class _TransferMoneyState extends State<TransferMoney> {
                                     setState(() {
                                       _isLoading = true;
                                     });
-                                    //TODO: Set Up Transfer System
-                                    print("Now you can transfer!!");
-                                    setState(() {
-                                      _isLoading = false;
-                                    });
-                                    Navigator.pop(context);
+
+                                    bool _doesUserExists =
+                                        await Provider.of<UserProvider>(context,
+                                                listen: false)
+                                            .doesUserExists(
+                                                _emailController.text.trim());
+                                    if (_doesUserExists) {
+                                      AuthCredential _credential =
+                                          EmailAuthProvider.credential(
+                                              email: FirebaseAuth
+                                                  .instance.currentUser.email,
+                                              password: _passController.text);
+                                      var userCred;
+                                      try {
+                                        userCred = await FirebaseAuth
+                                            .instance.currentUser
+                                            .reauthenticateWithCredential(
+                                                _credential);
+                                      } catch (e) {
+                                        userCred = null;
+                                      }
+                                      if (userCred == null) {
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            backgroundColor: dangerColor,
+                                            duration: Duration(seconds: 1),
+                                            content: Text(
+                                                "Your Password is not right!!"),
+                                          ),
+                                        );
+                                      } else {
+                                        await Provider.of<TransferProvider>(
+                                                context,
+                                                listen: false)
+                                            .transferAmount(
+                                                _emailController.text.trim(),
+                                                int.parse(
+                                                    _amountController.text));
+                                        setState(() {
+                                          _isLoading = false;
+                                        });
+                                        Navigator.pop(context);
+                                      }
+                                    } else {
+                                      setState(() {
+                                        _isLoading = false;
+                                      });
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          backgroundColor: dangerColor,
+                                          duration: Duration(seconds: 1),
+                                          content: Text(
+                                              "There is no user with this email."),
+                                        ),
+                                      );
+                                    }
                                   }
                                 },
                                 child: Text(

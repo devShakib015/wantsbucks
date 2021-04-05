@@ -9,4 +9,22 @@ class UserProvider extends ChangeNotifier {
   Future<DocumentSnapshot> getUserDetails() {
     return _currentUserDocument.get();
   }
+
+  Future<bool> doesUserExists(String email) async {
+    bool _exists = false;
+    try {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .where("email", isEqualTo: email)
+          .get()
+          .then((value) {
+        if (value.docs.isNotEmpty) {
+          _exists = true;
+        }
+      });
+    } catch (e) {
+      _exists = false;
+    }
+    return _exists;
+  }
 }

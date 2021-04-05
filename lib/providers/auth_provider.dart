@@ -15,8 +15,8 @@ class AuthProvider extends ChangeNotifier {
     return _firebaseAuth.currentUser;
   }
 
-  Future<UserCredential> register(BuildContext context, String email,
-      String phone, String name, String password) async {
+  Future<bool> register(BuildContext context, String email, String phone,
+      String name, String password) async {
     final _currentUserDirectCollection = FirebaseFirestore.instance
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser.uid)
@@ -25,6 +25,9 @@ class AuthProvider extends ChangeNotifier {
         .collection("users")
         .doc(FirebaseAuth.instance.currentUser.uid)
         .collection("earnings");
+
+    bool _registered = false;
+    ;
 
     UserCredential userCredential;
     FirebaseApp app = await Firebase.initializeApp(
@@ -94,8 +97,9 @@ class AuthProvider extends ChangeNotifier {
         await Future.delayed(Duration(seconds: 1));
         Phoenix.rebirth(context);
       }
+      _registered = true;
     } on FirebaseAuthException catch (e) {
-      print(e.code);
+      _registered = false;
       if (e.code == "email-already-in-use") {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: dangerColor,
@@ -109,7 +113,7 @@ class AuthProvider extends ChangeNotifier {
       }
     }
     await app.delete();
-    return Future.sync(() => userCredential);
+    return Future.sync(() => _registered);
   }
 
   Future<UserCredential> signIn(

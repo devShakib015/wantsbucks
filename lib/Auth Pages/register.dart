@@ -139,7 +139,8 @@ class _RegisterState extends State<Register> {
                             });
                             // final user =
                             //     await Future.delayed(Duration(seconds: 3));
-                            await Provider.of<AuthProvider>(context,
+                            final _registered = await Provider.of<AuthProvider>(
+                                    context,
                                     listen: false)
                                 .register(
                                     context,
@@ -147,6 +148,11 @@ class _RegisterState extends State<Register> {
                                     _phoneController.text,
                                     _nameController.text,
                                     _passController.text);
+                            if (!_registered) {
+                              setState(() {
+                                _isLoading = false;
+                              });
+                            }
                           }
                         },
                         child: Text(

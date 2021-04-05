@@ -36,8 +36,9 @@ class WBSettings extends StatelessWidget {
                                   .sendEmailVerification();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
+                                  duration: Duration(seconds: 8),
                                   content: Text(
-                                      "Link is sent to your email. Check and verify your email. Then logout and login again to see the result."),
+                                      "The link is sent to your mail. Check and verify your mail. Then logout and login again to see the result. If you can't find the mail in your inbox, check spam or junk folder."),
                                 ),
                               );
                             },

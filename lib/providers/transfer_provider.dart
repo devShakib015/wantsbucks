@@ -55,9 +55,18 @@ class TransferProvider extends ChangeNotifier {
               to: to,
               amount: amount)
           .toMap());
-    } catch (e) {
-      print(e);
-      print("There is an error!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    }
+    } catch (e) {}
+  }
+
+  Future<QuerySnapshot> getTransfersFromMe() async {
+    return await _transferCollection
+        .where("from", isEqualTo: _firebaseAuth.currentUser.email)
+        .get();
+  }
+
+  Future<QuerySnapshot> getTransfersTOMe() async {
+    return await _transferCollection
+        .where("to", isEqualTo: _firebaseAuth.currentUser.email)
+        .get();
   }
 }

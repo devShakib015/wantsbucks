@@ -166,7 +166,7 @@ class Profile extends StatelessWidget {
                   style: _textStyle,
                 ),
                 Text(
-                  "Directed: ${_data["refferedBy"]}",
+                  "Directed By: ${_data["refferedBy"]}",
                   style: _textStyle,
                 ),
               ],

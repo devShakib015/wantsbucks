@@ -52,10 +52,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                       controller: _newPassController,
                       obscureText: true,
                       validator: (value) {
-                        // print("Change Password");
-                        //
-                        //     user.reauthenticateWithCredential(_credential);
-                        // user.updatePassword("jskdjhj");
                         if (value.isEmpty) {
                           return "Can't be empty";
                         } else if (value.length < 6) {
@@ -141,12 +137,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                                   _isLoading = false;
                                 });
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            "Password is changed successfully!")));
+                                  SnackBar(
+                                    content: Text(
+                                        "Password is changed successfully!"),
+                                  ),
+                                );
                               }
                             }
-                            //print("Done!!");
                           }
                         },
                         child: Text("Change Password")),

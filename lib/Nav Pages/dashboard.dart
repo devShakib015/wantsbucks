@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
+import 'package:wantsbucks/other_pages/transfers_list_page.dart';
 import 'package:wantsbucks/providers/dashboard_provider.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
 
@@ -143,8 +144,10 @@ class Dashboard extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                                //Bonuses
-                                //TODO: Make Transfers List
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => TransfersList()));
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
