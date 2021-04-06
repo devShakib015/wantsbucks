@@ -18,11 +18,6 @@ class _AppState extends State<App> {
   GlobalKey _bottomNavigationKey = GlobalKey();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CurvedNavigationBar(

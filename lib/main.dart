@@ -1,10 +1,11 @@
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:wantsbucks/Auth%20Pages/login.dart';
 import 'package:wantsbucks/app.dart';
+import 'package:wantsbucks/custom%20widgets/internet_checkup.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
@@ -49,19 +50,6 @@ class WantsBucksApp extends StatelessWidget {
   }
 }
 
-//! Check internet connection
-
-Stream<bool> checkInternet() async* {
-  try {
-    final result = await InternetAddress.lookup('google.com');
-    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-      yield true;
-    }
-  } on SocketException catch (_) {
-    yield false;
-  }
-}
-
 //! MainApp
 
 class MainApp extends StatefulWidget {
@@ -75,28 +63,30 @@ Future<User> _getUser() async {
 
 class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
-    return StreamBuilder<bool>(
-      stream: checkInternet(),
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (snapshot.data == false) {
-          return internetConnectionWidget();
-        } else
-          return FutureBuilder<User>(
-            future: _getUser(),
-            builder: (context, AsyncSnapshot<User> snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.error != null) {
-                  print("error");
-                  return Text(snapshot.error.toString());
-                }
-
-                return snapshot.hasData ? _appProvider() : _loginProvider();
-              } else {
-                return Loading();
-              }
-            },
-          );
+    return OfflineBuilder(
+      debounceDuration: Duration.zero,
+      connectivityBuilder:
+          (BuildContext context, ConnectivityResult result, Widget widget) {
+        if (result == ConnectivityResult.none) {
+          return internetConnectionWidget(context);
+        } else {
+          return widget;
+        }
       },
+      child: FutureBuilder<User>(
+        future: _getUser(),
+        builder: (context, AsyncSnapshot<User> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.error != null) {
+              return Text(snapshot.error.toString());
+            }
+
+            return snapshot.hasData ? _appProvider() : _loginProvider();
+          } else {
+            return Loading();
+          }
+        },
+      ),
     );
   }
 
@@ -142,34 +132,6 @@ class _MainAppState extends State<MainApp> {
         debugShowCheckedModeBanner: false,
         theme: mainTheme,
         home: Login(),
-      ),
-    );
-  }
-
-  //! Showing Internet Connection is active or not
-
-  Widget internetConnectionWidget() {
-    return MaterialApp(
-      theme: mainTheme,
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: (Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("No internet connection."),
-              SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {});
-                },
-                child: Text("Reload"),
-              )
-            ],
-          ),
-        )),
       ),
     );
   }
