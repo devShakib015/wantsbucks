@@ -27,7 +27,6 @@ class AuthProvider extends ChangeNotifier {
         .collection("earnings");
 
     bool _registered = false;
-    ;
 
     UserCredential userCredential;
     FirebaseApp app = await Firebase.initializeApp(

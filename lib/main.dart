@@ -8,6 +8,7 @@ import 'package:wantsbucks/app.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
+import 'package:wantsbucks/providers/customads_provider.dart';
 import 'package:wantsbucks/providers/dashboard_provider.dart';
 import 'package:wantsbucks/providers/direct_provider.dart';
 import 'package:wantsbucks/providers/earning_provider.dart';
@@ -119,6 +120,8 @@ class _MainAppState extends State<MainApp> {
             create: (_) => DashboardProvider()),
         ChangeNotifierProvider<TransferProvider>(
             create: (_) => TransferProvider()),
+        ChangeNotifierProvider<CustomAdsProvider>(
+            create: (_) => CustomAdsProvider()),
       ],
       child: MaterialApp(
         title: 'wantsBucks',

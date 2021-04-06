@@ -8,7 +8,6 @@ import 'package:wantsbucks/custom%20widgets/point_and_earning.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
 import 'package:wantsbucks/providers/earning_provider.dart';
 import 'package:wantsbucks/providers/user_provider.dart';
-import 'package:wantsbucks/theming/color_constants.dart';
 
 const _textStyle = TextStyle(
   fontSize: 20,
@@ -67,7 +66,7 @@ class Profile extends StatelessWidget {
                             final _dueDate =
                                 DateTime.fromMillisecondsSinceEpoch(
                                     _data["dueDate"]);
-                            //final _dueDate = DateTime(2021, 3, 01);
+
                             final _reRegisterDate =
                                 DateTime.fromMillisecondsSinceEpoch(
                                     _data["reRegisterDate"]);
@@ -82,20 +81,15 @@ class Profile extends StatelessWidget {
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
                                   children: [
-                                    SizedBox(
-                                      height: 8,
-                                    ),
+                                    _profileSection(_data),
                                     _activityWidget(
                                         context,
+                                        _data,
                                         _earning,
                                         _dayLeft,
                                         _joiningDate,
                                         _dueDate,
                                         _reRegisterDate),
-                                    SizedBox(
-                                      height: 8,
-                                    ),
-                                    _profileSection(_data),
                                   ],
                                 ),
                               ),
@@ -123,62 +117,52 @@ class Profile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.person,
-                size: 70,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _data["name"],
-                      style: _textStyle,
-                    ),
-                    Text(
-                      _data["phone"],
-                      style: _textStyle,
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
           SizedBox(
-            height: 16,
+            height: 10,
           ),
           Container(
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-                color: mainColor, borderRadius: BorderRadius.circular(10)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  _data["email"],
-                  style: _textStyle,
-                ),
-                Text(
-                  "Directed By: ${_data["refferedBy"]}",
-                  style: _textStyle,
-                ),
-              ],
-            ),
+              padding: EdgeInsets.all(8),
+              width: 85,
+              child: Image.asset(
+                "assets/images/avatar.png",
+                fit: BoxFit.cover,
+              )),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            _data["name"],
+            textAlign: TextAlign.center,
+            style: _textStyle,
+          ),
+          Text(
+            _data["phone"],
+            textAlign: TextAlign.center,
+            style: _textStyle,
+          ),
+          Text(
+            _data["email"],
+            textAlign: TextAlign.center,
+            style: _textStyle,
+          ),
+          Text(
+            "Directed By: ${_data["refferedBy"]}",
+            textAlign: TextAlign.center,
+            style: _textStyle,
           ),
         ],
       ),
     );
   }
 
-  Container _activityWidget(BuildContext context, int _earning, int _dayLeft,
-      DateTime _joiningDate, DateTime _dueDate, DateTime _reRegisterDate) {
+  Container _activityWidget(
+      BuildContext context,
+      Map<String, dynamic> _data,
+      int _earning,
+      int _dayLeft,
+      DateTime _joiningDate,
+      DateTime _dueDate,
+      DateTime _reRegisterDate) {
     int _totalPayable = 50;
 
     if (_dayLeft <= -30) {
@@ -188,7 +172,7 @@ class Profile extends StatelessWidget {
       decoration: BoxDecoration(
           color: _dayLeft <= 0 ? Color(0xffb21d13) : Color(0xff2aa965),
           borderRadius: BorderRadius.circular(20)),
-      margin: EdgeInsets.all(8),
+      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
       padding: EdgeInsets.all(20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -283,17 +267,39 @@ class Profile extends StatelessWidget {
                   Colors.white,
                 )),
                 onPressed: _dayLeft <= 0
-                    ? () {
+                    ? () async {
                         //Reactivation
-                        if (_earning < 50) {
+                        if (_earning < _totalPayable) {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
-                                  "You have to pay $_totalPayable taka to reactivate your account.")));
+                                  "You don't have sufficient balance to reactivate.\nEarn first!")));
                         } else {
-                          //TODO: Make Reactivate System
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                  "You have to pay $_totalPayable taka to reactivate your account.")));
+                          await showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                    title: Text(
+                                        "$_totalPayable taka will be charged from profit to reactivate your account. Are you sure about it?"),
+                                    actions: [
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text("Cancel")),
+                                      ElevatedButton(
+                                          onPressed: () {
+                                            Provider.of<EarningProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .reduceProfit(_totalPayable);
+                                            Provider.of<UserProvider>(context,
+                                                    listen: false)
+                                                .reactivatedUser(
+                                                    _data["dueDate"]);
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text("Sure")),
+                                    ],
+                                  ));
                         }
                       }
                     : () {

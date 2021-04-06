@@ -33,4 +33,14 @@ class EarningProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void reduceProfit(int newpoint) async {
+    await _currentUserEarningCollection.get().then((value) async {
+      int _currentProfit = value.docs.first.data()["currentBalance"];
+      await _currentUserEarningCollection.doc("earning").update({
+        "currentBalance": _currentProfit - newpoint,
+      });
+    });
+    notifyListeners();
+  }
 }

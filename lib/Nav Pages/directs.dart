@@ -1,13 +1,16 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/Auth%20Pages/register.dart';
 import 'package:wantsbucks/custom%20widgets/custom_date_format.dart';
+import 'package:wantsbucks/custom%20widgets/my_url_launcher.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
 import 'package:wantsbucks/other_pages/topup.dart';
 import 'package:wantsbucks/other_pages/transfer_money.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
+import 'package:wantsbucks/providers/customads_provider.dart';
 import 'package:wantsbucks/providers/direct_provider.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
 import 'package:wantsbucks/theming/theme.dart';
@@ -105,25 +108,27 @@ class _DirectState extends State<Direct> {
                   ]),
               body: Container(
                 margin: EdgeInsets.only(top: 10),
-                child: FutureBuilder<QuerySnapshot>(
-                  future:
-                      Provider.of<DirectProvider>(context).getJoinedAccount(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.connectionState != ConnectionState.done) {
-                      return Loading();
-                    } else if (snapshot.hasError) {
-                      return SomethingWentWrong();
-                    } else {
-                      final _directsList = snapshot.data.docs;
-                      var _d = _directsList.reversed.toList();
-                      if (_directsList.isEmpty) {
-                        return Center(child: Text("You didn't join any user."));
-                      } else {
-                        return Column(
-                          children: [
-                            Expanded(
-                              child: ListView(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: FutureBuilder<QuerySnapshot>(
+                        future: Provider.of<DirectProvider>(context)
+                            .getJoinedAccount(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.connectionState !=
+                              ConnectionState.done) {
+                            return Loading();
+                          } else if (snapshot.hasError) {
+                            return SomethingWentWrong();
+                          } else {
+                            final _directsList = snapshot.data.docs;
+                            var _d = _directsList.reversed.toList();
+                            if (_directsList.isEmpty) {
+                              return Center(
+                                  child: Text("You didn't join any user."));
+                            } else {
+                              return ListView(
                                 children: _d.map((e) {
                                   var _date =
                                       DateTime.fromMillisecondsSinceEpoch(
@@ -142,19 +147,94 @@ class _DirectState extends State<Direct> {
                                     ),
                                   );
                                 }).toList(),
-                              ),
+                              );
+                            }
+                          }
+                        },
+                      ),
+                    ),
+                    FutureBuilder<QuerySnapshot>(
+                      future: Provider.of<CustomAdsProvider>(context)
+                          .loadDirectAds(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.connectionState != ConnectionState.done) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.08,
+                            child: Center(
+                              child: Text("Ads Loading..."),
                             ),
-                            SizedBox(
-                              height: 60,
-                              child: Center(
-                                child: Text("Banner Ad"),
-                              ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.08,
+                            child: Center(
+                              child: Text("Error Loading ads"),
                             ),
-                          ],
-                        );
-                      }
-                    }
-                  },
+                          );
+                        } else {
+                          final _customHomeAds = snapshot.data.docs;
+
+                          List _homeAds = [];
+                          for (var item in _customHomeAds) {
+                            if (DateTime.fromMillisecondsSinceEpoch(
+                                        item.data()["endDate"])
+                                    .difference(DateTime.now())
+                                    .inDays >
+                                0) {
+                              _homeAds.add(item.data());
+                            }
+                          }
+
+                          if (snapshot.data.docs.isEmpty) {
+                            return Container();
+                          } else
+                            return CarouselSlider(
+                              options: CarouselOptions(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.06,
+                                aspectRatio: 16 / 9,
+                                viewportFraction: 1,
+                                initialPage: 0,
+                                enableInfiniteScroll: true,
+                                reverse: false,
+                                autoPlay: true,
+                                autoPlayInterval: Duration(seconds: 2),
+                                autoPlayAnimationDuration:
+                                    Duration(milliseconds: 500),
+                                autoPlayCurve: Curves.fastOutSlowIn,
+                                enlargeCenterPage: true,
+                                scrollDirection: Axis.horizontal,
+                              ),
+                              items: _homeAds.map((i) {
+                                return Builder(
+                                  builder: (BuildContext context) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        launchURL(i["url"]);
+                                      },
+                                      child: Container(
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          child: Image.network(
+                                            i["adurl"],
+                                            fit: BoxFit.fill,
+                                          )),
+                                    );
+                                  },
+                                );
+                              }).toList(),
+                            );
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 60,
+                      child: Center(
+                        child: Text("Banner Ad"),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );

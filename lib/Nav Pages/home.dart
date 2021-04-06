@@ -1,11 +1,14 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/custom%20widgets/point_and_earning.dart';
+import 'package:wantsbucks/custom%20widgets/my_url_launcher.dart';
 import 'package:wantsbucks/other_pages/level_page.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
+import 'package:wantsbucks/providers/customads_provider.dart';
 import 'package:wantsbucks/providers/user_wallpaper_provider.dart';
 import 'package:wantsbucks/providers/wallpaper_provider.dart';
 
@@ -15,7 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final colors = [
+  final _colors = [
     Color(0xffe52165),
     Color(0xff077b8a),
     Color(0xff5c3c92),
@@ -45,6 +48,81 @@ class _HomeState extends State<Home> {
             } else {
               final _data = snapshot.data.docs;
               return Column(children: [
+                FutureBuilder<QuerySnapshot>(
+                  future: Provider.of<CustomAdsProvider>(context).loadHomeAds(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.connectionState != ConnectionState.done) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.16,
+                        child: Center(
+                          child: Text("Ads Loading..."),
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.16,
+                        child: Center(
+                          child: Text("Error Loading ads"),
+                        ),
+                      );
+                    } else {
+                      final _customHomeAds = snapshot.data.docs;
+
+                      List _homeAds = [];
+                      for (var item in _customHomeAds) {
+                        if (DateTime.fromMillisecondsSinceEpoch(
+                                    item.data()["endDate"])
+                                .difference(DateTime.now())
+                                .inDays >
+                            0) {
+                          _homeAds.add(item.data());
+                        }
+                      }
+
+                      if (snapshot.data.docs.isEmpty) {
+                        return Container();
+                      } else
+                        return CarouselSlider(
+                          options: CarouselOptions(
+                            height: MediaQuery.of(context).size.height * 0.17,
+                            aspectRatio: 16 / 9,
+                            viewportFraction: 1,
+                            initialPage: 0,
+                            enableInfiniteScroll: true,
+                            reverse: false,
+                            autoPlay: true,
+                            autoPlayInterval: Duration(seconds: 2),
+                            autoPlayAnimationDuration:
+                                Duration(milliseconds: 500),
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            enlargeCenterPage: true,
+                            scrollDirection: Axis.horizontal,
+                          ),
+                          items: _homeAds.map((i) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    launchURL(i["url"]);
+                                  },
+                                  child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      child: Image.network(
+                                        i["adurl"],
+                                        fit: BoxFit.fill,
+                                      )),
+                                );
+                              },
+                            );
+                          }).toList(),
+                        );
+                    }
+                  },
+                ),
+                SizedBox(
+                  height: 5,
+                ),
                 Expanded(
                   child: ListView(
                     children: _data.map((e) {
@@ -77,7 +155,7 @@ class _HomeState extends State<Home> {
                             }
 
                             return _levelCard(
-                                context, colors, _data, e, _unlockedLevels);
+                                context, _colors, _data, e, _unlockedLevels);
                           }
                         },
                       );

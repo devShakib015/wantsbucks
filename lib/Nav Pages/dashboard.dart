@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wantsbucks/other_pages/bonuses.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
 import 'package:wantsbucks/other_pages/transfers_list_page.dart';
 import 'package:wantsbucks/providers/dashboard_provider.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
 
-class Dashboard extends StatelessWidget {
+class Dashboard extends StatefulWidget {
+  @override
+  _DashboardState createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -136,9 +142,17 @@ class Dashboard extends StatelessWidget {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 //Bonuses
-                                //TODO: Make Bonus System
+
+                                await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Bonuses(
+                                              totalPoint: _data['totalPoint'],
+                                            ))).then((value) {
+                                  setState(() {});
+                                });
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8),

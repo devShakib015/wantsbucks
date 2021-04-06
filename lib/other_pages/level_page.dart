@@ -74,6 +74,7 @@ class _LevelPageState extends State<LevelPage> {
               ElevatedButton(
                   onPressed: () {
                     Navigator.pop(context);
+                    Navigator.pop(context);
 
                     //Add the profit [Current + total]
                     Provider.of<PointProvider>(context, listen: false)
