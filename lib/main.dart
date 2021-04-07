@@ -19,6 +19,7 @@ import 'package:wantsbucks/providers/transfer_provider.dart';
 import 'package:wantsbucks/providers/user_provider.dart';
 import 'package:wantsbucks/providers/user_wallpaper_provider.dart';
 import 'package:wantsbucks/providers/wallpaper_provider.dart';
+import 'package:wantsbucks/providers/withdraw_provider.dart';
 import 'package:wantsbucks/theming/theme.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 
@@ -106,6 +107,8 @@ class _MainAppState extends State<MainApp> {
         ChangeNotifierProvider<LevelProvider>(create: (_) => LevelProvider()),
         ChangeNotifierProvider<DirectProvider>(create: (_) => DirectProvider()),
         ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
+        ChangeNotifierProvider<WithdrawProvider>(
+            create: (_) => WithdrawProvider()),
         ChangeNotifierProvider<DashboardProvider>(
             create: (_) => DashboardProvider()),
         ChangeNotifierProvider<TransferProvider>(

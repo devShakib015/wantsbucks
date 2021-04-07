@@ -44,7 +44,10 @@ class TransfersList extends StatelessWidget {
                       } else if (snapshot.hasError) {
                         return SomethingWentWrong();
                       } else {
-                        final _data = snapshot.data.docs;
+                        final _d = snapshot.data.docs;
+
+                        List<QueryDocumentSnapshot> _data =
+                            List.from(_d.reversed);
 
                         if (_data.isEmpty) {
                           return Center(child: Text("No Transaction"));
@@ -80,7 +83,9 @@ class TransfersList extends StatelessWidget {
                       } else if (snapshot.hasError) {
                         return SomethingWentWrong();
                       } else {
-                        final _data = snapshot.data.docs;
+                        final _d = snapshot.data.docs;
+                        List<QueryDocumentSnapshot> _data =
+                            List.from(_d.reversed);
                         if (_data.isEmpty) {
                           return Center(child: Text("No Transaction"));
                         } else

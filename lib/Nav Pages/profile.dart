@@ -1,5 +1,6 @@
 import 'package:wantsbucks/custom%20widgets/custom_date_format.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
+import 'package:wantsbucks/other_pages/request_withdraw.dart';
 import 'package:wantsbucks/other_pages/settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -309,8 +310,13 @@ class Profile extends StatelessWidget {
                               content: Text(
                                   "You must have at least 300 taka to withdraw.")));
                         } else {
-                          //TODO: Make withdraw System
-                          print("Able to withdraw");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  RequestWithdraw(currentProfit: _earning),
+                            ),
+                          );
                         }
                       },
                 child: _dayLeft <= 0

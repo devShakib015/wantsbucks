@@ -5,13 +5,19 @@ import 'package:wantsbucks/providers/user_provider.dart';
 
 import 'package:wantsbucks/theming/color_constants.dart';
 
-class Bonuses extends StatelessWidget {
+class Bonuses extends StatefulWidget {
   final int totalPoint;
 
   const Bonuses({
     Key key,
     @required this.totalPoint,
   }) : super(key: key);
+
+  @override
+  _BonusesState createState() => _BonusesState();
+}
+
+class _BonusesState extends State<Bonuses> {
   @override
   Widget build(BuildContext context) {
     List<int> _bonuses = [20000, 50000, 100000, 200000, 300000, 500000];
@@ -21,7 +27,7 @@ class Bonuses extends StatelessWidget {
         title: Text("Bonus"),
         bottom: PreferredSize(
             preferredSize: Size.fromHeight(15),
-            child: Text("Total Point: $totalPoint")),
+            child: Text("Total Point: ${widget.totalPoint}")),
       ),
       body: Container(
         child: GridView.count(
@@ -43,7 +49,7 @@ class Bonuses extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: GridTile(
-                          header: totalPoint < e
+                          header: widget.totalPoint < e
                               ? Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Text(
@@ -62,7 +68,7 @@ class Bonuses extends StatelessWidget {
                               decoration: BoxDecoration(
                                 color: _bonusData.contains(e)
                                     ? Colors.blueGrey
-                                    : totalPoint < e
+                                    : widget.totalPoint < e
                                         ? Colors.blue
                                         : Color(0xff2ba965),
                                 borderRadius: BorderRadius.circular(20),
@@ -73,7 +79,7 @@ class Bonuses extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: 22, fontWeight: FontWeight.bold),
                               ))),
-                          footer: totalPoint < e
+                          footer: widget.totalPoint < e
                               ? Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Text(
@@ -100,11 +106,13 @@ class Bonuses extends StatelessWidget {
                                                     white),
                                           ),
                                           onPressed: () async {
-                                            Provider.of<UserProvider>(context,
+                                            setState(() {});
+                                            await Provider.of<UserProvider>(
+                                                    context,
                                                     listen: false)
                                                 .claimBonus(e);
 
-                                            Provider.of<EarningProvider>(
+                                            await Provider.of<EarningProvider>(
                                                     context,
                                                     listen: false)
                                                 .addProfit(

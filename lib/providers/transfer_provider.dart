@@ -10,6 +10,7 @@ class TransferProvider extends ChangeNotifier {
   final _userCollection = FirebaseFirestore.instance.collection("users");
 
   Future<void> transferAmount(String to, int amount) async {
+    DateTime _currentTime = DateTime.now();
     try {
       await _userCollection
           .doc(_firebaseAuth.currentUser.uid)
@@ -49,13 +50,19 @@ class TransferProvider extends ChangeNotifier {
         });
       });
 
-      await _transferCollection.add(TransferModel(
-              time: DateTime.now(),
-              from: _firebaseAuth.currentUser.email,
-              to: to,
-              amount: amount)
-          .toMap());
-    } catch (e) {}
+      await _transferCollection
+          .doc("TR${_currentTime.millisecondsSinceEpoch}")
+          .set(TransferModel(
+                  time: _currentTime,
+                  from: _firebaseAuth.currentUser.email,
+                  to: to,
+                  amount: amount)
+              .toMap());
+      print("Done!!!!");
+    } catch (e) {
+      print("error");
+      print(e);
+    }
   }
 
   Future<QuerySnapshot> getTransfersFromMe() async {

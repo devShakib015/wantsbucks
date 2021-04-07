@@ -34,9 +34,10 @@ class DashboardProvider extends ChangeNotifier {
         int _currentEarning = value.docs.first.data()["currentBalance"];
         int _totalEarning = value.docs.first.data()["totalEarning"];
         List _withdrews = value.docs.first.data()["withdrew"];
+        List<int> _w = List.from(_withdrews);
         _infos["currentEarning"] = _currentEarning;
         _infos["totalEarning"] = _totalEarning;
-        _infos["withdrews"] = _withdrews;
+        _infos["withdrews"] = _w;
       });
       await _currentUserPointCollection.get().then((value) {
         int _currentPoint = value.docs.first.data()["currentPoint"];

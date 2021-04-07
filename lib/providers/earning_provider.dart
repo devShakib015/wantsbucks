@@ -34,6 +34,15 @@ class EarningProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> addProfitFromCancellingWithdraw(int amount) async {
+    await _currentUserEarningCollection.get().then((value) async {
+      int _currentEarning = value.docs.first.data()["currentBalance"];
+      await _currentUserEarningCollection.doc("earning").update({
+        "currentBalance": _currentEarning + amount,
+      });
+    });
+  }
+
   void reduceProfit(int newpoint) async {
     await _currentUserEarningCollection.get().then((value) async {
       int _currentProfit = value.docs.first.data()["currentBalance"];
@@ -42,5 +51,26 @@ class EarningProvider extends ChangeNotifier {
       });
     });
     notifyListeners();
+  }
+
+  void addToWithdraw(int withdrawAmount) async {
+    await _currentUserEarningCollection.get().then((value) async {
+      List _withdrew = value.docs.first.data()["withdrew"];
+      _withdrew.add(withdrawAmount);
+      await _currentUserEarningCollection.doc("earning").update({
+        "withdrew": _withdrew,
+      });
+    });
+    notifyListeners();
+  }
+
+  void reduceFromWithdrew(int amount) async {
+    await _currentUserEarningCollection.get().then((value) async {
+      List _withdrew = value.docs.first.data()["withdrew"];
+      _withdrew.remove(amount);
+      await _currentUserEarningCollection.doc("earning").update({
+        "withdrew": _withdrew,
+      });
+    });
   }
 }

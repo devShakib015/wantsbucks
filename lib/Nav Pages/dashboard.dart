@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/other_pages/bonuses.dart';
+import 'package:wantsbucks/other_pages/drawings_list_page.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
 import 'package:wantsbucks/other_pages/transfers_list_page.dart';
@@ -34,6 +35,11 @@ class _DashboardState extends State<Dashboard> {
                   } else {
                     final _data = snapshot.data;
 
+                    List<int> _w = _data["withdrews"];
+                    final _totalWithdraws = _data["withdrews"].isEmpty
+                        ? 0
+                        : _w.reduce((a, b) => a + b);
+
                     return Container(
                       child: SingleChildScrollView(
                         child: Column(
@@ -59,10 +65,7 @@ class _DashboardState extends State<Dashboard> {
                                     color: Color(0xffe52265),
                                     title: "Total Directs"),
                                 CustomDashboardCard(
-                                    data: ((_data['totalEarning'] -
-                                                _data["currentEarning"]) *
-                                            (95 / 100))
-                                        .toInt(),
+                                    data: _totalWithdraws,
                                     color: Color(0xff0d4582),
                                     title: "Total Withdrawls"),
                               ],
@@ -118,9 +121,14 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {
-                                //Bonuses
-                                //TODO: Make Drawings List
+                              onTap: () async {
+                                await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DrawingsList())).then((value) {
+                                  setState(() {});
+                                });
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
