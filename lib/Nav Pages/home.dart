@@ -162,12 +162,6 @@ class _HomeState extends State<Home> {
                     }).toList(),
                   ),
                 ),
-                SizedBox(
-                  height: 60,
-                  child: Center(
-                    child: Text("Banner Ad"),
-                  ),
-                ),
               ]);
             }
           },

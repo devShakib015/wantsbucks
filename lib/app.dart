@@ -43,7 +43,18 @@ class _AppState extends State<App> {
         },
         letIndexChange: (index) => true,
       ),
-      body: _selectedNavPage(_page),
+      body: Column(
+        children: [
+          Expanded(child: _selectedNavPage(_page)),
+          Container(
+            color: Colors.amber[900],
+            height: 60,
+            child: Center(
+              child: Text("Banner Ad"),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

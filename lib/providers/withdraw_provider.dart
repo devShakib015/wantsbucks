@@ -41,10 +41,7 @@ class WithdrawProvider extends ChangeNotifier {
       await _withdrawCollection.doc(id).update({
         "status": "cancelled",
       });
-    } catch (e) {
-      print("errorrrrrrrrrrr");
-      print(e);
-    }
+    } catch (e) {}
   }
 
   Future<QuerySnapshot> getWithdrawls() async {

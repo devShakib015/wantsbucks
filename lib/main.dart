@@ -37,7 +37,6 @@ class WantsBucksApp extends StatelessWidget {
       future: _initialization,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          print("Errorrrrrrrrrrrr:${snapshot.error} ");
           return SomethingWentWrong();
         }
 

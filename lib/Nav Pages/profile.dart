@@ -102,12 +102,6 @@ class Profile extends StatelessWidget {
                   }
                 }),
           ),
-          SizedBox(
-            height: 60,
-            child: Center(
-              child: Text("Banner Ad"),
-            ),
-          ),
         ],
       ),
     );

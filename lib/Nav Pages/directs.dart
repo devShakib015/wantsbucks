@@ -70,8 +70,6 @@ class _DirectState extends State<Direct> {
                           fit: BoxFit.cover,
                         )),
                     onPressed: () {
-                      //Topup
-                      //TODO: Make Topup System
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -227,12 +225,6 @@ class _DirectState extends State<Direct> {
                             );
                         }
                       },
-                    ),
-                    SizedBox(
-                      height: 60,
-                      child: Center(
-                        child: Text("Banner Ad"),
-                      ),
                     ),
                   ],
                 ),

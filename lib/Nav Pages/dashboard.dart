@@ -215,12 +215,6 @@ class _DashboardState extends State<Dashboard> {
                 },
               ),
             ),
-            SizedBox(
-              height: 60,
-              child: Center(
-                child: Text("Banner Ad"),
-              ),
-            )
           ],
         ),
       ),
