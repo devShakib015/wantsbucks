@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/custom%20widgets/custom_date_format.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
@@ -113,12 +114,7 @@ class TransfersList extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
-              height: 60,
-              child: Center(
-                child: Text("Banner Ad"),
-              ),
-            )
+            CustomBannerAd(),
           ],
         ),
       ),

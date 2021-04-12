@@ -5,6 +5,7 @@ import 'package:wantsbucks/Nav%20Pages/directs.dart';
 import 'package:wantsbucks/Nav%20Pages/earn.dart';
 import 'package:wantsbucks/Nav%20Pages/home.dart';
 import 'package:wantsbucks/Nav%20Pages/profile.dart';
+import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
 
 class App extends StatefulWidget {
@@ -14,7 +15,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   int _page = 2;
-  double _iconSize = 25.0;
+  double _iconSize = 28.0;
   GlobalKey _bottomNavigationKey = GlobalKey();
 
   @override
@@ -25,15 +26,35 @@ class _AppState extends State<App> {
         index: _page,
         height: 50.0,
         items: <Widget>[
-          Icon(Icons.monetization_on, size: _iconSize),
-          Icon(Icons.group, size: _iconSize),
-          Icon(Icons.home, size: _iconSize),
-          Icon(Icons.dashboard, size: _iconSize),
-          Icon(Icons.person, size: _iconSize),
+          Icon(
+            Icons.monetization_on,
+            size: _iconSize,
+            color: _page == 0 ? darkGreen : white,
+          ),
+          Icon(
+            Icons.group,
+            size: _iconSize,
+            color: _page == 1 ? darkGreen : white,
+          ),
+          Icon(
+            Icons.home,
+            size: _iconSize,
+            color: _page == 2 ? darkGreen : white,
+          ),
+          Icon(
+            Icons.dashboard,
+            size: _iconSize,
+            color: _page == 3 ? darkGreen : white,
+          ),
+          Icon(
+            Icons.person,
+            size: _iconSize,
+            color: _page == 4 ? darkGreen : white,
+          ),
         ],
-        color: otherDark,
-        buttonBackgroundColor: mainColor,
-        backgroundColor: Colors.transparent,
+        color: mainColor,
+        buttonBackgroundColor: white,
+        backgroundColor: otherDark,
         animationCurve: Curves.easeInOutCubic,
         animationDuration: Duration(milliseconds: 300),
         onTap: (index) {
@@ -46,13 +67,7 @@ class _AppState extends State<App> {
       body: Column(
         children: [
           Expanded(child: _selectedNavPage(_page)),
-          Container(
-            color: Colors.amber[900],
-            height: 60,
-            child: Center(
-              child: Text("Banner Ad"),
-            ),
-          ),
+          CustomBannerAd(),
         ],
       ),
     );

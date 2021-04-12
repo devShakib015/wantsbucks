@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/custom%20widgets/point_and_earning.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
@@ -40,6 +41,7 @@ class _LevelPageState extends State<LevelPage> {
         MaterialPageRoute(
           builder: (context) => WallpaperPage(
             wallpaperUrl: e.data()["url"],
+            data: e,
           ),
         ),
       );
@@ -181,12 +183,7 @@ class _LevelPageState extends State<LevelPage> {
                             return Column(
                               children: [
                                 _wallpaperGrid(_data, context),
-                                SizedBox(
-                                  height: 75,
-                                  child: Center(
-                                    child: Text("Banner Ad"),
-                                  ),
-                                )
+                                CustomBannerAd(),
                               ],
                             );
                           }
@@ -215,7 +212,7 @@ class _LevelPageState extends State<LevelPage> {
                 );
               } else if (snapshot.hasError) {
                 return Center(
-                  child: Text("Error..."),
+                  child: Text("Error!!!"),
                 );
               } else {
                 List _userUnlockedData = snapshot.data.data()["items"];
@@ -228,9 +225,15 @@ class _LevelPageState extends State<LevelPage> {
                     },
                     child: GridTile(
                       footer: _userUnlockedData.contains(e.id)
-                          ? null
-                          : Container(
+                          ? Container(
                               color: mainColor,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 2, horizontal: 8),
+                              child: Center(
+                                child: Text("Owned!"),
+                              ))
+                          : Container(
+                              color: dangerColor,
                               padding: EdgeInsets.symmetric(
                                   vertical: 2, horizontal: 8),
                               child: Row(
@@ -244,10 +247,25 @@ class _LevelPageState extends State<LevelPage> {
                                   ),
                                 ],
                               )),
-                      child: Image.network(
-                        e.data()["url"],
-                        fit: BoxFit.cover,
-                      ),
+                      child: Hero(
+                          tag: e.id,
+                          child: Image.network(
+                            e.data()["url"],
+                            fit: BoxFit.cover,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes
+                                      : null,
+                                ),
+                              );
+                            },
+                          )),
                     ),
                   ),
                 );

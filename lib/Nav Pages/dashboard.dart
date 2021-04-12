@@ -102,7 +102,7 @@ class _DashboardState extends State<Dashboard> {
                                 //TODO: Make Top Up list
                               },
                               child: Padding(
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(4),
                                 child: Card(
                                   color: Colors.blue,
                                   child: Container(
@@ -131,7 +131,7 @@ class _DashboardState extends State<Dashboard> {
                                 });
                               },
                               child: Padding(
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(4),
                                 child: Card(
                                   color: Color(0xff8a2e7f),
                                   child: Container(
@@ -163,7 +163,7 @@ class _DashboardState extends State<Dashboard> {
                                 });
                               },
                               child: Padding(
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(4),
                                 child: Card(
                                   color: Color(0xff2ba965),
                                   child: Container(
@@ -189,7 +189,7 @@ class _DashboardState extends State<Dashboard> {
                                         builder: (context) => TransfersList()));
                               },
                               child: Padding(
-                                padding: const EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(4),
                                 child: Card(
                                   color: dangerColor,
                                   child: Container(
@@ -236,11 +236,11 @@ class CustomDashboardCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(4),
       child: Card(
         color: color,
         child: Container(
-          width: MediaQuery.of(context).size.width / 2 - 24,
+          width: MediaQuery.of(context).size.width / 2 - 16,
           child: Padding(
             padding: EdgeInsets.all(16),
             child: Column(

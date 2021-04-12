@@ -1,11 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:wallpaper_manager/wallpaper_manager.dart';
+import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 
 class WallpaperPage extends StatefulWidget {
   final String wallpaperUrl;
-  WallpaperPage({this.wallpaperUrl});
+  final DocumentSnapshot data;
+  WallpaperPage({this.wallpaperUrl, this.data});
 
   @override
   _WallpaperPageState createState() => _WallpaperPageState();
@@ -28,23 +31,101 @@ class _WallpaperPageState extends State<WallpaperPage> {
                 Expanded(
                   child: Container(
                       padding: EdgeInsets.all(8),
-                      child: Image.network(
-                        widget.wallpaperUrl,
-                        fit: BoxFit.cover,
+                      child: Hero(
+                        tag: widget.data.id,
+                        child: Image.network(
+                          widget.wallpaperUrl,
+                          fit: BoxFit.cover,
+                        ),
                       )),
                 ),
-                ElevatedButton(
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            setState(() {
+                              _settingWallpaper = true;
+                            });
+                            int _home = WallpaperManager.HOME_SCREEN;
+                            var _file = await DefaultCacheManager()
+                                .getSingleFile(widget.wallpaperUrl);
+
+                            try {
+                              await WallpaperManager.setWallpaperFromFile(
+                                  _file.path, _home);
+                              setState(() {
+                                _settingWallpaper = false;
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          "Wallpaper is set successfully!")));
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          "Error setting the wallpaper!")));
+                            }
+                          },
+                          child: Text("Home Screen"),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            setState(() {
+                              _settingWallpaper = true;
+                            });
+                            int _lock = WallpaperManager.LOCK_SCREEN;
+                            var _file = await DefaultCacheManager()
+                                .getSingleFile(widget.wallpaperUrl);
+
+                            try {
+                              await WallpaperManager.setWallpaperFromFile(
+                                  _file.path, _lock);
+                              setState(() {
+                                _settingWallpaper = false;
+                              });
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          "Wallpaper is set successfully!")));
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          "Error setting the wallpaper!")));
+                            }
+                          },
+                          child: Text("Lock Screen"),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: ElevatedButton(
                     onPressed: () async {
                       setState(() {
                         _settingWallpaper = true;
                       });
-                      int home = WallpaperManager.HOME_SCREEN;
-                      var file = await DefaultCacheManager()
+                      int _both = WallpaperManager.BOTH_SCREENS;
+                      var _file = await DefaultCacheManager()
                           .getSingleFile(widget.wallpaperUrl);
 
                       try {
                         await WallpaperManager.setWallpaperFromFile(
-                            file.path, home);
+                            _file.path, _both);
                         setState(() {
                           _settingWallpaper = false;
                         });
@@ -55,7 +136,10 @@ class _WallpaperPageState extends State<WallpaperPage> {
                             content: Text("Error setting the wallpaper!")));
                       }
                     },
-                    child: Text("Set As Wallpaper"))
+                    child: Text("Both Lock and Home Screens"),
+                  ),
+                ),
+                CustomBannerAd(),
               ],
             ),
     );

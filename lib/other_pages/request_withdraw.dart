@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/providers/earning_provider.dart';
 import 'package:wantsbucks/providers/withdraw_provider.dart';
@@ -136,12 +137,14 @@ class _RequestWithdrawState extends State<RequestWithdraw> {
                                   } else if (int.parse(value) >
                                       widget.currentProfit) {
                                     return "You don't have enough balance!!";
+                                  } else if (int.parse(value) < 300) {
+                                    return "Minimum withdrawl amount is 300.";
                                   }
                                   return null;
                                 },
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(Icons.monetization_on),
-                                  hintText: "500",
+                                  hintText: "300",
                                   labelText: "Amount",
                                   suffixText: "$_originalWithdraw",
                                   helperText:
@@ -255,12 +258,7 @@ class _RequestWithdrawState extends State<RequestWithdraw> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 60,
-                  child: Center(
-                    child: Text("Banner Ad"),
-                  ),
-                )
+                CustomBannerAd()
               ],
             ),
           );

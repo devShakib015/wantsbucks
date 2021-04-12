@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
 
@@ -156,12 +157,7 @@ class _TopUpState extends State<TopUp> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 60,
-                  child: Center(
-                    child: Text("Banner Ad"),
-                  ),
-                )
+                CustomBannerAd()
               ],
             ),
           );
