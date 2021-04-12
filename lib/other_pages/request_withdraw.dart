@@ -209,7 +209,7 @@ class _RequestWithdrawState extends State<RequestWithdraw> {
                                           backgroundColor: dangerColor,
                                           duration: Duration(seconds: 1),
                                           content: Text(
-                                              "Your Password is not right!!"),
+                                              "Your Password is not right or There is no internet Connection!!!"),
                                         ),
                                       );
                                     } else {

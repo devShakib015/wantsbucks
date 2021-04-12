@@ -58,9 +58,7 @@ class TransferProvider extends ChangeNotifier {
                   to: to,
                   amount: amount)
               .toMap());
-      print("Done!!!!");
     } catch (e) {
-      print("error");
       print(e);
     }
   }

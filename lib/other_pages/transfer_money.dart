@@ -160,7 +160,7 @@ class _TransferMoneyState extends State<TransferMoney> {
                                             backgroundColor: dangerColor,
                                             duration: Duration(seconds: 1),
                                             content: Text(
-                                                "Your Password is not right!!"),
+                                                "Your Password is not right!! Or there is no internet connection."),
                                           ),
                                         );
                                       } else {

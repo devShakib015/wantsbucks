@@ -31,7 +31,6 @@ class WithdrawProvider extends ChangeNotifier {
             completedTime: null,
           ).toMap());
     } catch (e) {
-      print("errorrrrrrrrrrr");
       print(e);
     }
   }

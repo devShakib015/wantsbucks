@@ -31,7 +31,6 @@ class _TopUpState extends State<TopUp> {
                         FocusScope.of(context).requestFocus(FocusNode());
                       },
                       child: Container(
-                        // height: MediaQuery.of(context).size.height - 120,
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         width: double.infinity,
                         child: Form(
@@ -40,6 +39,37 @@ class _TopUpState extends State<TopUp> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
+                              Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                    child: Text(
+                                      "You should send the money first to our account then top up from here.\nWhen you send the amount in our account, please use reference code as\n'WB-TOPUP [ your_email ]'",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 16,
+                              ),
+                              Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Center(
+                                    child: SelectableText(
+                                      "Send Money to -\nNagad: 01700000000\nBkash: 01700000000\nRocket: 01700000000",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                               SizedBox(
                                 height: 16,
                               ),

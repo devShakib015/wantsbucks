@@ -96,6 +96,33 @@ class _DashboardState extends State<Dashboard> {
                                     title: "Total Direct Amount"),
                               ],
                             ),
+                            Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: Card(
+                                color: Color(0xffab0e22),
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width - 16,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(16),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Total Users",
+                                          style: TextStyle(fontSize: 15),
+                                        ),
+                                        Text(
+                                          "${_data["totalUsers"]}",
+                                          style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.w900,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                             GestureDetector(
                               onTap: () {
                                 //Bonuses
@@ -158,6 +185,8 @@ class _DashboardState extends State<Dashboard> {
                                     MaterialPageRoute(
                                         builder: (context) => Bonuses(
                                               totalPoint: _data['totalPoint'],
+                                              totalDirects:
+                                                  _data['totalDirectPersons'],
                                             ))).then((value) {
                                   setState(() {});
                                 });

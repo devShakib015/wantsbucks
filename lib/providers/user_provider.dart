@@ -33,27 +33,41 @@ class UserProvider extends ChangeNotifier {
     List _bonuses = [];
     await _currentUserDocument.collection("bonuses").get().then((value) {
       for (var item in value.docs) {
-        _bonuses.add(item.data()["bonus"]);
+        _bonuses.add(item.id);
       }
     });
     return _bonuses;
   }
 
-  Future<void> claimBonus(int bonus) async {
-    await _currentUserDocument.collection("bonuses").doc("$bonus").set({
-      "bonus": bonus,
-    });
+  Future<void> claimPointBonus(int bonus) async {
+    try {
+      await _currentUserDocument.collection("bonuses").doc("pb$bonus").set({
+        "bonus": bonus,
+      });
+    } catch (e) {}
+
+    notifyListeners();
+  }
+
+  Future<void> claimReferBonus(int bonus) async {
+    try {
+      await _currentUserDocument.collection("bonuses").doc("rb$bonus").set({
+        "bonus": bonus,
+      });
+    } catch (e) {}
 
     notifyListeners();
   }
 
   void reactivatedUser(int dueDate) async {
-    DateTime _currentDate = DateTime.now();
-    DateTime _pastDueDate = DateTime.fromMillisecondsSinceEpoch(dueDate);
-    await _currentUserDocument.update({
-      "reRegisterDate": _currentDate.millisecondsSinceEpoch,
-      "dueDate": _pastDueDate.add(Duration(days: 91)).millisecondsSinceEpoch,
-    });
+    try {
+      DateTime _currentDate = DateTime.now();
+      DateTime _pastDueDate = DateTime.fromMillisecondsSinceEpoch(dueDate);
+      await _currentUserDocument.update({
+        "reRegisterDate": _currentDate.millisecondsSinceEpoch,
+        "dueDate": _pastDueDate.add(Duration(days: 90)).millisecondsSinceEpoch,
+      });
+    } catch (e) {}
     notifyListeners();
   }
 }

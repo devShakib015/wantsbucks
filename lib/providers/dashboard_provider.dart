@@ -20,6 +20,7 @@ class DashboardProvider extends ChangeNotifier {
 
   Future<Map<String, dynamic>> getAllInfos() async {
     Map<String, dynamic> _infos = {
+      "totalUsers": 0,
       "totalEarning": 0,
       "currentEarning": 0,
       "totalPoint": 0,
@@ -60,6 +61,10 @@ class DashboardProvider extends ChangeNotifier {
           .then((value) {
         int _totalDirect = value.docs.length;
         _infos["totalDirectPersons"] = _totalDirect;
+      });
+      await FirebaseFirestore.instance.collection("users").get().then((value) {
+        int _totalUsers = value.docs.length;
+        _infos["totalUsers"] = _totalUsers;
       });
     } catch (e) {}
     return _infos;

@@ -93,10 +93,11 @@ class AuthProvider extends ChangeNotifier {
             "totalEarning": _totalEarning + 5,
           });
         });
+        _registered = true;
         await Future.delayed(Duration(seconds: 1));
         Phoenix.rebirth(context);
-      }
-      _registered = true;
+      } else
+        throw "Error Registering New User!";
     } on FirebaseAuthException catch (e) {
       _registered = false;
       if (e.code == "email-already-in-use") {
