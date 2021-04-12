@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
 
@@ -20,7 +19,7 @@ class _TopUpState extends State<TopUp> {
         ? Loading()
         : Scaffold(
             appBar: AppBar(
-              title: Text("Transfer Direct Amount"),
+              title: Text("Top Up Direct Amount"),
             ),
             body: Column(
               children: [
@@ -123,6 +122,7 @@ class _TopUpState extends State<TopUp> {
                                         ),
                                       );
                                     } else {
+                                      //TODO: TopUp
                                       print("You can top up now!");
                                       setState(() {
                                         _isLoading = false;
@@ -132,7 +132,7 @@ class _TopUpState extends State<TopUp> {
                                   }
                                 },
                                 child: Text(
-                                  "Transfer",
+                                  "Top Up",
                                   style: TextStyle(
                                     fontSize: 22,
                                     fontWeight: FontWeight.bold,

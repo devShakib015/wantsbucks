@@ -50,6 +50,7 @@ class WBSettings extends StatelessWidget {
               tileColor: mainColor,
               onTap: () async {
                 {
+                  //TODO: Add Change Account Info
                   print("Account");
                 }
               },

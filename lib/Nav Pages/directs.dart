@@ -37,7 +37,15 @@ class _DirectState extends State<Direct> {
                 child: Icon(Icons.add),
                 tooltip: "Join New User",
                 onPressed: _data == 0
-                    ? null
+                    ? () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            backgroundColor: dangerColor,
+                            content:
+                                Text("Not Enough Balance To Join New Users."),
+                          ),
+                        );
+                      }
                     : () {
                         Navigator.push(
                           context,
@@ -88,7 +96,15 @@ class _DirectState extends State<Direct> {
                             fit: BoxFit.cover,
                           )),
                       onPressed: _data == 0
-                          ? null
+                          ? () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: dangerColor,
+                                  content:
+                                      Text("Not Enough Balance to Transfer."),
+                                ),
+                              );
+                            }
                           : () async {
                               //Transfer
                               await Navigator.push(
