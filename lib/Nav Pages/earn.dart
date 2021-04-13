@@ -1,12 +1,52 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:wantsbucks/constants.dart';
 import 'package:wantsbucks/custom%20widgets/my_url_launcher.dart';
 import 'package:wantsbucks/custom%20widgets/point_and_earning.dart';
 import 'package:wantsbucks/providers/customads_provider.dart';
+import 'package:wantsbucks/providers/point_provider.dart';
 
-class Earn extends StatelessWidget {
+class Earn extends StatefulWidget {
+  @override
+  _EarnState createState() => _EarnState();
+}
+
+class _EarnState extends State<Earn> {
+  RewardedAd _admobRewarded;
+  @override
+  void initState() {
+    super.initState();
+    _admobRewarded = RewardedAd(
+      adUnitId: admob_test_rewarded,
+      request: AdRequest(),
+      listener: AdListener(onRewardedAdUserEarnedReward:
+          (RewardedAd ad, RewardItem reward) async {
+        print(reward.type);
+        print(reward.amount ~/ 10);
+        //TODO: add rewarded ad from admob!!!
+        await Provider.of<PointProvider>(context, listen: false)
+            .addPoint((reward.amount ~/ 10));
+      }, onAdLoaded: (ad) {
+        print("ad loaded");
+      }, onAdClosed: (ad) {
+        ad.dispose();
+      }, onAdFailedToLoad: (ad, err) {
+        ad.dispose();
+      }),
+    );
+
+    _admobRewarded.load();
+  }
+
+  @override
+  void dispose() {
+    _admobRewarded?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> _rewardedAds = [
@@ -64,9 +104,20 @@ class Earn extends StatelessWidget {
               crossAxisCount: 3,
               children: _rewardedAds.map((e) {
                 return GestureDetector(
-                  onTap: () {
-                    //TODO: Add Ad Services to the Channels
-                    print(e["name"]);
+                  onTap: () async {
+                    if (_rewardedAds.indexOf(e) == 0) {
+                      if (await _admobRewarded.isLoaded()) {
+                        await _admobRewarded.show();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                "There is no ad available right now in this channel!")));
+                      }
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              "There is no ad available right now in this channel!")));
+                    }
                   },
                   child: Card(
                     color: e["color"],

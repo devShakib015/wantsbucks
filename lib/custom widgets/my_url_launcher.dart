@@ -12,3 +12,13 @@ Future<void> launchURL(String url) async {
     throw 'Could not launch $url';
   }
 }
+
+Future<void> callPhone(String number) async {
+  if (await canLaunch("tel://$number")) {
+    await launch(
+      "tel://$number",
+    );
+  } else {
+    throw 'Could not launch $number';
+  }
+}

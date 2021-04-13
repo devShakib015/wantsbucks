@@ -6,6 +6,7 @@ import 'package:wantsbucks/Nav%20Pages/directs.dart';
 import 'package:wantsbucks/Nav%20Pages/earn.dart';
 import 'package:wantsbucks/Nav%20Pages/home.dart';
 import 'package:wantsbucks/Nav%20Pages/profile.dart';
+import 'package:wantsbucks/constants.dart';
 import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
 
@@ -27,7 +28,7 @@ class _AppState extends State<App> {
     super.initState();
     //TODO: - Add Interstial Ad
     _myInterstitial = InterstitialAd(
-      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+      adUnitId: admob_test_interstial,
       request: AdRequest(),
       listener: AdListener(
         onAdFailedToLoad: (ad, error) {
@@ -38,7 +39,7 @@ class _AppState extends State<App> {
 
     //TODO: - Add Banner Ad
     _ad = BannerAd(
-      adUnitId: "ca-app-pub-3940256099942544/8865242552",
+      adUnitId: admob_test_banner,
       size: AdSize.banner,
       request: AdRequest(),
       listener: AdListener(

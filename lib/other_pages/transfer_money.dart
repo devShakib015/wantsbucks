@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:wantsbucks/constants.dart';
 import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/providers/transfer_provider.dart';
@@ -33,7 +34,7 @@ class _TransferMoneyState extends State<TransferMoney> {
 
     //TODO: - Add Banner Ad
     _ad = BannerAd(
-      adUnitId: "ca-app-pub-3940256099942544/8865242552",
+      adUnitId: admob_test_banner,
       size: AdSize.banner,
       request: AdRequest(),
       listener: AdListener(

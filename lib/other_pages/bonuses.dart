@@ -22,6 +22,32 @@ class Bonuses extends StatefulWidget {
 }
 
 class _BonusesState extends State<Bonuses> {
+  BannerAd _ad;
+  @override
+  void initState() {
+    super.initState();
+
+    //TODO: - Add Banner Ad
+    _ad = BannerAd(
+      adUnitId: "ca-app-pub-3940256099942544/8865242552",
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: AdListener(
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+    _ad.load();
+  }
+
+  @override
+  void dispose() {
+    _ad?.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     List<int> _pointBonus = [20000, 50000, 100000, 200000, 300000, 500000];
@@ -55,33 +81,6 @@ class _BonusesState extends State<Bonuses> {
         "bonus": 25000,
       },
     ];
-
-    BannerAd _ad;
-
-    @override
-    void initState() {
-      super.initState();
-
-      //TODO: - Add Banner Ad
-      _ad = BannerAd(
-        adUnitId: "ca-app-pub-3940256099942544/8865242552",
-        size: AdSize.banner,
-        request: AdRequest(),
-        listener: AdListener(
-          onAdFailedToLoad: (ad, error) {
-            ad.dispose();
-          },
-        ),
-      );
-      _ad.load();
-    }
-
-    @override
-    void dispose() {
-      _ad?.dispose();
-
-      super.dispose();
-    }
 
     return DefaultTabController(
       length: 2,

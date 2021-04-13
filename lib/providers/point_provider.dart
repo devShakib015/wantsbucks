@@ -33,4 +33,19 @@ class PointProvider extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<void> addPoint(int newpoint) async {
+    try {
+      await _currentUserPointCollection.get().then((value) async {
+        int _currentPoint = value.docs.first.data()["currentPoint"];
+        int _totalPoint = value.docs.first.data()["totalPoint"];
+        await _currentUserPointCollection.doc("point").update({
+          "currentPoint": _currentPoint + newpoint,
+          "totalPoint": _totalPoint + newpoint,
+        });
+      });
+    } catch (e) {}
+
+    notifyListeners();
+  }
 }
