@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:wantsbucks/Nav%20Pages/dashboard.dart';
 import 'package:wantsbucks/Nav%20Pages/directs.dart';
 import 'package:wantsbucks/Nav%20Pages/earn.dart';
@@ -17,6 +18,38 @@ class _AppState extends State<App> {
   int _page = 2;
   double _iconSize = 28.0;
   GlobalKey _bottomNavigationKey = GlobalKey();
+
+  BannerAd _ad;
+  InterstitialAd _myInterstitial;
+
+  @override
+  void initState() {
+    super.initState();
+    //TODO: - Add Interstial Ad
+    _myInterstitial = InterstitialAd(
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+      request: AdRequest(),
+      listener: AdListener(
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+
+    //TODO: - Add Banner Ad
+    _ad = BannerAd(
+      adUnitId: "ca-app-pub-3940256099942544/8865242552",
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: AdListener(
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+    _ad.load();
+    _myInterstitial.load();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +90,10 @@ class _AppState extends State<App> {
         backgroundColor: otherDark,
         animationCurve: Curves.easeInOutCubic,
         animationDuration: Duration(milliseconds: 300),
-        onTap: (index) {
+        onTap: (index) async {
+          if (await _myInterstitial.isLoaded()) {
+            await _myInterstitial.show();
+          }
           setState(() {
             _page = index;
           });
@@ -67,22 +103,41 @@ class _AppState extends State<App> {
       body: Column(
         children: [
           Expanded(child: _selectedNavPage(_page)),
-          CustomBannerAd(),
+          CustomBannerAd(
+            ad: _ad,
+          ),
         ],
       ),
     );
   }
 
+  @override
+  void dispose() {
+    _ad?.dispose();
+    _myInterstitial?.dispose();
+
+    super.dispose();
+  }
+
   Widget _selectedNavPage(int index) {
-    if (index == 0)
+    if (index == 0) {
       return Earn();
-    else if (index == 1)
+    } else if (index == 1) {
+      //_myInterstitial.show();
+
       return Direct();
-    else if (index == 2)
+    } else if (index == 2) {
+      //_myInterstitial.show();
+
       return Home();
-    else if (index == 3)
+    } else if (index == 3) {
+      // _myInterstitial.show();
+
       return Dashboard();
-    else
+    } else {
+      //_myInterstitial.show();
+
       return Profile();
+    }
   }
 }

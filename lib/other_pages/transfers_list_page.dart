@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/custom%20widgets/custom_date_format.dart';
@@ -8,7 +9,39 @@ import 'package:wantsbucks/other_pages/something_went_wrong.dart';
 import 'package:wantsbucks/providers/transfer_provider.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
 
-class TransfersList extends StatelessWidget {
+class TransfersList extends StatefulWidget {
+  @override
+  _TransfersListState createState() => _TransfersListState();
+}
+
+class _TransfersListState extends State<TransfersList> {
+  BannerAd _ad;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //TODO: - Add Banner Ad
+    _ad = BannerAd(
+      adUnitId: "ca-app-pub-3940256099942544/8865242552",
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: AdListener(
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+    _ad.load();
+  }
+
+  @override
+  void dispose() {
+    _ad?.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -114,7 +147,9 @@ class TransfersList extends StatelessWidget {
                 ],
               ),
             ),
-            CustomBannerAd(),
+            CustomBannerAd(
+              ad: _ad,
+            ),
           ],
         ),
       ),

@@ -1,12 +1,45 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/other_pages/change_pass.dart';
 import 'package:wantsbucks/providers/auth_provider.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
 
-class WBSettings extends StatelessWidget {
+class WBSettings extends StatefulWidget {
+  @override
+  _WBSettingsState createState() => _WBSettingsState();
+}
+
+class _WBSettingsState extends State<WBSettings> {
+  BannerAd _ad;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //TODO: - Add Banner Ad
+    _ad = BannerAd(
+      adUnitId: "ca-app-pub-3940256099942544/8865242552",
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: AdListener(
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+    _ad.load();
+  }
+
+  @override
+  void dispose() {
+    _ad?.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,7 +127,9 @@ class WBSettings extends StatelessWidget {
               ),
             ),
           ),
-          CustomBannerAd(),
+          CustomBannerAd(
+            ad: _ad,
+          ),
         ],
       ),
     );

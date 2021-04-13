@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/Auth%20Pages/register.dart';
 import 'package:wantsbucks/custom%20widgets/custom_date_format.dart';
@@ -21,6 +22,32 @@ class Direct extends StatefulWidget {
 }
 
 class _DirectState extends State<Direct> {
+  InterstitialAd _myInterstitial;
+
+  @override
+  void initState() {
+    super.initState();
+    //TODO: - Add Interstial Ad
+    _myInterstitial = InterstitialAd(
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+      request: AdRequest(),
+      listener: AdListener(
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+
+    _myInterstitial.load();
+  }
+
+  @override
+  void dispose() {
+    _myInterstitial?.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<int>(
@@ -37,7 +64,10 @@ class _DirectState extends State<Direct> {
                 child: Icon(Icons.add),
                 tooltip: "Join New User",
                 onPressed: _data == 0
-                    ? () {
+                    ? () async {
+                        if (await _myInterstitial.isLoaded()) {
+                          await _myInterstitial.show();
+                        }
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor: dangerColor,
@@ -46,8 +76,11 @@ class _DirectState extends State<Direct> {
                           ),
                         );
                       }
-                    : () {
-                        Navigator.push(
+                    : () async {
+                        if (await _myInterstitial.isLoaded()) {
+                          await _myInterstitial.show();
+                        }
+                        await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => _registerProvider(context),
@@ -77,8 +110,11 @@ class _DirectState extends State<Direct> {
                           "assets/images/topup.png",
                           fit: BoxFit.cover,
                         )),
-                    onPressed: () {
-                      Navigator.push(
+                    onPressed: () async {
+                      if (await _myInterstitial.isLoaded()) {
+                        await _myInterstitial.show();
+                      }
+                      await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => TopUp(),
@@ -96,7 +132,10 @@ class _DirectState extends State<Direct> {
                             fit: BoxFit.cover,
                           )),
                       onPressed: _data == 0
-                          ? () {
+                          ? () async {
+                              if (await _myInterstitial.isLoaded()) {
+                                await _myInterstitial.show();
+                              }
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   backgroundColor: dangerColor,
@@ -107,6 +146,9 @@ class _DirectState extends State<Direct> {
                             }
                           : () async {
                               //Transfer
+                              if (await _myInterstitial.isLoaded()) {
+                                await _myInterstitial.show();
+                              }
                               await Navigator.push(
                                 context,
                                 MaterialPageRoute(

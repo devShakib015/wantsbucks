@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/other_pages/bonuses.dart';
 import 'package:wantsbucks/other_pages/drawings_list_page.dart';
@@ -14,6 +15,32 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  InterstitialAd _myInterstitial;
+
+  @override
+  void initState() {
+    super.initState();
+    //TODO: - Add Interstial Ad
+    _myInterstitial = InterstitialAd(
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+      request: AdRequest(),
+      listener: AdListener(
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+
+    _myInterstitial.load();
+  }
+
+  @override
+  void dispose() {
+    _myInterstitial?.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,8 +151,11 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {
-                                //Bonuses
+                              onTap: () async {
+                                if (await _myInterstitial.isLoaded()) {
+                                  await _myInterstitial.show();
+                                }
+                                //TOP UP
                                 //TODO: Make Top Up list
                               },
                               child: Padding(
@@ -149,6 +179,9 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             GestureDetector(
                               onTap: () async {
+                                if (await _myInterstitial.isLoaded()) {
+                                  await _myInterstitial.show();
+                                }
                                 await Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -179,7 +212,9 @@ class _DashboardState extends State<Dashboard> {
                             GestureDetector(
                               onTap: () async {
                                 //Bonuses
-
+                                if (await _myInterstitial.isLoaded()) {
+                                  await _myInterstitial.show();
+                                }
                                 await Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -211,8 +246,11 @@ class _DashboardState extends State<Dashboard> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: () {
-                                Navigator.push(
+                              onTap: () async {
+                                if (await _myInterstitial.isLoaded()) {
+                                  await _myInterstitial.show();
+                                }
+                                await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => TransfersList()));

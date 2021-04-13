@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:wallpaper_manager/wallpaper_manager.dart';
 import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
@@ -16,6 +17,46 @@ class WallpaperPage extends StatefulWidget {
 
 class _WallpaperPageState extends State<WallpaperPage> {
   bool _settingWallpaper = false;
+
+  BannerAd _ad;
+  InterstitialAd _myInterstitial;
+
+  @override
+  void initState() {
+    super.initState();
+    //TODO: - Add Interstial Ad
+    _myInterstitial = InterstitialAd(
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+      request: AdRequest(),
+      listener: AdListener(
+          onAdFailedToLoad: (ad, error) {
+            ad.dispose();
+          },
+          onAdLoaded: (ad) {}),
+    );
+
+    //TODO: - Add Banner Ad
+    _ad = BannerAd(
+      adUnitId: "ca-app-pub-3940256099942544/8865242552",
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: AdListener(
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+    _ad.load();
+    _myInterstitial.load();
+  }
+
+  @override
+  void dispose() {
+    _ad?.dispose();
+    _myInterstitial?.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +92,9 @@ class _WallpaperPageState extends State<WallpaperPage> {
                             setState(() {
                               _settingWallpaper = true;
                             });
+                            if (await _myInterstitial.isLoaded()) {
+                              await _myInterstitial.show();
+                            }
                             int _home = WallpaperManager.HOME_SCREEN;
                             var _file = await DefaultCacheManager()
                                 .getSingleFile(widget.wallpaperUrl);
@@ -85,6 +129,9 @@ class _WallpaperPageState extends State<WallpaperPage> {
                             setState(() {
                               _settingWallpaper = true;
                             });
+                            if (await _myInterstitial.isLoaded()) {
+                              await _myInterstitial.show();
+                            }
                             int _lock = WallpaperManager.LOCK_SCREEN;
                             var _file = await DefaultCacheManager()
                                 .getSingleFile(widget.wallpaperUrl);
@@ -119,6 +166,9 @@ class _WallpaperPageState extends State<WallpaperPage> {
                       setState(() {
                         _settingWallpaper = true;
                       });
+                      if (await _myInterstitial.isLoaded()) {
+                        await _myInterstitial.show();
+                      }
                       int _both = WallpaperManager.BOTH_SCREENS;
                       var _file = await DefaultCacheManager()
                           .getSingleFile(widget.wallpaperUrl);
@@ -139,7 +189,9 @@ class _WallpaperPageState extends State<WallpaperPage> {
                     child: Text("Both Lock and Home Screens"),
                   ),
                 ),
-                CustomBannerAd(),
+                CustomBannerAd(
+                  ad: _ad,
+                ),
               ],
             ),
     );

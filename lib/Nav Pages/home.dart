@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/custom%20widgets/point_and_earning.dart';
 import 'package:wantsbucks/custom%20widgets/my_url_launcher.dart';
@@ -30,6 +31,33 @@ class _HomeState extends State<Home> {
     Color(0xff6883bc),
     Color(0xff8a307f),
   ];
+
+  InterstitialAd _myInterstitial;
+
+  @override
+  void initState() {
+    super.initState();
+    //TODO: - Add Interstial Ad
+    _myInterstitial = InterstitialAd(
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+      request: AdRequest(),
+      listener: AdListener(
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+
+    _myInterstitial.load();
+  }
+
+  @override
+  void dispose() {
+    _myInterstitial?.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,6 +209,9 @@ class _HomeState extends State<Home> {
       child: ListTile(
         onTap: () async {
           if (_unlockedLevels.contains(e.id)) {
+            if (await _myInterstitial.isLoaded()) {
+              await _myInterstitial.show();
+            }
             await Navigator.push(
               context,
               MaterialPageRoute(

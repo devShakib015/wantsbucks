@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/providers/earning_provider.dart';
@@ -55,6 +56,33 @@ class _BonusesState extends State<Bonuses> {
       },
     ];
 
+    BannerAd _ad;
+
+    @override
+    void initState() {
+      super.initState();
+
+      //TODO: - Add Banner Ad
+      _ad = BannerAd(
+        adUnitId: "ca-app-pub-3940256099942544/8865242552",
+        size: AdSize.banner,
+        request: AdRequest(),
+        listener: AdListener(
+          onAdFailedToLoad: (ad, error) {
+            ad.dispose();
+          },
+        ),
+      );
+      _ad.load();
+    }
+
+    @override
+    void dispose() {
+      _ad?.dispose();
+
+      super.dispose();
+    }
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -95,7 +123,9 @@ class _BonusesState extends State<Bonuses> {
                         );
                       }
                     })),
-            CustomBannerAd(),
+            CustomBannerAd(
+              ad: _ad,
+            ),
           ],
         ),
       ),

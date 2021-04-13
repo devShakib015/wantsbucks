@@ -1,3 +1,4 @@
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:wantsbucks/custom%20widgets/custom_date_format.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/request_withdraw.dart';
@@ -15,7 +16,38 @@ const _textStyle = TextStyle(
   fontWeight: FontWeight.w900,
 );
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
+  @override
+  _ProfileState createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  InterstitialAd _myInterstitial;
+
+  @override
+  void initState() {
+    super.initState();
+    //TODO: - Add Interstial Ad
+    _myInterstitial = InterstitialAd(
+      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+      request: AdRequest(),
+      listener: AdListener(
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+
+    _myInterstitial.load();
+  }
+
+  @override
+  void dispose() {
+    _myInterstitial?.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +61,10 @@ class Profile extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () async {
-              Navigator.push(context,
+              if (await _myInterstitial.isLoaded()) {
+                await _myInterstitial.show();
+              }
+              await Navigator.push(context,
                   MaterialPageRoute(builder: (context) => WBSettings()));
             },
           ),
@@ -297,14 +332,20 @@ class Profile extends StatelessWidget {
                                   ));
                         }
                       }
-                    : () {
+                    : () async {
                         //Withdraw
                         if (_earning < 300) {
+                          if (await _myInterstitial.isLoaded()) {
+                            await _myInterstitial.show();
+                          }
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Text(
                                   "You must have at least 300 taka to withdraw.")));
                         } else {
-                          Navigator.push(
+                          if (await _myInterstitial.isLoaded()) {
+                            await _myInterstitial.show();
+                          }
+                          await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
