@@ -31,10 +31,8 @@ class _TransferMoneyState extends State<TransferMoney> {
   @override
   void initState() {
     super.initState();
-
-    //TODO: - Add Banner Ad
     _ad = BannerAd(
-      adUnitId: admob_test_banner,
+      adUnitId: transfer_banner,
       size: AdSize.banner,
       request: AdRequest(),
       listener: AdListener(

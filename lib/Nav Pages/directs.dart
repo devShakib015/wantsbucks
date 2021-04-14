@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/Auth%20Pages/register.dart';
+import 'package:wantsbucks/constants.dart';
 import 'package:wantsbucks/custom%20widgets/custom_date_format.dart';
 import 'package:wantsbucks/custom%20widgets/my_url_launcher.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
@@ -27,9 +28,9 @@ class _DirectState extends State<Direct> {
   @override
   void initState() {
     super.initState();
-    //TODO: - Add Interstial Ad
+
     _myInterstitial = InterstitialAd(
-      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+      adUnitId: direct_Interstitial,
       request: AdRequest(),
       listener: AdListener(
         onAdFailedToLoad: (ad, error) {

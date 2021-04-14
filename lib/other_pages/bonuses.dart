@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:wantsbucks/constants.dart';
 import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/providers/earning_provider.dart';
 import 'package:wantsbucks/providers/user_provider.dart';
@@ -27,9 +28,8 @@ class _BonusesState extends State<Bonuses> {
   void initState() {
     super.initState();
 
-    //TODO: - Add Banner Ad
     _ad = BannerAd(
-      adUnitId: "ca-app-pub-3940256099942544/8865242552",
+      adUnitId: bonus_page_banner,
       size: AdSize.banner,
       request: AdRequest(),
       listener: AdListener(

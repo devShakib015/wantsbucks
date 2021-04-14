@@ -1,13 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
-import 'package:wantsbucks/constants.dart';
 import 'package:wantsbucks/custom%20widgets/my_url_launcher.dart';
 import 'package:wantsbucks/custom%20widgets/point_and_earning.dart';
 import 'package:wantsbucks/providers/customads_provider.dart';
-import 'package:wantsbucks/providers/point_provider.dart';
+import 'package:wantsbucks/theming/color_constants.dart';
 
 class Earn extends StatefulWidget {
   @override
@@ -15,72 +13,72 @@ class Earn extends StatefulWidget {
 }
 
 class _EarnState extends State<Earn> {
-  RewardedAd _admobRewarded;
-  @override
-  void initState() {
-    super.initState();
-    _admobRewarded = RewardedAd(
-      adUnitId: admob_test_rewarded,
-      request: AdRequest(),
-      listener: AdListener(onRewardedAdUserEarnedReward:
-          (RewardedAd ad, RewardItem reward) async {
-        print(reward.type);
-        print(reward.amount ~/ 10);
-        //TODO: add rewarded ad from admob!!!
-        await Provider.of<PointProvider>(context, listen: false)
-            .addPoint((reward.amount ~/ 10));
-      }, onAdLoaded: (ad) {
-        print("ad loaded");
-      }, onAdClosed: (ad) {
-        ad.dispose();
-      }, onAdFailedToLoad: (ad, err) {
-        ad.dispose();
-      }),
-    );
+  // RewardedAd _admobRewarded;
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _admobRewarded = RewardedAd(
+  //     adUnitId: admob_test_rewarded,
+  //     request: AdRequest(),
+  //     listener: AdListener(onRewardedAdUserEarnedReward:
+  //         (RewardedAd ad, RewardItem reward) async {
+  //       print(reward.type);
+  //       print(reward.amount ~/ 10);
 
-    _admobRewarded.load();
-  }
+  //       await Provider.of<PointProvider>(context, listen: false)
+  //           .addPoint((reward.amount ~/ 10));
+  //     }, onAdLoaded: (ad) {
+  //       print("ad loaded");
+  //     }, onAdClosed: (ad) {
+  //       ad.dispose();
+  //     }, onAdFailedToLoad: (ad, err) {
+  //       ad.dispose();
+  //     }),
+  //   );
 
-  @override
-  void dispose() {
-    _admobRewarded?.dispose();
-    super.dispose();
-  }
+  //   _admobRewarded.load();
+  // }
+
+  // @override
+  // void dispose() {
+  //   _admobRewarded?.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> _rewardedAds = [
-      {
-        'name': "Google Admob",
-        "channel": 1,
-        "color": Color(0xffb20238),
-      },
-      {
-        'name': "Adcolony",
-        "channel": 2,
-        "color": Color(0xff12a4d9),
-      },
-      {
-        'name': "Facebook",
-        "channel": 3,
-        "color": Color(0xff5c3c92),
-      },
-      {
-        'name': "StartApp",
-        "channel": 4,
-        "color": Color(0xff077b8a),
-      },
-      {
-        'name': "Unity",
-        "channel": 5,
-        "color": Color(0xffe75874),
-      },
-      {
-        'name': "Appodeal",
-        "channel": 6,
-        "color": Color(0xff6783bc),
-      },
-    ];
+    // List<Map<String, dynamic>> _rewardedAds = [
+    //   {
+    //     'name': "Google Admob",
+    //     "channel": 1,
+    //     "color": Color(0xffb20238),
+    //   },
+    //   {
+    //     'name': "Adcolony",
+    //     "channel": 2,
+    //     "color": Color(0xff12a4d9),
+    //   },
+    //   {
+    //     'name': "Facebook",
+    //     "channel": 3,
+    //     "color": Color(0xff5c3c92),
+    //   },
+    //   {
+    //     'name': "StartApp",
+    //     "channel": 4,
+    //     "color": Color(0xff077b8a),
+    //   },
+    //   {
+    //     'name': "Unity",
+    //     "channel": 5,
+    //     "color": Color(0xffe75874),
+    //   },
+    //   {
+    //     'name': "Appodeal",
+    //     "channel": 6,
+    //     "color": Color(0xff6783bc),
+    //   },
+    // ];
     return Scaffold(
       appBar: AppBar(
         title: Text("Earn Points"),
@@ -93,42 +91,33 @@ class _EarnState extends State<Earn> {
         ),
       ),
       body: Container(
-          child: Column(
-        children: [
-          _earnPointCustomAds(context),
-          SizedBox(
-            height: 5,
-          ),
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 3,
-              children: _rewardedAds.map((e) {
-                return GestureDetector(
-                  onTap: () async {
-                    if (_rewardedAds.indexOf(e) == 0) {
-                      if (await _admobRewarded.isLoaded()) {
-                        await _admobRewarded.show();
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(
-                                "There is no ad available right now in this channel!")));
-                      }
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                              "There is no ad available right now in this channel!")));
-                    }
-                  },
+        child: Column(
+          children: [
+            _earnPointCustomAds(context),
+            SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () async {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: dangerColor,
+                      duration: Duration(seconds: 3),
+                      content: Text("There is no ad available right now!")));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(40.0),
                   child: Card(
-                    color: e["color"],
+                    elevation: 15,
+                    shadowColor: Color(0xff273238),
+                    color: Color(0xffb20238),
                     child: GridTile(
                         header: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(24.0),
                           child: Center(
                             child: Text(
                               "Earn Point",
                               style: TextStyle(
-                                fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               ),
                               textAlign: TextAlign.center,
@@ -136,12 +125,11 @@ class _EarnState extends State<Earn> {
                           ),
                         ),
                         footer: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(24.0),
                           child: Center(
                             child: Text(
-                              "Channel ${e["channel"]}",
+                              "Click Here and Wait",
                               style: TextStyle(
-                                fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               ),
                               textAlign: TextAlign.center,
@@ -150,19 +138,25 @@ class _EarnState extends State<Earn> {
                         ),
                         child: Center(
                           child: Container(
-                              width: 40,
-                              child: Image.asset(
-                                "assets/images/ad.png",
-                                fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width * 05,
+                              child: Padding(
+                                padding: const EdgeInsets.all(86.0),
+                                child: Image.asset(
+                                  "assets/images/ad.png",
+                                  width: 80,
+                                ),
                               )),
                         )),
                   ),
-                );
-              }).toList(),
+                ),
+              ),
             ),
-          ),
-        ],
-      )),
+            SizedBox(
+              height: 20,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -172,14 +166,14 @@ class _EarnState extends State<Earn> {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return Container(
-            height: MediaQuery.of(context).size.height * 0.08,
+            height: MediaQuery.of(context).size.height * 0.17,
             child: Center(
               child: Text("Ads Loading..."),
             ),
           );
         } else if (snapshot.hasError) {
           return Container(
-            height: MediaQuery.of(context).size.height * 0.08,
+            height: MediaQuery.of(context).size.height * 0.17,
             child: Center(
               child: Text("Error Loading ads"),
             ),

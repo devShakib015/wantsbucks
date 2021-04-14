@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:wantsbucks/constants.dart';
 import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/custom%20widgets/point_and_earning.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
@@ -42,7 +43,7 @@ class _LevelPageState extends State<LevelPage> {
     super.initState();
     //TODO: - Add Interstial Ad
     _myInterstitial = InterstitialAd(
-      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+      adUnitId: admob_test_interstial,
       request: AdRequest(),
       listener: AdListener(
           onAdFailedToLoad: (ad, error) {
@@ -51,9 +52,8 @@ class _LevelPageState extends State<LevelPage> {
           onAdLoaded: (ad) {}),
     );
 
-    //TODO: - Add Banner Ad
     _ad = BannerAd(
-      adUnitId: "ca-app-pub-3940256099942544/8865242552",
+      adUnitId: level_page_banner,
       size: AdSize.banner,
       request: AdRequest(),
       listener: AdListener(

@@ -19,6 +19,7 @@ class _AppState extends State<App> {
   int _page = 2;
   double _iconSize = 28.0;
   GlobalKey _bottomNavigationKey = GlobalKey();
+  bool _bannerLoaded = false;
 
   BannerAd _ad;
   InterstitialAd _myInterstitial;
@@ -26,28 +27,33 @@ class _AppState extends State<App> {
   @override
   void initState() {
     super.initState();
-    //TODO: - Add Interstial Ad
+
     _myInterstitial = InterstitialAd(
-      adUnitId: admob_test_interstial,
+      adUnitId: main_Interstitial,
       request: AdRequest(),
-      listener: AdListener(
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-        },
-      ),
+      listener: AdListener(onAdFailedToLoad: (ad, error) {
+        ad.dispose();
+        // print(
+        // "The main Interstitial ad cannot be loaded............................");
+      }, onAdLoaded: (ad) {
+        // print(
+        // "The main Interstitial ad is successfully loaded...................");
+      }),
     );
 
-    //TODO: - Add Banner Ad
     _ad = BannerAd(
-      adUnitId: admob_test_banner,
+      adUnitId: main_banner,
       size: AdSize.banner,
       request: AdRequest(),
-      listener: AdListener(
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-        },
-      ),
+      listener: AdListener(onAdFailedToLoad: (ad, error) {
+        ad.dispose();
+        // print(
+        // "The main banner ad cannot be loaded............................");
+      }, onAdLoaded: (ad) {
+        // print("The main banner ad is successfully loaded...................");
+      }),
     );
+
     _ad.load();
     _myInterstitial.load();
   }

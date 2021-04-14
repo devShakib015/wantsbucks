@@ -21,7 +21,6 @@
 //   void initState() {
 //     super.initState();
 
-//     //TODO: - Add Banner Ad
 //     _ad = BannerAd(
 //       adUnitId: "ca-app-pub-3940256099942544/8865242552",
 //       size: AdSize.banner,
@@ -226,7 +225,6 @@
 //
 //
 import 'package:flutter/material.dart';
-import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/custom%20widgets/my_url_launcher.dart';
 
 class TopUp extends StatelessWidget {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
+import 'package:wantsbucks/constants.dart';
 import 'package:wantsbucks/custom%20widgets/point_and_earning.dart';
 import 'package:wantsbucks/custom%20widgets/my_url_launcher.dart';
 import 'package:wantsbucks/other_pages/level_page.dart';
@@ -37,9 +38,8 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    //TODO: - Add Interstial Ad
     _myInterstitial = InterstitialAd(
-      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
+      adUnitId: homepage_Interstitial,
       request: AdRequest(),
       listener: AdListener(
         onAdFailedToLoad: (ad, error) {
