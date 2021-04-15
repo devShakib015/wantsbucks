@@ -36,13 +36,15 @@ class AuthProvider extends ChangeNotifier {
           .createUserWithEmailAndPassword(email: email, password: password);
       if (userCredential != null) {
         DateTime _currentDate = DateTime.now();
+        //TODO: Has to Be deleted in this date.
+        DateTime _rewardedAdLaunchDate = DateTime(2021, 7, 1);
         await _userCollection.doc(userCredential.user.uid).set(
               UserModel(
                       email: email,
                       name: name,
                       phone: phone,
                       joiningDate: _currentDate,
-                      dueDate: _currentDate.add(Duration(days: 91)),
+                      dueDate: _rewardedAdLaunchDate.add(Duration(days: 90)),
                       reRegisterDate: _currentDate,
                       refferedBy: _firebaseAuth.currentUser.email)
                   .toMap(),

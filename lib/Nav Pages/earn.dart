@@ -100,10 +100,14 @@ class _EarnState extends State<Earn> {
             Expanded(
               child: GestureDetector(
                 onTap: () async {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
                       backgroundColor: dangerColor,
-                      duration: Duration(seconds: 3),
-                      content: Text("There is no ad available right now!")));
+                      duration: Duration(seconds: 8),
+                      content: Text(
+                          "This feature will come at 1st July 2021.\nUntil then try to earn by reffering users. You account will be activated in this period. Don't worry about it!"),
+                    ),
+                  );
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(40.0),
@@ -140,7 +144,7 @@ class _EarnState extends State<Earn> {
                           child: Container(
                               width: MediaQuery.of(context).size.width * 05,
                               child: Padding(
-                                padding: const EdgeInsets.all(86.0),
+                                padding: const EdgeInsets.all(32.0),
                                 child: Image.asset(
                                   "assets/images/ad.png",
                                   width: 80,

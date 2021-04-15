@@ -225,9 +225,42 @@
 //
 //
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:wantsbucks/constants.dart';
+import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/custom%20widgets/my_url_launcher.dart';
 
-class TopUp extends StatelessWidget {
+class TopUp extends StatefulWidget {
+  @override
+  _TopUpState createState() => _TopUpState();
+}
+
+class _TopUpState extends State<TopUp> {
+  BannerAd _ad;
+
+  @override
+  void initState() {
+    super.initState();
+    _ad = BannerAd(
+      adUnitId: top_up_banner,
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: AdListener(
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+    _ad.load();
+  }
+
+  @override
+  void dispose() {
+    _ad?.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -238,76 +271,86 @@ class TopUp extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            "Currently we don't have top up service.\n If you need direct money you can contact our agents.\n They will help you to get this. Thank you!",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Center(child: Text("Agent 1:")),
-                GestureDetector(
-                  onTap: () async {
-                    await launchURL("https://m.me/mahin7673/");
-                  },
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(child: Text("Text on Messenger")),
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    await callPhone("01676598513");
-                  },
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(child: Text("Direct Call")),
-                    ),
+                Text(
+                  "Currently we don't have top up service.\n If you need direct money you can contact our agents.\n They will help you to get this. Thank you!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(
                   height: 20,
                 ),
-                Center(child: Text("Agent 2:")),
-                GestureDetector(
-                  onTap: () async {
-                    await launchURL("https://m.me/venomShakib/");
-                  },
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(child: Text("Text on Messenger")),
-                    ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Center(child: Text("Agent 1:")),
+                      GestureDetector(
+                        onTap: () async {
+                          await launchURL("https://m.me/mahin7673/");
+                        },
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: Text("Text on Messenger")),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          await callPhone("01676598513");
+                        },
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: Text("Direct Call")),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(child: Text("Agent 2:")),
+                      GestureDetector(
+                        onTap: () async {
+                          await launchURL("https://m.me/venomShakib/");
+                        },
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: Text("Text on Messenger")),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          await callPhone("01710265421");
+                        },
+                        child: Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: Text("Direct Call")),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                GestureDetector(
-                  onTap: () async {
-                    await callPhone("01710265421");
-                  },
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(child: Text("Direct Call")),
-                    ),
-                  ),
+                SizedBox(
+                  height: 10,
                 ),
               ],
             ),
           ),
-          SizedBox(
-            height: 10,
+          CustomBannerAd(
+            ad: _ad,
           ),
         ],
       ),

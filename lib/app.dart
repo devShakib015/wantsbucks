@@ -19,7 +19,6 @@ class _AppState extends State<App> {
   int _page = 2;
   double _iconSize = 28.0;
   GlobalKey _bottomNavigationKey = GlobalKey();
-  bool _bannerLoaded = false;
 
   BannerAd _ad;
   InterstitialAd _myInterstitial;
