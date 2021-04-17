@@ -294,7 +294,7 @@ class _TopUpState extends State<TopUp> {
                       Center(child: Text("Agent 1:")),
                       GestureDetector(
                         onTap: () async {
-                          await launchURL("https://m.me/mahin7673/");
+                          await launchURL("https://m.me/wantsbucksagnt/");
                         },
                         child: Card(
                           child: Padding(
@@ -320,7 +320,7 @@ class _TopUpState extends State<TopUp> {
                       Center(child: Text("Agent 2:")),
                       GestureDetector(
                         onTap: () async {
-                          await launchURL("https://m.me/venomShakib/");
+                          await launchURL("https://m.me/wantsbucksagnt/");
                         },
                         child: Card(
                           child: Padding(
