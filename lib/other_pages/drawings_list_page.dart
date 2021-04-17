@@ -52,11 +52,11 @@ class _DrawingsListState extends State<DrawingsList> {
         child: Column(
           children: [
             Expanded(
-                child: FutureBuilder<QuerySnapshot>(
-              future: Provider.of<WithdrawProvider>(context).getWithdrawls(),
+                child: StreamBuilder<QuerySnapshot>(
+              stream: Provider.of<WithdrawProvider>(context).getWithdrawls(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
+                if (!snapshot.hasData) {
                   return Loading();
                 } else if (snapshot.hasError) {
                   return SomethingWentWrong();

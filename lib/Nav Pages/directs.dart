@@ -232,16 +232,18 @@ class _DirectState extends State<Direct> {
                         } else {
                           final _customHomeAds = snapshot.data.docs;
 
-                          List _homeAds = [];
+                          List _directAds = [];
                           for (var item in _customHomeAds) {
                             if (DateTime.fromMillisecondsSinceEpoch(
                                         item.data()["endDate"])
                                     .difference(DateTime.now())
                                     .inDays >
                                 0) {
-                              _homeAds.add(item.data());
+                              _directAds.add(item.data());
                             }
                           }
+
+                          _directAds.shuffle();
 
                           if (snapshot.data.docs.isEmpty) {
                             return Container();
@@ -263,7 +265,7 @@ class _DirectState extends State<Direct> {
                                 enlargeCenterPage: true,
                                 scrollDirection: Axis.horizontal,
                               ),
-                              items: _homeAds.map((i) {
+                              items: _directAds.map((i) {
                                 return Builder(
                                   builder: (BuildContext context) {
                                     return GestureDetector(

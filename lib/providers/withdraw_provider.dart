@@ -43,9 +43,9 @@ class WithdrawProvider extends ChangeNotifier {
     } catch (e) {}
   }
 
-  Future<QuerySnapshot> getWithdrawls() async {
-    return await _withdrawCollection
+  Stream<QuerySnapshot> getWithdrawls() {
+    return _withdrawCollection
         .where("email", isEqualTo: _firebaseAuth.currentUser.email)
-        .get();
+        .snapshots();
   }
 }

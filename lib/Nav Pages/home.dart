@@ -108,6 +108,8 @@ class _HomeState extends State<Home> {
                         }
                       }
 
+                      _homeAds.shuffle();
+
                       if (snapshot.data.docs.isEmpty) {
                         return Container();
                       } else

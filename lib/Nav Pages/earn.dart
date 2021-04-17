@@ -185,15 +185,17 @@ class _EarnState extends State<Earn> {
         } else {
           final _customHomeAds = snapshot.data.docs;
 
-          List _homeAds = [];
+          List _earnAds = [];
           for (var item in _customHomeAds) {
             if (DateTime.fromMillisecondsSinceEpoch(item.data()["endDate"])
                     .difference(DateTime.now())
                     .inDays >
                 0) {
-              _homeAds.add(item.data());
+              _earnAds.add(item.data());
             }
           }
+
+          _earnAds.shuffle();
 
           if (snapshot.data.docs.isEmpty) {
             return Container();
@@ -213,7 +215,7 @@ class _EarnState extends State<Earn> {
                 enlargeCenterPage: true,
                 scrollDirection: Axis.horizontal,
               ),
-              items: _homeAds.map((i) {
+              items: _earnAds.map((i) {
                 return Builder(
                   builder: (BuildContext context) {
                     return GestureDetector(
