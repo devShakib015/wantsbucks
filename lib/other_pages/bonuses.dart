@@ -50,7 +50,32 @@ class _BonusesState extends State<Bonuses> {
 
   @override
   Widget build(BuildContext context) {
-    List<int> _pointBonus = [20000, 50000, 100000, 200000, 300000, 500000];
+    List<Map<String, int>> _pointBonus = [
+      {
+        "point": 20000,
+        "bonus": 500,
+      },
+      {
+        "point": 50000,
+        "bonus": 1000,
+      },
+      {
+        "point": 100000,
+        "bonus": 1500,
+      },
+      {
+        "point": 200000,
+        "bonus": 2000,
+      },
+      {
+        "point": 300000,
+        "bonus": 3000,
+      },
+      {
+        "point": 500000,
+        "bonus": 5000,
+      },
+    ];
     List<Map<String, int>> _refferalBonus = [
       {
         "direct": 100,
@@ -131,8 +156,8 @@ class _BonusesState extends State<Bonuses> {
     );
   }
 
-  Widget _pointBonusTab(
-      List<int> _pointBonus, List _bonusData, BuildContext context) {
+  Widget _pointBonusTab(List<Map<String, int>> _pointBonus, List _bonusData,
+      BuildContext context) {
     return Column(
       children: [
         Padding(
@@ -154,7 +179,7 @@ class _BonusesState extends State<Bonuses> {
                 .map((e) => Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GridTile(
-                        header: widget.totalPoint < e
+                        header: widget.totalPoint < e["point"]
                             ? Padding(
                                 padding: const EdgeInsets.all(16.0),
                                 child: Text(
@@ -175,33 +200,29 @@ class _BonusesState extends State<Bonuses> {
                                           fontSize: 22,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    Text(
-                                      "5% of",
-                                      textAlign: TextAlign.center,
-                                    ),
                                   ],
                                 ),
                               ),
                         child: Container(
                             decoration: BoxDecoration(
-                              color: _bonusData.contains("pb$e")
+                              color: _bonusData.contains("pb${e["point"]}")
                                   ? Colors.blueGrey
-                                  : widget.totalPoint < e
+                                  : widget.totalPoint < e["point"]
                                       ? Color(0xffab0e22)
                                       : Color(0xff2ba965),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Center(
                                 child: Text(
-                              "$e",
+                              "${e["point"]}",
                               style: TextStyle(
                                   fontSize: 22, fontWeight: FontWeight.bold),
                             ))),
-                        footer: widget.totalPoint < e
+                        footer: widget.totalPoint < e["point"]
                             ? Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Text(
-                                  "points to get this Bonus!\n(5%)",
+                                  "points to get this Bonus!\n(${e["bonus"]})",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 14,
@@ -209,7 +230,7 @@ class _BonusesState extends State<Bonuses> {
                                   ),
                                 ),
                               )
-                            : _bonusData.contains("pb$e")
+                            : _bonusData.contains("pb${e["point"]}")
                                 ? Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 24, vertical: 12),
@@ -230,17 +251,18 @@ class _BonusesState extends State<Bonuses> {
                                         setState(() {});
                                         await Provider.of<UserProvider>(context,
                                                 listen: false)
-                                            .claimPointBonus(e);
+                                            .claimPointBonus(e["point"]);
 
                                         await Provider.of<EarningProvider>(
                                                 context,
                                                 listen: false)
                                             .addProfit(
-                                          (e * (5 / 100)).toInt(),
+                                          e["bonus"],
                                         );
                                       },
                                       child: Text(
-                                        "Claim",
+                                        "Claim\n${e["bonus"]} bonus",
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: Color(0xff2ba965),
                                         ),
