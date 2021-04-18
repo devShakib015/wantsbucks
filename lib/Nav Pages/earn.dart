@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/custom%20widgets/my_url_launcher.dart';
 import 'package:wantsbucks/custom%20widgets/point_and_earning.dart';
+import 'package:wantsbucks/other_pages/video_player.dart';
 import 'package:wantsbucks/providers/customads_provider.dart';
+import 'package:wantsbucks/providers/point_provider.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
 
 class Earn extends StatefulWidget {
@@ -100,14 +102,22 @@ class _EarnState extends State<Earn> {
             Expanded(
               child: GestureDetector(
                 onTap: () async {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: dangerColor,
-                      duration: Duration(seconds: 8),
-                      content: Text(
-                          "This feature will come at 1st July 2021.\nUntil then try to earn by reffering users. You account will be activated in this period. Don't worry about it!"),
-                    ),
-                  );
+                  int _point = await Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => VideoPlayer()));
+
+                  print("Point : $_point");
+                  if (_point != null) {
+                    await Provider.of<PointProvider>(context, listen: false)
+                        .addPoint(_point);
+                  }
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(
+                  //     backgroundColor: dangerColor,
+                  //     duration: Duration(seconds: 8),
+                  //     content: Text(
+                  //         "This feature will come at 1st July 2021.\nUntil then try to earn by reffering users. You account will be activated in this period. Don't worry about it!"),
+                  //   ),
+                  // );
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(40.0),
