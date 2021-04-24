@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
-import 'package:wantsbucks/constants.dart';
-import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/custom%20widgets/custom_date_format.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
@@ -16,30 +13,30 @@ class TransfersList extends StatefulWidget {
 }
 
 class _TransfersListState extends State<TransfersList> {
-  BannerAd _ad;
+  // BannerAd _ad;
 
-  @override
-  void initState() {
-    super.initState();
-    _ad = BannerAd(
-      adUnitId: transfer_list_banner,
-      size: AdSize.banner,
-      request: AdRequest(),
-      listener: AdListener(
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-        },
-      ),
-    );
-    _ad.load();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _ad = BannerAd(
+  //     adUnitId: transfer_list_banner,
+  //     size: AdSize.banner,
+  //     request: AdRequest(),
+  //     listener: AdListener(
+  //       onAdFailedToLoad: (ad, error) {
+  //         ad.dispose();
+  //       },
+  //     ),
+  //   );
+  //   _ad.load();
+  // }
 
-  @override
-  void dispose() {
-    _ad?.dispose();
+  // @override
+  // void dispose() {
+  //   _ad?.dispose();
 
-    super.dispose();
-  }
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -146,9 +143,9 @@ class _TransfersListState extends State<TransfersList> {
                 ],
               ),
             ),
-            CustomBannerAd(
-              ad: _ad,
-            ),
+            // CustomBannerAd(
+            //   ad: _ad,
+            // ),
           ],
         ),
       ),

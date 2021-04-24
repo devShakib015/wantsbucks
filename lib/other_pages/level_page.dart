@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
-import 'package:wantsbucks/constants.dart';
-import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/custom%20widgets/point_and_earning.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/something_went_wrong.dart';
@@ -35,51 +32,51 @@ class _LevelPageState extends State<LevelPage> {
   bool _isLoading = false;
   int _p = 0;
 
-  BannerAd _ad;
-  InterstitialAd _myInterstitial;
+  // BannerAd _ad;
+  // InterstitialAd _myInterstitial;
 
-  @override
-  void initState() {
-    super.initState();
-    //TODO: - Add Interstial Ad
-    _myInterstitial = InterstitialAd(
-      adUnitId: admob_test_interstial,
-      request: AdRequest(),
-      listener: AdListener(
-          onAdFailedToLoad: (ad, error) {
-            ad.dispose();
-          },
-          onAdLoaded: (ad) {}),
-    );
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   //TODO: - Add Interstial Ad
+  //   _myInterstitial = InterstitialAd(
+  //     adUnitId: admob_test_interstial,
+  //     request: AdRequest(),
+  //     listener: AdListener(
+  //         onAdFailedToLoad: (ad, error) {
+  //           ad.dispose();
+  //         },
+  //         onAdLoaded: (ad) {}),
+  //   );
 
-    _ad = BannerAd(
-      adUnitId: level_page_banner,
-      size: AdSize.banner,
-      request: AdRequest(),
-      listener: AdListener(
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-        },
-      ),
-    );
-    _ad.load();
-    _myInterstitial.load();
-  }
+  //   _ad = BannerAd(
+  //     adUnitId: level_page_banner,
+  //     size: AdSize.banner,
+  //     request: AdRequest(),
+  //     listener: AdListener(
+  //       onAdFailedToLoad: (ad, error) {
+  //         ad.dispose();
+  //       },
+  //     ),
+  //   );
+  //   _ad.load();
+  //   _myInterstitial.load();
+  // }
 
-  @override
-  void dispose() {
-    _ad?.dispose();
-    _myInterstitial?.dispose();
+  // @override
+  // void dispose() {
+  //   _ad?.dispose();
+  //   _myInterstitial?.dispose();
 
-    super.dispose();
-  }
+  //   super.dispose();
+  // }
 
   void onTapWallpaper(
       BuildContext context, List und, DocumentSnapshot e) async {
     if (und.contains(e.id)) {
-      if (await _myInterstitial.isLoaded()) {
-        await _myInterstitial.show();
-      }
+      // if (await _myInterstitial.isLoaded()) {
+      //   await _myInterstitial.show();
+      // }
       await Navigator.push(
         context,
         MaterialPageRoute(
@@ -227,9 +224,9 @@ class _LevelPageState extends State<LevelPage> {
                             return Column(
                               children: [
                                 _wallpaperGrid(_data, context),
-                                CustomBannerAd(
-                                  ad: _ad,
-                                ),
+                                // CustomBannerAd(
+                                //   ad: _ad,
+                                // ),
                               ],
                             );
                           }

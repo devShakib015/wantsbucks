@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
-import 'package:wantsbucks/constants.dart';
-import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/providers/earning_provider.dart';
 import 'package:wantsbucks/providers/user_provider.dart';
 
@@ -23,30 +20,30 @@ class Bonuses extends StatefulWidget {
 }
 
 class _BonusesState extends State<Bonuses> {
-  BannerAd _ad;
-  @override
-  void initState() {
-    super.initState();
+  // BannerAd _ad;
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    _ad = BannerAd(
-      adUnitId: bonus_page_banner,
-      size: AdSize.banner,
-      request: AdRequest(),
-      listener: AdListener(
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-        },
-      ),
-    );
-    _ad.load();
-  }
+  //   _ad = BannerAd(
+  //     adUnitId: bonus_page_banner,
+  //     size: AdSize.banner,
+  //     request: AdRequest(),
+  //     listener: AdListener(
+  //       onAdFailedToLoad: (ad, error) {
+  //         ad.dispose();
+  //       },
+  //     ),
+  //   );
+  //   _ad.load();
+  // }
 
-  @override
-  void dispose() {
-    _ad?.dispose();
+  // @override
+  // void dispose() {
+  //   _ad?.dispose();
 
-    super.dispose();
-  }
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -147,9 +144,9 @@ class _BonusesState extends State<Bonuses> {
                         );
                       }
                     })),
-            CustomBannerAd(
-              ad: _ad,
-            ),
+            // CustomBannerAd(
+            //   ad: _ad,
+            // ),
           ],
         ),
       ),

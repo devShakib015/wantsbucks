@@ -1,9 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
-import 'package:wantsbucks/constants.dart';
-import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/providers/earning_provider.dart';
 import 'package:wantsbucks/providers/withdraw_provider.dart';
@@ -29,30 +26,30 @@ class _RequestWithdrawState extends State<RequestWithdraw> {
   TextEditingController _amountController = TextEditingController();
   TextEditingController _passController = TextEditingController();
   int _originalWithdraw = 0;
-  BannerAd _ad;
+  // BannerAd _ad;
 
-  @override
-  void initState() {
-    super.initState();
-    _ad = BannerAd(
-      adUnitId: request_withdraw_banner,
-      size: AdSize.banner,
-      request: AdRequest(),
-      listener: AdListener(
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-        },
-      ),
-    );
-    _ad.load();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _ad = BannerAd(
+  //     adUnitId: request_withdraw_banner,
+  //     size: AdSize.banner,
+  //     request: AdRequest(),
+  //     listener: AdListener(
+  //       onAdFailedToLoad: (ad, error) {
+  //         ad.dispose();
+  //       },
+  //     ),
+  //   );
+  //   _ad.load();
+  // }
 
-  @override
-  void dispose() {
-    _ad?.dispose();
+  // @override
+  // void dispose() {
+  //   _ad?.dispose();
 
-    super.dispose();
-  }
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -285,9 +282,9 @@ class _RequestWithdrawState extends State<RequestWithdraw> {
                     ),
                   ),
                 ),
-                CustomBannerAd(
-                  ad: _ad,
-                )
+                // CustomBannerAd(
+                //   ad: _ad,
+                // )
               ],
             ),
           );

@@ -225,9 +225,7 @@
 //
 //
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:wantsbucks/constants.dart';
-import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:wantsbucks/custom%20widgets/my_url_launcher.dart';
 
 class TopUp extends StatefulWidget {
@@ -236,30 +234,30 @@ class TopUp extends StatefulWidget {
 }
 
 class _TopUpState extends State<TopUp> {
-  BannerAd _ad;
+  // BannerAd _ad;
 
-  @override
-  void initState() {
-    super.initState();
-    _ad = BannerAd(
-      adUnitId: top_up_banner,
-      size: AdSize.banner,
-      request: AdRequest(),
-      listener: AdListener(
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-        },
-      ),
-    );
-    _ad.load();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _ad = BannerAd(
+  //     adUnitId: top_up_banner,
+  //     size: AdSize.banner,
+  //     request: AdRequest(),
+  //     listener: AdListener(
+  //       onAdFailedToLoad: (ad, error) {
+  //         ad.dispose();
+  //       },
+  //     ),
+  //   );
+  //   _ad.load();
+  // }
 
-  @override
-  void dispose() {
-    _ad?.dispose();
+  // @override
+  // void dispose() {
+  //   _ad?.dispose();
 
-    super.dispose();
-  }
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -349,9 +347,9 @@ class _TopUpState extends State<TopUp> {
               ],
             ),
           ),
-          CustomBannerAd(
-            ad: _ad,
-          ),
+          // CustomBannerAd(
+          //   ad: _ad,
+          // ),
         ],
       ),
     );

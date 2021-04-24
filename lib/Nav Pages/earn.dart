@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/custom%20widgets/my_url_launcher.dart';
 import 'package:wantsbucks/custom%20widgets/point_and_earning.dart';
-import 'package:wantsbucks/other_pages/video_player.dart';
 import 'package:wantsbucks/providers/customads_provider.dart';
-import 'package:wantsbucks/providers/point_provider.dart';
-import 'package:wantsbucks/theming/color_constants.dart';
 
 class Earn extends StatefulWidget {
   @override
@@ -100,67 +97,78 @@ class _EarnState extends State<Earn> {
               height: 20,
             ),
             Expanded(
-              child: GestureDetector(
-                onTap: () async {
-                  int _point = await Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => VideoPlayer()));
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 60),
+                child: GestureDetector(
+                  onTap: () async {
+                    // int _point = await Navigator.push(context,
+                    //     MaterialPageRoute(builder: (context) => VideoPlayer()));
 
-                  print("Point : $_point");
-                  if (_point != null) {
-                    await Provider.of<PointProvider>(context, listen: false)
-                        .addPoint(_point);
-                  }
-                  // ScaffoldMessenger.of(context).showSnackBar(
-                  //   SnackBar(
-                  //     backgroundColor: dangerColor,
-                  //     duration: Duration(seconds: 8),
-                  //     content: Text(
-                  //         "This feature will come at 1st July 2021.\nUntil then try to earn by reffering users. You account will be activated in this period. Don't worry about it!"),
-                  //   ),
-                  // );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(40.0),
-                  child: Card(
-                    elevation: 15,
-                    shadowColor: Color(0xff273238),
-                    color: Color(0xffb20238),
-                    child: GridTile(
-                        header: Padding(
-                          padding: const EdgeInsets.all(24.0),
-                          child: Center(
-                            child: Text(
-                              "Earn Point",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                        footer: Padding(
-                          padding: const EdgeInsets.all(24.0),
-                          child: Center(
-                            child: Text(
-                              "Click Here and Wait",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ),
-                        child: Center(
-                          child: Container(
-                              width: MediaQuery.of(context).size.width * 05,
+                    // if (_point != null) {
+                    //   await Provider.of<PointProvider>(context, listen: false)
+                    //       .addPoint(_point);
+                    // }
+                    //
+                    await showDialog(
+                        context: context,
+                        builder: (context) => Dialog(
+                              backgroundColor: Color(0xffab0e22),
                               child: Padding(
-                                padding: const EdgeInsets.all(32.0),
-                                child: Image.asset(
-                                  "assets/images/ad.png",
-                                  width: 80,
+                                padding: const EdgeInsets.all(24.0),
+                                child: Text(
+                                  "This feature will be availabe when the community reaches 10,000 members.\nUntil then try to earn by referring users. The account activation process will start from 1st july 2021 [90 days per activation period].",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
                                 ),
-                              )),
-                        )),
+                              ),
+                            ));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(40.0),
+                    child: Card(
+                      elevation: 15,
+                      shadowColor: Color(0xff273238),
+                      color: Color(0xffb20238),
+                      child: GridTile(
+                          header: Padding(
+                            padding: const EdgeInsets.all(24.0),
+                            child: Center(
+                              child: Text(
+                                "Earn Point",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          footer: Padding(
+                            padding: const EdgeInsets.all(24.0),
+                            child: Center(
+                              child: Text(
+                                "Click Here and Wait",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          child: Center(
+                            child: Container(
+                                width: MediaQuery.of(context).size.width * 05,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(32.0),
+                                  child: Image.asset(
+                                    "assets/images/ad.png",
+                                    width: 80,
+                                  ),
+                                )),
+                          )),
+                    ),
                   ),
                 ),
               ),
@@ -236,7 +244,7 @@ class _EarnState extends State<Earn> {
                           width: MediaQuery.of(context).size.width,
                           child: Image.network(
                             i["adurl"],
-                            fit: BoxFit.fill,
+                            fit: BoxFit.fitWidth,
                           )),
                     );
                   },

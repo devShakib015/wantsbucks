@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
-import 'package:wantsbucks/constants.dart';
 import 'package:wantsbucks/other_pages/bonuses.dart';
 import 'package:wantsbucks/other_pages/drawings_list_page.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
@@ -16,31 +14,31 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  InterstitialAd _myInterstitial;
+  // InterstitialAd _myInterstitial;
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    _myInterstitial = InterstitialAd(
-      adUnitId: dashboard_Interstitial,
-      request: AdRequest(),
-      listener: AdListener(
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-        },
-      ),
-    );
+  //   _myInterstitial = InterstitialAd(
+  //     adUnitId: dashboard_Interstitial,
+  //     request: AdRequest(),
+  //     listener: AdListener(
+  //       onAdFailedToLoad: (ad, error) {
+  //         ad.dispose();
+  //       },
+  //     ),
+  //   );
 
-    _myInterstitial.load();
-  }
+  //   _myInterstitial.load();
+  // }
 
-  @override
-  void dispose() {
-    _myInterstitial?.dispose();
+  // @override
+  // void dispose() {
+  //   _myInterstitial?.dispose();
 
-    super.dispose();
-  }
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -153,42 +151,10 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             GestureDetector(
                               onTap: () async {
-                                if (await _myInterstitial.isLoaded()) {
-                                  await _myInterstitial.show();
-                                }
-                                await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            DrawingsList())).then((value) {
-                                  setState(() {});
-                                });
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(4),
-                                child: Card(
-                                  color: Color(0xff8a2e7f),
-                                  child: Container(
-                                    padding: EdgeInsets.all(16),
-                                    width: double.infinity,
-                                    child: Text(
-                                      "Drawings",
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () async {
                                 //Bonuses
-                                if (await _myInterstitial.isLoaded()) {
-                                  await _myInterstitial.show();
-                                }
+                                // if (await _myInterstitial.isLoaded()) {
+                                //   await _myInterstitial.show();
+                                // }
                                 await Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -221,9 +187,9 @@ class _DashboardState extends State<Dashboard> {
                             ),
                             GestureDetector(
                               onTap: () async {
-                                if (await _myInterstitial.isLoaded()) {
-                                  await _myInterstitial.show();
-                                }
+                                // if (await _myInterstitial.isLoaded()) {
+                                //   await _myInterstitial.show();
+                                // }
                                 await Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -238,6 +204,38 @@ class _DashboardState extends State<Dashboard> {
                                     width: double.infinity,
                                     child: Text(
                                       "Transfers",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () async {
+                                // if (await _myInterstitial.isLoaded()) {
+                                //   await _myInterstitial.show();
+                                // }
+                                await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DrawingsList())).then((value) {
+                                  setState(() {});
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(4),
+                                child: Card(
+                                  color: Color(0xff7382d6),
+                                  child: Container(
+                                    padding: EdgeInsets.all(16),
+                                    width: double.infinity,
+                                    child: Text(
+                                      "Drawings",
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 24,

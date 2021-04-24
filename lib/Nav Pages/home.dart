@@ -1,10 +1,9 @@
+import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
-import 'package:wantsbucks/constants.dart';
 import 'package:wantsbucks/custom%20widgets/point_and_earning.dart';
 import 'package:wantsbucks/custom%20widgets/my_url_launcher.dart';
 import 'package:wantsbucks/other_pages/level_page.dart';
@@ -13,6 +12,7 @@ import 'package:wantsbucks/other_pages/something_went_wrong.dart';
 import 'package:wantsbucks/providers/customads_provider.dart';
 import 'package:wantsbucks/providers/user_wallpaper_provider.dart';
 import 'package:wantsbucks/providers/wallpaper_provider.dart';
+import 'package:wantsbucks/theming/color_constants.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -21,42 +21,42 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final _colors = [
-    Color(0xffe52165),
-    Color(0xff077b8a),
-    Color(0xff5c3c92),
     Color(0xff12a4d9),
-    Color(0xffb20238),
-    Color(0xffe75874),
-    Color(0xff6b7b8c),
-    Color(0xff7a2048),
-    Color(0xff6883bc),
-    Color(0xff8a307f),
+    Color(0xff25476d),
+    Color(0xffb72c31),
+    Color(0xff12505b),
+    Color(0xffe08f1a),
+    Color(0xff343b71),
+    Color(0xffab0e22),
+    Color(0xff0c5a88),
+    Color(0xff18b3e0),
+    mainColor,
   ];
 
-  InterstitialAd _myInterstitial;
+  // InterstitialAd _myInterstitial;
 
-  @override
-  void initState() {
-    super.initState();
-    _myInterstitial = InterstitialAd(
-      adUnitId: homepage_Interstitial,
-      request: AdRequest(),
-      listener: AdListener(
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-        },
-      ),
-    );
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _myInterstitial = InterstitialAd(
+  //     adUnitId: homepage_Interstitial,
+  //     request: AdRequest(),
+  //     listener: AdListener(
+  //       onAdFailedToLoad: (ad, error) {
+  //         ad.dispose();
+  //       },
+  //     ),
+  //   );
 
-    _myInterstitial.load();
-  }
+  //   _myInterstitial.load();
+  // }
 
-  @override
-  void dispose() {
-    _myInterstitial?.dispose();
+  // @override
+  // void dispose() {
+  //   _myInterstitial?.dispose();
 
-    super.dispose();
-  }
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -80,16 +80,18 @@ class _HomeState extends State<Home> {
                   future: Provider.of<CustomAdsProvider>(context).loadHomeAds(),
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
+                    double _adHeight =
+                        MediaQuery.of(context).size.height * 0.17;
                     if (snapshot.connectionState != ConnectionState.done) {
                       return Container(
-                        height: MediaQuery.of(context).size.height * 0.16,
+                        height: _adHeight,
                         child: Center(
                           child: Text("Ads Loading..."),
                         ),
                       );
                     } else if (snapshot.hasError) {
                       return Container(
-                        height: MediaQuery.of(context).size.height * 0.16,
+                        height: _adHeight,
                         child: Center(
                           child: Text("Error Loading ads"),
                         ),
@@ -112,10 +114,10 @@ class _HomeState extends State<Home> {
 
                       if (snapshot.data.docs.isEmpty) {
                         return Container();
-                      } else
+                      } else {
                         return CarouselSlider(
                           options: CarouselOptions(
-                            height: MediaQuery.of(context).size.height * 0.17,
+                            height: _adHeight,
                             aspectRatio: 16 / 9,
                             viewportFraction: 1,
                             initialPage: 0,
@@ -140,13 +142,14 @@ class _HomeState extends State<Home> {
                                       width: MediaQuery.of(context).size.width,
                                       child: Image.network(
                                         i["adurl"],
-                                        fit: BoxFit.fill,
+                                        fit: BoxFit.fitWidth,
                                       )),
                                 );
                               },
                             );
                           }).toList(),
                         );
+                      }
                     }
                   },
                 ),
@@ -154,43 +157,52 @@ class _HomeState extends State<Home> {
                   height: 5,
                 ),
                 Expanded(
-                  child: ListView(
-                    children: _data.map((e) {
-                      return FutureBuilder<QuerySnapshot>(
-                        future: Provider.of<UserWallpaperProvider>(context)
-                            .getUnlockedLevels(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if (snapshot.connectionState !=
-                              ConnectionState.done) {
-                            return Card(
-                              color: Colors.transparent,
-                              child: ListTile(
-                                title: Text("Loading..."),
-                              ),
-                            );
-                          } else if (snapshot.hasError) {
-                            return Card(
-                              color: Colors.transparent,
-                              child: ListTile(
-                                title:
-                                    Text("There is a problem loading items."),
-                              ),
-                            );
-                          } else {
-                            final _uqds = snapshot.data.docs;
-                            List _unlockedLevels = [];
-                            for (var item in _uqds) {
-                              _unlockedLevels.add(item.id);
-                            }
+                  child: Scrollbar(
+                    isAlwaysShown: true,
+                    radius: Radius.circular(10),
+                    showTrackOnHover: true,
+                    thickness: 14,
+                    child: ListView(
+                      children: _data.map((e) {
+                        return FutureBuilder<QuerySnapshot>(
+                          future: Provider.of<UserWallpaperProvider>(context)
+                              .getUnlockedLevels(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (snapshot.connectionState !=
+                                ConnectionState.done) {
+                              return Card(
+                                color: Colors.transparent,
+                                child: ListTile(
+                                  title: Text("Loading..."),
+                                ),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Card(
+                                color: Colors.transparent,
+                                child: ListTile(
+                                  title:
+                                      Text("There is a problem loading items."),
+                                ),
+                              );
+                            } else {
+                              final _uqds = snapshot.data.docs;
+                              List _unlockedLevels = [];
+                              for (var item in _uqds) {
+                                _unlockedLevels.add(item.id);
+                              }
 
-                            return _levelCard(
-                                context, _colors, _data, e, _unlockedLevels);
-                          }
-                        },
-                      );
-                    }).toList(),
+                              return _levelCard(
+                                  context, _colors, _data, e, _unlockedLevels);
+                            }
+                          },
+                        );
+                      }).toList(),
+                    ),
                   ),
+                ),
+                SizedBox(
+                  height: 10,
                 ),
               ]);
             }
@@ -211,9 +223,9 @@ class _HomeState extends State<Home> {
       child: ListTile(
         onTap: () async {
           if (_unlockedLevels.contains(e.id)) {
-            if (await _myInterstitial.isLoaded()) {
-              await _myInterstitial.show();
-            }
+            // if (await _myInterstitial.isLoaded()) {
+            //   await _myInterstitial.show();
+            // }
             await Navigator.push(
               context,
               MaterialPageRoute(

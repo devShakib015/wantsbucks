@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:wantsbucks/Nav%20Pages/dashboard.dart';
 import 'package:wantsbucks/Nav%20Pages/directs.dart';
 import 'package:wantsbucks/Nav%20Pages/earn.dart';
 import 'package:wantsbucks/Nav%20Pages/home.dart';
 import 'package:wantsbucks/Nav%20Pages/profile.dart';
-import 'package:wantsbucks/constants.dart';
-import 'package:wantsbucks/custom%20widgets/custom_banner_ad.dart';
 import 'package:wantsbucks/theming/color_constants.dart';
 
 class App extends StatefulWidget {
@@ -20,42 +17,50 @@ class _AppState extends State<App> {
   double _iconSize = 28.0;
   GlobalKey _bottomNavigationKey = GlobalKey();
 
-  BannerAd _ad;
-  InterstitialAd _myInterstitial;
+  // BannerAd _ad;
+  // InterstitialAd _myInterstitial;
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    _myInterstitial = InterstitialAd(
-      adUnitId: main_Interstitial,
-      request: AdRequest(),
-      listener: AdListener(onAdFailedToLoad: (ad, error) {
-        ad.dispose();
-        // print(
-        // "The main Interstitial ad cannot be loaded............................");
-      }, onAdLoaded: (ad) {
-        // print(
-        // "The main Interstitial ad is successfully loaded...................");
-      }),
-    );
+  //   _myInterstitial = InterstitialAd(
+  //     adUnitId: main_Interstitial,
+  //     request: AdRequest(),
+  //     listener: AdListener(onAdFailedToLoad: (ad, error) {
+  //       ad.dispose();
+  //       // print(
+  //       // "The main Interstitial ad cannot be loaded............................");
+  //     }, onAdLoaded: (ad) {
+  //       // print(
+  //       // "The main Interstitial ad is successfully loaded...................");
+  //     }),
+  //   );
 
-    _ad = BannerAd(
-      adUnitId: main_banner,
-      size: AdSize.banner,
-      request: AdRequest(),
-      listener: AdListener(onAdFailedToLoad: (ad, error) {
-        ad.dispose();
-        // print(
-        // "The main banner ad cannot be loaded............................");
-      }, onAdLoaded: (ad) {
-        // print("The main banner ad is successfully loaded...................");
-      }),
-    );
+  //   _ad = BannerAd(
+  //     adUnitId: main_banner,
+  //     size: AdSize.banner,
+  //     request: AdRequest(),
+  //     listener: AdListener(onAdFailedToLoad: (ad, error) {
+  //       ad.dispose();
+  //       // print(
+  //       // "The main banner ad cannot be loaded............................");
+  //     }, onAdLoaded: (ad) {
+  //       // print("The main banner ad is successfully loaded...................");
+  //     }),
+  //   );
 
-    _ad.load();
-    _myInterstitial.load();
-  }
+  //   _ad.load();
+  //   _myInterstitial.load();
+  // }
+
+  // @override
+  // void dispose() {
+  //   _ad?.dispose();
+  //   _myInterstitial?.dispose();
+
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -97,9 +102,9 @@ class _AppState extends State<App> {
         animationCurve: Curves.easeInOutCubic,
         animationDuration: Duration(milliseconds: 300),
         onTap: (index) async {
-          if (await _myInterstitial.isLoaded()) {
-            await _myInterstitial.show();
-          }
+          // if (await _myInterstitial.isLoaded()) {
+          //   await _myInterstitial.show();
+          // }
           setState(() {
             _page = index;
           });
@@ -109,20 +114,12 @@ class _AppState extends State<App> {
       body: Column(
         children: [
           Expanded(child: _selectedNavPage(_page)),
-          CustomBannerAd(
-            ad: _ad,
-          ),
+          // CustomBannerAd(
+          //   ad: _ad,
+          // ),
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _ad?.dispose();
-    _myInterstitial?.dispose();
-
-    super.dispose();
   }
 
   Widget _selectedNavPage(int index) {

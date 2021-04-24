@@ -1,10 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:wantsbucks/Auth%20Pages/register.dart';
-import 'package:wantsbucks/constants.dart';
 import 'package:wantsbucks/custom%20widgets/custom_date_format.dart';
 import 'package:wantsbucks/custom%20widgets/my_url_launcher.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
@@ -23,31 +21,31 @@ class Direct extends StatefulWidget {
 }
 
 class _DirectState extends State<Direct> {
-  InterstitialAd _myInterstitial;
+  // InterstitialAd _myInterstitial;
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    _myInterstitial = InterstitialAd(
-      adUnitId: direct_Interstitial,
-      request: AdRequest(),
-      listener: AdListener(
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-        },
-      ),
-    );
+  //   _myInterstitial = InterstitialAd(
+  //     adUnitId: direct_Interstitial,
+  //     request: AdRequest(),
+  //     listener: AdListener(
+  //       onAdFailedToLoad: (ad, error) {
+  //         ad.dispose();
+  //       },
+  //     ),
+  //   );
 
-    _myInterstitial.load();
-  }
+  //   _myInterstitial.load();
+  // }
 
-  @override
-  void dispose() {
-    _myInterstitial?.dispose();
+  // @override
+  // void dispose() {
+  //   _myInterstitial?.dispose();
 
-    super.dispose();
-  }
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +64,9 @@ class _DirectState extends State<Direct> {
                 tooltip: "Join New User",
                 onPressed: _data == 0
                     ? () async {
-                        if (await _myInterstitial.isLoaded()) {
-                          await _myInterstitial.show();
-                        }
+                        // if (await _myInterstitial.isLoaded()) {
+                        //   await _myInterstitial.show();
+                        // }
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             backgroundColor: dangerColor,
@@ -78,9 +76,9 @@ class _DirectState extends State<Direct> {
                         );
                       }
                     : () async {
-                        if (await _myInterstitial.isLoaded()) {
-                          await _myInterstitial.show();
-                        }
+                        // if (await _myInterstitial.isLoaded()) {
+                        //   await _myInterstitial.show();
+                        // }
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -112,9 +110,9 @@ class _DirectState extends State<Direct> {
                           fit: BoxFit.cover,
                         )),
                     onPressed: () async {
-                      if (await _myInterstitial.isLoaded()) {
-                        await _myInterstitial.show();
-                      }
+                      // if (await _myInterstitial.isLoaded()) {
+                      //   await _myInterstitial.show();
+                      // }
                       await Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -134,9 +132,9 @@ class _DirectState extends State<Direct> {
                           )),
                       onPressed: _data == 0
                           ? () async {
-                              if (await _myInterstitial.isLoaded()) {
-                                await _myInterstitial.show();
-                              }
+                              // if (await _myInterstitial.isLoaded()) {
+                              //   await _myInterstitial.show();
+                              // }
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   backgroundColor: dangerColor,
@@ -147,9 +145,9 @@ class _DirectState extends State<Direct> {
                             }
                           : () async {
                               //Transfer
-                              if (await _myInterstitial.isLoaded()) {
-                                await _myInterstitial.show();
-                              }
+                              // if (await _myInterstitial.isLoaded()) {
+                              //   await _myInterstitial.show();
+                              // }
                               await Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -185,25 +183,31 @@ class _DirectState extends State<Direct> {
                               return Center(
                                   child: Text("You didn't join any user."));
                             } else {
-                              return ListView(
-                                children: _d.map((e) {
-                                  var _date =
-                                      DateTime.fromMillisecondsSinceEpoch(
-                                          e.data()["joiningDate"]);
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 4),
-                                    child: ListTile(
-                                      leading: Text(
-                                          "${_directsList.indexOf(e) + 1}"),
-                                      tileColor: mainColor,
-                                      title: Text(e.data()["name"]),
-                                      subtitle: Text(
-                                          "${e.data()["email"]}\n${customDateFormat(_date)}"),
-                                      isThreeLine: true,
-                                    ),
-                                  );
-                                }).toList(),
+                              return Scrollbar(
+                                isAlwaysShown: true,
+                                radius: Radius.circular(10),
+                                showTrackOnHover: true,
+                                thickness: 14,
+                                child: ListView(
+                                  children: _d.map((e) {
+                                    var _date =
+                                        DateTime.fromMillisecondsSinceEpoch(
+                                            e.data()["joiningDate"]);
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 4),
+                                      child: ListTile(
+                                        leading: Text(
+                                            "${_directsList.indexOf(e) + 1}"),
+                                        tileColor: mainColor,
+                                        title: Text(e.data()["name"]),
+                                        subtitle: Text(
+                                            "${e.data()["email"]}\n${customDateFormat(_date)}"),
+                                        isThreeLine: true,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
                               );
                             }
                           }
@@ -251,7 +255,7 @@ class _DirectState extends State<Direct> {
                             return CarouselSlider(
                               options: CarouselOptions(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.06,
+                                    MediaQuery.of(context).size.height * 0.08,
                                 aspectRatio: 16 / 9,
                                 viewportFraction: 1,
                                 initialPage: 0,
@@ -277,7 +281,7 @@ class _DirectState extends State<Direct> {
                                               MediaQuery.of(context).size.width,
                                           child: Image.network(
                                             i["adurl"],
-                                            fit: BoxFit.fill,
+                                            fit: BoxFit.fitWidth,
                                           )),
                                     );
                                   },

@@ -1,5 +1,3 @@
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:wantsbucks/constants.dart';
 import 'package:wantsbucks/custom%20widgets/custom_date_format.dart';
 import 'package:wantsbucks/other_pages/loading.dart';
 import 'package:wantsbucks/other_pages/request_withdraw.dart';
@@ -23,31 +21,31 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  InterstitialAd _myInterstitial;
+  // InterstitialAd _myInterstitial;
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    _myInterstitial = InterstitialAd(
-      adUnitId: profile_Interstitial,
-      request: AdRequest(),
-      listener: AdListener(
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-        },
-      ),
-    );
+  //   _myInterstitial = InterstitialAd(
+  //     adUnitId: profile_Interstitial,
+  //     request: AdRequest(),
+  //     listener: AdListener(
+  //       onAdFailedToLoad: (ad, error) {
+  //         ad.dispose();
+  //       },
+  //     ),
+  //   );
 
-    _myInterstitial.load();
-  }
+  //   _myInterstitial.load();
+  // }
 
-  @override
-  void dispose() {
-    _myInterstitial?.dispose();
+  // @override
+  // void dispose() {
+  //   _myInterstitial?.dispose();
 
-    super.dispose();
-  }
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +60,9 @@ class _ProfileState extends State<Profile> {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () async {
-              if (await _myInterstitial.isLoaded()) {
-                await _myInterstitial.show();
-              }
+              // if (await _myInterstitial.isLoaded()) {
+              //   await _myInterstitial.show();
+              // }
               await Navigator.push(context,
                   MaterialPageRoute(builder: (context) => WBSettings()));
             },
@@ -186,7 +184,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Container _activityWidget(
+  Widget _activityWidget(
       BuildContext context,
       Map<String, dynamic> _data,
       int _earning,
@@ -204,174 +202,176 @@ class _ProfileState extends State<Profile> {
           color: _dayLeft <= 0 ? Color(0xffb21d13) : Color(0xff2aa965),
           borderRadius: BorderRadius.circular(20)),
       margin: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-      padding: EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Joined",
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  Text(
-                    customDateFormat(_joiningDate),
-                    style: _textStyle,
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Due Date",
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  Text(
-                    customDateFormat(_dueDate),
-                    style: _textStyle,
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Container(
-            height: 130,
-            child: Center(
-              child: _dayLeft <= 0
-                  ? Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          "Suspended!",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text("Total Payable: $_totalPayable "),
-                      ],
-                    )
-                  : Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          "Activated!",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(_dayLeft == 1
-                            ? "$_dayLeft day left"
-                            : "$_dayLeft days left"),
-                      ],
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Joined",
+                      style: TextStyle(fontSize: 15),
                     ),
+                    Text(
+                      customDateFormat(_joiningDate),
+                      style: _textStyle,
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Due Date",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Text(
+                      customDateFormat(_dueDate),
+                      style: _textStyle,
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Re-Activated",
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  Text(
-                    customDateFormat(_reRegisterDate),
-                    style: _textStyle,
-                  ),
-                ],
-              ),
-              ElevatedButton(
-                style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                  Colors.white,
-                )),
-                onPressed: _dayLeft <= 0
-                    ? () async {
-                        //Reactivation
-                        if (_earning < _totalPayable) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                  "You don't have sufficient balance to reactivate.\nEarn first!")));
-                        } else {
-                          await showDialog(
-                              context: context,
-                              builder: (context) => AlertDialog(
-                                    title: Text(
-                                        "$_totalPayable taka will be charged from profit to reactivate your account. Are you sure about it?"),
-                                    actions: [
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text("Cancel")),
-                                      ElevatedButton(
-                                          onPressed: () {
-                                            Provider.of<EarningProvider>(
-                                                    context,
-                                                    listen: false)
-                                                .reduceProfit(_totalPayable);
-                                            Provider.of<UserProvider>(context,
-                                                    listen: false)
-                                                .reactivatedUser(
-                                                    _data["dueDate"]);
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text("Sure")),
-                                    ],
-                                  ));
-                        }
-                      }
-                    : () async {
-                        //Withdraw
-                        if (_earning < 300) {
-                          if (await _myInterstitial.isLoaded()) {
-                            await _myInterstitial.show();
-                          }
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                  "You must have at least 300 taka to withdraw.")));
-                        } else {
-                          if (await _myInterstitial.isLoaded()) {
-                            await _myInterstitial.show();
-                          }
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  RequestWithdraw(currentProfit: _earning),
-                            ),
-                          );
-                        }
-                      },
+            Container(
+              height: 130,
+              child: Center(
                 child: _dayLeft <= 0
-                    ? Text(
-                        "Re-Activate",
-                        style: TextStyle(
-                            color: Color(0xffb21d13),
-                            fontWeight: FontWeight.bold),
+                    ? Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Suspended!",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text("Total Payable: $_totalPayable "),
+                        ],
                       )
-                    : Text(
-                        "Withdraw",
-                        style: TextStyle(
-                            color: Color(0xff2aa965),
-                            fontWeight: FontWeight.bold),
+                    : Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Activated!",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(_dayLeft == 1
+                              ? "$_dayLeft day left"
+                              : "$_dayLeft days left"),
+                        ],
                       ),
-              )
-            ],
-          )
-        ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Re-Activated",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Text(
+                      customDateFormat(_reRegisterDate),
+                      style: _textStyle,
+                    ),
+                  ],
+                ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                    Colors.white,
+                  )),
+                  onPressed: _dayLeft <= 0
+                      ? () async {
+                          //Reactivation
+                          if (_earning < _totalPayable) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    "You don't have sufficient balance to reactivate.\nEarn first!")));
+                          } else {
+                            await showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                      title: Text(
+                                          "$_totalPayable taka will be charged from profit to reactivate your account. Are you sure about it?"),
+                                      actions: [
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Cancel")),
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              Provider.of<EarningProvider>(
+                                                      context,
+                                                      listen: false)
+                                                  .reduceProfit(_totalPayable);
+                                              Provider.of<UserProvider>(context,
+                                                      listen: false)
+                                                  .reactivatedUser(
+                                                      _data["dueDate"]);
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Sure")),
+                                      ],
+                                    ));
+                          }
+                        }
+                      : () async {
+                          //Withdraw
+                          if (_earning < 300) {
+                            // if (await _myInterstitial.isLoaded()) {
+                            //   await _myInterstitial.show();
+                            // }
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    "You must have at least 300 taka to withdraw.")));
+                          } else {
+                            // if (await _myInterstitial.isLoaded()) {
+                            //   await _myInterstitial.show();
+                            // }
+                            await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    RequestWithdraw(currentProfit: _earning),
+                              ),
+                            );
+                          }
+                        },
+                  child: _dayLeft <= 0
+                      ? Text(
+                          "Re-Activate",
+                          style: TextStyle(
+                              color: Color(0xffb21d13),
+                              fontWeight: FontWeight.bold),
+                        )
+                      : Text(
+                          "Withdraw",
+                          style: TextStyle(
+                              color: Color(0xff2aa965),
+                              fontWeight: FontWeight.bold),
+                        ),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
