@@ -38,7 +38,7 @@ class _LevelPageState extends State<LevelPage> {
   // @override
   // void initState() {
   //   super.initState();
-  //   //TODO: - Add Interstial Ad
+
   //   _myInterstitial = InterstitialAd(
   //     adUnitId: admob_test_interstial,
   //     request: AdRequest(),

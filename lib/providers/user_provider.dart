@@ -59,6 +59,12 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> updateProfile({String name, String phone}) async {
+    await _currentUserDocument.update({"name": name, "phone": phone});
+
+    notifyListeners();
+  }
+
   void reactivatedUser(int dueDate) async {
     try {
       DateTime _currentDate = DateTime.now();

@@ -263,7 +263,7 @@ class _HomeState extends State<Home> {
             ),
           ),
         ),
-        subtitle: Text("Interest Rate : ${e.data()["interest"]}%"),
+        subtitle: Text("Profit Rate : ${e.data()["interest"]}%"),
         trailing: _unlockedLevels.contains(e.id) ? null : Icon(Icons.lock),
       ),
     );

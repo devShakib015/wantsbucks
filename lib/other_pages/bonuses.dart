@@ -111,9 +111,10 @@ class _BonusesState extends State<Bonuses> {
           title: Text("Bonuses"),
           bottom: TabBar(
             labelColor: mainColor,
+            labelPadding: EdgeInsets.all(6),
             tabs: [
               Tab(
-                text: "Referral Bonus",
+                text: "Direct Bonus",
               ),
               Tab(
                 text: "Point Bonus",
@@ -219,7 +220,7 @@ class _BonusesState extends State<Bonuses> {
                             ? Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Text(
-                                  "points to get this Bonus!\n(${e["bonus"]})",
+                                  "points to get this Bonus!\n(BDT - ${e["bonus"]})",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 14,

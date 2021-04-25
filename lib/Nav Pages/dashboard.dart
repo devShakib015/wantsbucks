@@ -137,7 +137,7 @@ class _DashboardState extends State<Dashboard> {
                                           style: TextStyle(fontSize: 15),
                                         ),
                                         Text(
-                                          "${_data["totalUsers"]}",
+                                          "${_data["totalUsers"] - 3}",
                                           style: TextStyle(
                                             fontSize: 30,
                                             fontWeight: FontWeight.w900,

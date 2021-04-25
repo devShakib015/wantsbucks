@@ -91,85 +91,79 @@ class _EarnState extends State<Earn> {
       ),
       body: Container(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _earnPointCustomAds(context),
-            SizedBox(
-              height: 20,
-            ),
-            Expanded(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 60),
-                child: GestureDetector(
-                  onTap: () async {
-                    // int _point = await Navigator.push(context,
-                    //     MaterialPageRoute(builder: (context) => VideoPlayer()));
+            Container(
+              width: 300,
+              height: 300,
+              child: GestureDetector(
+                onTap: () async {
+                  // int _point = await Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => VideoPlayer()));
 
-                    // if (_point != null) {
-                    //   await Provider.of<PointProvider>(context, listen: false)
-                    //       .addPoint(_point);
-                    // }
-                    //
-                    await showDialog(
-                        context: context,
-                        builder: (context) => Dialog(
-                              backgroundColor: Color(0xffab0e22),
-                              child: Padding(
-                                padding: const EdgeInsets.all(24.0),
-                                child: Text(
-                                  "This feature will be availabe when the community reaches 10,000 members.\nUntil then try to earn by referring users. The account activation process will start from 1st july 2021 [90 days per activation period].",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                            ));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(40.0),
-                    child: Card(
-                      elevation: 15,
-                      shadowColor: Color(0xff273238),
-                      color: Color(0xffb20238),
-                      child: GridTile(
-                          header: Padding(
-                            padding: const EdgeInsets.all(24.0),
-                            child: Center(
+                  // if (_point != null) {
+                  //   await Provider.of<PointProvider>(context, listen: false)
+                  //       .addPoint(_point);
+                  // }
+                  //
+                  //
+                  await showDialog(
+                      context: context,
+                      builder: (context) => Dialog(
+                            backgroundColor: Color(0xffab0e22),
+                            child: Padding(
+                              padding: const EdgeInsets.all(24.0),
                               child: Text(
-                                "Earn Point",
+                                "This feature will be availabe when the community reaches 10,000 members.\nUntil then try to earn by referring users. The account activation process will start from 1st july 2021 [90 days per activation period].",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 20,
                                 ),
-                                textAlign: TextAlign.center,
                               ),
                             ),
-                          ),
-                          footer: Padding(
-                            padding: const EdgeInsets.all(24.0),
-                            child: Center(
-                              child: Text(
-                                "Click Here and Wait",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
+                          ));
+                },
+                child: Card(
+                  elevation: 15,
+                  shadowColor: Color(0xff273238),
+                  color: Color(0xffb20238),
+                  child: GridTile(
+                      header: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Center(
+                          child: Text(
+                            "Earn Point",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
                             ),
+                            textAlign: TextAlign.center,
                           ),
-                          child: Center(
-                            child: Container(
-                                width: MediaQuery.of(context).size.width * 05,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(32.0),
-                                  child: Image.asset(
-                                    "assets/images/ad.png",
-                                    width: 80,
-                                  ),
-                                )),
-                          )),
-                    ),
-                  ),
+                        ),
+                      ),
+                      footer: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Center(
+                          child: Text(
+                            "Click Here and Wait",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      child: Center(
+                        child: Container(
+                            width: MediaQuery.of(context).size.width * 05,
+                            child: Padding(
+                              padding: const EdgeInsets.all(32.0),
+                              child: Image.asset(
+                                "assets/images/ad.png",
+                                width: 80,
+                              ),
+                            )),
+                      )),
                 ),
               ),
             ),

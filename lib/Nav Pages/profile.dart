@@ -21,6 +21,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  String _name = '';
+  String _phone = '';
   // InterstitialAd _myInterstitial;
 
   // @override
@@ -63,8 +65,13 @@ class _ProfileState extends State<Profile> {
               // if (await _myInterstitial.isLoaded()) {
               //   await _myInterstitial.show();
               // }
-              await Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => WBSettings()));
+              await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => WBSettings(
+                            name: _name,
+                            phone: _phone,
+                          )));
             },
           ),
         ],
@@ -142,6 +149,8 @@ class _ProfileState extends State<Profile> {
   }
 
   Container _profileSection(Map<String, dynamic> _data) {
+    _name = _data["name"];
+    _phone = _data["phone"];
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

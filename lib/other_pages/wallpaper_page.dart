@@ -23,7 +23,6 @@ class _WallpaperPageState extends State<WallpaperPage> {
   // @override
   // void initState() {
   //   super.initState();
-  //   //TODO: - Add Interstial Ad
   //   _myInterstitial = InterstitialAd(
   //     adUnitId: admob_test_interstial,
   //     request: AdRequest(),
@@ -34,7 +33,6 @@ class _WallpaperPageState extends State<WallpaperPage> {
   //         onAdLoaded: (ad) {}),
   //   );
 
-  //   //TODO: - Add Banner Ad
   //   _ad = BannerAd(
   //     adUnitId: admob_test_banner,
   //     size: AdSize.banner,
