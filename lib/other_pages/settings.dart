@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -207,7 +208,7 @@ class _WBSettingsState extends State<WBSettings> {
                       }
                     },
                     title: Text("Contact WB"),
-                    leading: Icon(Icons.contact_phone),
+                    leading: Icon(Icons.contact_page),
                   ),
                   SizedBox(
                     height: 10,
@@ -216,13 +217,80 @@ class _WBSettingsState extends State<WBSettings> {
                     tileColor: Color(0xff5b2570),
                     onTap: () async {
                       {
-                        //TODO: Add Privacy
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) => Privacy()));
                       }
                     },
-                    title: Text("Privacy Policy"),
+                    title: Text("Privacy Policy & Terms"),
                     leading: Icon(Icons.policy),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ListTile(
+                    tileColor: Color(0xff29988b),
+                    onTap: () async {
+                      showDialog(
+                          context: context,
+                          builder: (context) => Dialog(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(36.0),
+                                  child: Container(
+                                      height: 100,
+                                      width: 100,
+                                      child: Center(
+                                          child: CircularProgressIndicator())),
+                                ),
+                              ));
+                      String _latestVer;
+                      await FirebaseFirestore.instance
+                          .collection("versions")
+                          .get()
+                          .then((value) {
+                        // print(value.docs.first.data()["version"]);
+                        _latestVer = value.docs.first.data()["version"];
+                      });
+
+                      if (_latestVer == _appVersion) {
+                        Navigator.pop(context);
+                        showDialog(
+                            context: context,
+                            builder: (context) => Dialog(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(36.0),
+                                    child: Text(
+                                        "You are already in latest version!"),
+                                  ),
+                                ));
+                      } else {
+                        Navigator.pop(context);
+                        showDialog(
+                            context: context,
+                            builder: (context) => Dialog(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(36.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                            "New Version is found!\nNew Version: $_latestVer\n\nDownload The latest Version Now!"),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        ElevatedButton(
+                                            onPressed: () async {
+                                              await launchURL(
+                                                  "https://github.com/devShakib015/wantsbucks_releases/releases");
+                                            },
+                                            child: Text("Download"))
+                                      ],
+                                    ),
+                                  ),
+                                ));
+                      }
+                    },
+                    title: Text("Check Latest Version"),
+                    leading: Icon(Icons.update),
                   ),
                   Divider(
                     height: 40,
@@ -244,6 +312,9 @@ class _WBSettingsState extends State<WBSettings> {
               ),
             ),
           ),
+          SizedBox(
+            height: 10,
+          ),
           FutureBuilder<PackageInfo>(
             future: PackageInfo.fromPlatform(),
             builder:
@@ -263,7 +334,7 @@ class _WBSettingsState extends State<WBSettings> {
                       Text(
                         "from wantsBro".toUpperCase(),
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -274,7 +345,7 @@ class _WBSettingsState extends State<WBSettings> {
                         "version: $version".toUpperCase(),
                         style: TextStyle(
                           color: disableWhite,
-                          fontSize: 14,
+                          fontSize: 10,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -283,7 +354,7 @@ class _WBSettingsState extends State<WBSettings> {
                             .toUpperCase(),
                         style: TextStyle(
                           color: disableWhite,
-                          fontSize: 14,
+                          fontSize: 10,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

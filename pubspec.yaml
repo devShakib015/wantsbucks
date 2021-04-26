@@ -1,6 +1,7 @@
 name: wantsbucks
 description: A project from wantsBro. This app will help the users to earn money.
 
+
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -18,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 
 #First Version
-version: 1.0.3+1
+version: 1.0.5+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -49,6 +50,7 @@ dependencies:
   # google_mobile_ads: ^0.11.0+4
   youtube_player_flutter: ^8.0.0
   package_info: ^0.4.3+4
+
 
 
 dev_dependencies:

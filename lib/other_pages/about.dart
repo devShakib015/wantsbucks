@@ -7,6 +7,9 @@ class About extends StatelessWidget {
       appBar: AppBar(
         title: Text("About Us"),
       ),
+      body: Center(
+        child: Text("About Us!"),
+      ),
     );
   }
 }

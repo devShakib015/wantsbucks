@@ -7,6 +7,9 @@ class Guidelines extends StatelessWidget {
       appBar: AppBar(
         title: Text("Guides"),
       ),
+      body: Center(
+        child: Text("Guides!"),
+      ),
     );
   }
 }
